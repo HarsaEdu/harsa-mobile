@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => HomeScreenProvider(),
+          create: (context) => MainScreenProvider(),
         )
       ],
       builder: (context, child) => MaterialApp(
@@ -23,8 +23,7 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              );
+                  builder: (context) => const MainScreen());
           }
           return null;
         },
