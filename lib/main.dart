@@ -23,7 +23,8 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (context) => const HomeScreen());
+                builder: (context) => const HomeScreen(),
+              );
           }
           return null;
         },
