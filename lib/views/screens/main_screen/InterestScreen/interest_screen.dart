@@ -1,4 +1,8 @@
+// interest_category_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:provider/provider.dart';
 
 class InterestCategoryScreen extends StatefulWidget {
   const InterestCategoryScreen({Key? key}) : super(key: key);
@@ -9,36 +13,18 @@ class InterestCategoryScreen extends StatefulWidget {
 }
 
 class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
-  TextEditingController searchController = TextEditingController();
-  List<String> allCategories = [
-    'Komputer',
-    'Komputer',
-    'Komputer',
-    'Komputer',
-    'Komputer',
-    'Komputer',
-    'Komputer',
-    'Komputer',
-  ];
-  List<String> displayedCategories = [];
+  late TextEditingController searchController;
 
   @override
   void initState() {
     super.initState();
-    displayedCategories = allCategories;
-  }
-
-  void filterCategories(String query) {
-    setState(() {
-      displayedCategories = allCategories
-          .where((category) =>
-              category.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
+    searchController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -57,7 +43,9 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
                 Expanded(
                   child: TextField(
                     controller: searchController,
-                    onChanged: filterCategories,
+                    onChanged: (query) {
+                      categoryProvider.filterCategories(query);
+                    },
                     decoration: InputDecoration(
                       labelText: 'Cari kategori',
                       suffixIcon: const Padding(
@@ -80,7 +68,7 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
                 crossAxisSpacing: 0.1,
                 mainAxisSpacing: 5.0,
               ),
-              itemCount: displayedCategories.length,
+              itemCount: categoryProvider.displayedCategories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {},
@@ -112,13 +100,13 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
                             ),
                           ),
                           const SizedBox(height: 8.0),
-                          const Text(
-                            'Komputer',
-                            style: TextStyle(
+                          Text(
+                            categoryProvider.displayedCategories[index],
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontFamily: 'OpenSans', // Gunakan font Open Sans
+                              fontFamily: 'OpenSans',
                             ),
                           ),
                         ],

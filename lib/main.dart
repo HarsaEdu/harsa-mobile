@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
-import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CategoryProvider(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => MainScreenProvider(),
-        )
-      ],
-      builder: (context, child) => MaterialApp(
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case '/':
-              return MaterialPageRoute(
-                  builder: (context) => const MainScreen());
-          }
-          return null;
-        },
+    return MaterialApp(
+      title: 'Your App',
+      theme: ThemeData(
+        useMaterial3: true,
       ),
+      home: const InterestCategoryScreen(),
     );
   }
 }
