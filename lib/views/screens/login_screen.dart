@@ -12,8 +12,8 @@ class LoginScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset:
+          false, // prevent the screen resize & widget repositioning on phone keyboard popup (text input field focus)
       body: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -21,228 +21,237 @@ class LoginScreen extends StatelessWidget {
           Container(
             width: screenWidth,
             height: screenHeight / 2,
-            color: const Color(0xFF6A6C71),
+            color: const Color(0xFF092C4C),
           ),
 
           // continue with
-          Positioned(
-            bottom: screenHeight * 0.03,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: screenWidth * 9 / 10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey,
-                          height: 1,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("Or Continue With"),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey,
-                          height: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFC7C7CC),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFC7C7CC),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFC7C7CC),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          // ada di wireframe tapi gaada di hifi
+          // Positioned(
+          //   bottom: screenHeight * 0.03,
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: <Widget>[
+          //       SizedBox(
+          //         width: screenWidth * 9 / 10,
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: <Widget>[
+          //             Expanded(
+          //               child: Container(
+          //                 color: Colors.grey,
+          //                 height: 1,
+          //               ),
+          //             ),
+          //             const Padding(
+          //               padding: EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Text("Or Continue With"),
+          //             ),
+          //             Expanded(
+          //               child: Container(
+          //                 color: Colors.grey,
+          //                 height: 1,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //       const SizedBox(height: 20),
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: <Widget>[
+          //           Container(
+          //             width: 48,
+          //             height: 48,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               border: Border.all(
+          //                 color: const Color(0xFFC7C7CC),
+          //               ),
+          //             ),
+          //           ),
+          //           const SizedBox(width: 12),
+          //           Container(
+          //             width: 48,
+          //             height: 48,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               border: Border.all(
+          //                 color: const Color(0xFFC7C7CC),
+          //               ),
+          //             ),
+          //           ),
+          //           const SizedBox(width: 12),
+          //           Container(
+          //             width: 48,
+          //             height: 48,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               border: Border.all(
+          //                 color: const Color(0xFFC7C7CC),
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       )
+          //     ],
+          //   ),
+          // ),
 
           // login card
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Container(
-                  width: screenWidth * 9 / 10,
-                  padding: const EdgeInsets.fromLTRB(32, 24, 32, 100),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 32,
-                        offset: Offset(0, 15),
+          Center(
+            child: Container(
+              width: screenWidth * 9 / 10,
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 32,
+                    offset: Offset(0, 15),
+                  ),
+                ],
+              ),
+
+              // form
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // login title
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
+                    ),
                   ),
 
-                  // form
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Consumer<LoginProvider>(
-                        builder: (context, state, _) {
-                          return Form(
-                            key: state.formKey,
-                            // input fields
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: screenHeight / 30),
+
+                  Consumer<LoginProvider>(
+                    builder: (context, state, _) {
+                      return Form(
+                        key: state.formKey,
+                        // input fields
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // email label
+                            const Text(
+                              "Email / Username",
+                            ),
+                            const SizedBox(height: 8),
+                            // email field
+                            TextFormField(
+                              controller: state.emailController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0,
+                                  horizontal: 12,
+                                ),
+                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+
+                            SizedBox(height: screenHeight / 40),
+
+                            // password label
+                            const Text(
+                              "Password",
+                            ),
+                            const SizedBox(height: 8),
+                            // password field
+                            TextFormField(
+                              controller: state.passwordController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0,
+                                  horizontal: 12,
+                                ),
+                              ),
+                              obscureText: true,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+
+                            SizedBox(height: screenHeight / 60),
+
+                            // forgot password button
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "Forgot Password?",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: screenHeight / 30),
+
+                            // submit button
+                            Row(
                               children: <Widget>[
-                                // email label
-                                const Text(
-                                  "Email / Username",
-                                ),
-                                const SizedBox(height: 8),
-                                // email field
-                                TextFormField(
-                                  controller: state.emailController,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0,
-                                      horizontal: 12,
-                                    ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: const Text("Masuk"),
                                   ),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-
-                                const SizedBox(height: 24),
-
-                                // password label
-                                const Text(
-                                  "Password",
-                                ),
-                                const SizedBox(height: 8),
-                                // password field
-                                TextFormField(
-                                  controller: state.passwordController,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0,
-                                      horizontal: 12,
-                                    ),
-                                  ),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-
-                                const SizedBox(height: 16),
-
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Forgot Password?",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-
-                                const SizedBox(height: 24),
-
-                                // submit button
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Sign In",
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ],
                             ),
-                          );
-                        },
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: screenHeight / 40),
+
+                  // register button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // the suffix text
+                      Text(
+                        "Don't have an account? ",
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
 
-                      const SizedBox(height: 20),
-
-                      // register button
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.pushReplacementNamed(
-                              context,
-                              '/signup',
-                            ),
-                            child: const Text(
-                              "Register Now",
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                        ],
-                      )
+                      // the button
+                      TextButton(
+                        onPressed: () => Navigator.pushReplacementNamed(
+                          context,
+                          '/signup',
+                        ),
+                        child: const Text(
+                          "Register Now",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
                     ],
-                  ),
-                ),
+                  )
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),

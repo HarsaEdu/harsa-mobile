@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
             ),
             bodyLarge: GoogleFonts.poppins(
               fontSize: 16,
-              fontWeight: FontWeight.w500,
               color: const Color(0xFF2A2D34),
             ),
             titleSmall: GoogleFonts.poppins(
@@ -53,9 +52,9 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              backgroundColor: const Color(0xFFCCCDCE),
-              textStyle: GoogleFonts.poppins(),
-              foregroundColor: const Color(0xFF2A2D34),
+              backgroundColor: const Color(0xFFF2994A),
+              textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+              foregroundColor: const Color(0xFF222222),
             ),
           ),
           textButtonTheme: TextButtonThemeData(
