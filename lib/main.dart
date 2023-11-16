@@ -5,19 +5,22 @@ import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/views/screens/signup_category_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
       ],
@@ -77,11 +80,22 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        initialRoute: '/signup',
-        routes: {
-          '/signup': (_) => const SignupScreen(),
-          '/signupdata': (_) => const SignupDataScreen(),
-          '/signupcategory': (_) => const SignupCategoryScreen(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(
+                  builder: (context) => const MainScreen());
+            case '/signup':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupScreen());
+            case '/signupdata':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupDataScreen());
+            case '/signupcategory':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupCategoryScreen());
+          }
+          return null;
         },
       ),
     );
