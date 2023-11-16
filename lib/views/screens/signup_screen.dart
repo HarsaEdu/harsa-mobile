@@ -118,6 +118,7 @@ class SignupScreen extends StatelessWidget {
                                 horizontal: 12,
                               ),
                             ),
+                            obscureText: true,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
@@ -142,6 +143,7 @@ class SignupScreen extends StatelessWidget {
                                 horizontal: 12,
                               ),
                             ),
+                            obscureText: true,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
