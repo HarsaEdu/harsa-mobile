@@ -5,6 +5,7 @@ import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/views/screens/signup_category_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
+import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
+        ChangeNotifierProvider(
+          create: (context) => InboxProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
