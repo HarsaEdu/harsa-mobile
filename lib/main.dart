@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
+import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+
+import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
+import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
-import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_category_screen.dart';
-import 'package:harsa_mobile/views/screens/signup_screen.dart';
-import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
 import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
-import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
-import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
-import 'package:provider/provider.dart';
-
-import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
-import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
-import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
-import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
 
 void main() {
@@ -30,17 +29,16 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
-        ChangeNotifierProvider(
-          create: (context) => InboxProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-          useMaterial3: true,
           textTheme: TextTheme(
             bodySmall: GoogleFonts.poppins(
               fontSize: 12,
@@ -94,20 +92,34 @@ class MainApp extends StatelessWidget {
             ),
           ),
         ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (context) => const MainScreen());
+                builder: (context) => const SplashScreen(),
+              );
+            case '/onboarding':
+              return MaterialPageRoute(
+                builder: (context) => const OnboardingScreen(),
+              );
+            case '/main':
+              return MaterialPageRoute(
+                builder: (context) => const MainScreen(),
+              );
             case '/signup':
               return MaterialPageRoute(
-                  builder: (context) => const SignupScreen());
+                builder: (context) => const SignupScreen(),
+              );
             case '/signupdata':
               return MaterialPageRoute(
-                  builder: (context) => const SignupDataScreen());
+                builder: (context) => const SignupDataScreen(),
+              );
             case '/signupcategory':
               return MaterialPageRoute(
-                  builder: (context) => const InterestCategoryScreen());
+                builder: (context) => const InterestCategoryScreen(),
+              );
           }
           return null;
         },
