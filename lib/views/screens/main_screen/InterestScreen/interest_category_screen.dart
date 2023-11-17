@@ -1,5 +1,3 @@
-// interest_category_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:provider/provider.dart';
@@ -27,17 +25,15 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Yang kamu suka!',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        title: Text(
+          'Yang Kamu Suka!',
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Row(
               children: [
                 Expanded(
