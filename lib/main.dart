@@ -2,20 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/login_provider.dart';
 import 'package:harsa_mobile/views/screens/login_screen.dart';
+import 'package:harsa_mobile/viewmodels/signup_provider.dart';
+import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
+import 'package:harsa_mobile/views/screens/signup_category_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen.dart';
+import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
+import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => MainScreenProvider()),
+        ChangeNotifierProvider(create: (_) => SignupProvider()),
+        ChangeNotifierProvider(create: (_) => SignupDataProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(
+          create: (context) => InboxProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,7 +68,7 @@ class MyApp extends StatelessWidget {
               elevation: 0,
               backgroundColor: const Color(0xFFF2994A),
               textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-              foregroundColor: const Color(0xFF222222),
+              foregroundColor: Colors.white,
             ),
           ),
           textButtonTheme: TextButtonThemeData(
@@ -69,13 +83,29 @@ class MyApp extends StatelessWidget {
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.black,
-              side: const BorderSide(width: 2),
+              side: const BorderSide(width: 1),
             ),
           ),
         ),
-        initialRoute: '/login',
-        routes: {
-          '/login': (_) => const LoginScreen(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(
+                  builder: (context) => const MainScreen());
+            case '/signup':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupScreen());
+            case '/signupdata':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupDataScreen());
+            case '/signupcategory':
+              return MaterialPageRoute(
+                  builder: (context) => const SignupCategoryScreen());
+            case '/login':
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen());
+          }
+          return null;
         },
       ),
     );
