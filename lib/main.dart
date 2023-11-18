@@ -5,12 +5,16 @@ import 'package:harsa_mobile/views/screens/login_screen.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/views/screens/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
 import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
+import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
+import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
 
 void main() {
   runApp(const MainApp());
@@ -26,43 +30,16 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(
-          create: (context) => InboxProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => InboxProvider()),
+        ChangeNotifierProvider(create: (_) => SignupDataProvider()),
+        ChangeNotifierProvider(create: (_) => InboxProvider()),
+        ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
           useMaterial3: true,
-          textTheme: TextTheme(
-            bodySmall: GoogleFonts.poppins(
-              fontSize: 12,
-              color: const Color(0xFF2A2D34),
-            ),
-            bodyMedium: GoogleFonts.poppins(
-              fontSize: 14,
-              color: const Color(0xFF2A2D34),
-            ),
-            bodyLarge: GoogleFonts.poppins(
-              fontSize: 16,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleSmall: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleMedium: GoogleFonts.poppins(
-              fontSize: 36,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleLarge: GoogleFonts.poppins(
-              fontSize: 48,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-          ),
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -104,6 +81,11 @@ class MainApp extends StatelessWidget {
             case '/login':
               return MaterialPageRoute(
                   builder: (context) => const LoginScreen());
+            case '/notification':
+              return MaterialPageRoute(
+                  builder: (context) => const NotificationScreen());
+            case '/faq':
+              return MaterialPageRoute(builder: (context) => const FaqScreen());
           }
           return null;
         },
