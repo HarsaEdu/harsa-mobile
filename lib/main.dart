@@ -70,10 +70,10 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (context) => const CategoryScreen());
+                  builder: (context) => const MainScreen());
             case '/category':
               return MaterialPageRoute(
-                  builder: (context) => const MainScreen());
+                  builder: (context) => const CategoryScreen());
             case '/signup':
               return MaterialPageRoute(
                   builder: (context) => const SignupScreen());

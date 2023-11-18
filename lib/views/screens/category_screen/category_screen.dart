@@ -33,7 +33,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                 children: [
                   IconButton(
                     icon: SvgPicture.asset(
-                      'assets/icons/outline/chevron_backward.svg', // Sesuaikan dengan path file SVG Anda
+                      'assets/icons/outline/chevron_backward.svg',
                       colorFilter: const ColorFilter.mode(
                         Colors.black,
                         BlendMode.srcIn,
@@ -94,8 +94,8 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                           child: IconButton(
                             icon: SvgPicture.asset(
                               provider.isArrowUp
-                                  ? 'assets/icons/outline/chevron_up.svg' // Sesuaikan dengan path file SVG untuk panah ke atas
-                                  : 'assets/icons/outline/chevron_down.svg', // Sesuaikan dengan path file SVG untuk panah ke bawah
+                                  ? 'assets/icons/outline/chevron_up.svg'
+                                  : 'assets/icons/outline/chevron_down.svg',
                               colorFilter: const ColorFilter.mode(
                                 Colors.black,
                                 BlendMode.srcIn,
@@ -212,15 +212,12 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                 elevation: 0,
                 color: const Color.fromARGB(255, 229, 232, 235),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      5.0), // Sesuaikan dengan radius lengkungan yang diinginkan
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: InkWell(
                   onTap: () {
-                    // Menyimpan indeks yang dipilih
                     provider.changeTabIndex(index);
 
-                    // Mendapatkan kontroler tab dan animasi ke tab yang sesuai
                     DefaultTabController.of(context).animateTo(index);
                     setState(() {
                       provider.toggleArrowDirection();
