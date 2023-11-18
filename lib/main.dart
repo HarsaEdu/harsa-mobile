@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
@@ -112,6 +113,10 @@ class MainApp extends StatelessWidget {
             case '/faq':
               return MaterialPageRoute(
                 builder: (context) => const FaqScreen(),
+              );
+            case '/Profile':
+              return MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
               );
           }
           return null;
