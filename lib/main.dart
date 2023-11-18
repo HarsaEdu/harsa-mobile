@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +16,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => MainScreenProvider(),
-        )
+        ChangeNotifierProvider(create: (_) => MainScreenProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
       ],
       builder: (context, child) => MaterialApp(
         onGenerateRoute: (settings) {
@@ -24,6 +25,9 @@ class MainApp extends StatelessWidget {
             case '/':
               return MaterialPageRoute(
                   builder: (context) => const MainScreen());
+            case '/category':
+              return MaterialPageRoute(
+                  builder: (context) => const CategoryScreen());
           }
           return null;
         },
