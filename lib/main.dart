@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/viewmodels/login_provider.dart';
+import 'package:harsa_mobile/views/screens/login_screen.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/views/screens/signup_screen.dart';
-import 'package:harsa_mobile/views/screens/signup_category_screen.dart';
 import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
 import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
@@ -27,6 +29,8 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
         ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
@@ -73,7 +77,10 @@ class MainApp extends StatelessWidget {
                   builder: (context) => const SignupDataScreen());
             case '/signupcategory':
               return MaterialPageRoute(
-                  builder: (context) => const SignupCategoryScreen());
+                  builder: (context) => const InterestCategoryScreen());
+            case '/login':
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen());
             case '/notification':
               return MaterialPageRoute(
                   builder: (context) => const NotificationScreen());
