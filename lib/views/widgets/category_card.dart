@@ -21,8 +21,8 @@ class CategoryCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 110,
-            height: 120,
+            width: 100,
+            height: 110,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 224, 221, 221),
               borderRadius: const BorderRadius.only(
@@ -38,18 +38,18 @@ class CategoryCard extends StatelessWidget {
           const SizedBox(width: 5),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     category.title,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     category.subtitle,
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   Row(

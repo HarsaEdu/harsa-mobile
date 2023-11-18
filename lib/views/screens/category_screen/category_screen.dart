@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/views/widgets/category_card.dart';
 import 'package:provider/provider.dart';
@@ -31,12 +32,18 @@ class _CategoryScreenState extends State<_CategoryScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                      size: 18,
+                    icon: SvgPicture.asset(
+                      'assets/icons/outline/chevron_backward.svg', // Sesuaikan dengan path file SVG Anda
+                      colorFilter: const ColorFilter.mode(
+                        Colors.black,
+                        BlendMode.srcIn,
+                      ),
+                      width: 24,
+                      height: 24,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Tambahkan logika yang diinginkan ketika tombol ditekan
+                    },
                   ),
                   const Text(
                     'Kategori',
@@ -85,10 +92,16 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                             ),
                           ),
                           child: IconButton(
-                            icon: Icon(
+                            icon: SvgPicture.asset(
                               provider.isArrowUp
-                                  ? Icons.keyboard_arrow_up
-                                  : Icons.keyboard_arrow_down,
+                                  ? 'assets/icons/outline/chevron_up.svg' // Sesuaikan dengan path file SVG untuk panah ke atas
+                                  : 'assets/icons/outline/chevron_down.svg', // Sesuaikan dengan path file SVG untuk panah ke bawah
+                              colorFilter: const ColorFilter.mode(
+                                Colors.black,
+                                BlendMode.srcIn,
+                              ),
+                              width: 28,
+                              height: 28,
                             ),
                             onPressed: () {
                               setState(() {
@@ -136,25 +149,31 @@ class _CategoryScreenState extends State<_CategoryScreen> {
             labelColor: Colors.black,
             indicatorSize: TabBarIndicatorSize.label,
             labelStyle: const TextStyle(
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 15.0),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight
+                  .normal, // Setel ke FontWeight.normal atau sesuai kebutuhan Anda
+            ),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 11.0),
           ),
         ),
-        const SizedBox(width: 50.0), 
+        const SizedBox(width: 50.0),
       ],
     );
   }
 
   Widget _buildToggleTabBar() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+      height: 47.8,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: const Row(
         children: [
           Text(
             'Daftar Kategori',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -164,7 +183,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
   Widget _buildCategoryListView(CategoryScreenProvider provider, int index) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-      itemCount: 10, 
+      itemCount: 10,
       itemBuilder: (context, itemIndex) {
         return CategoryCard(
           category: provider.getCategoryCardModel(index),
@@ -183,14 +202,19 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
+              crossAxisSpacing: 5.0,
               mainAxisSpacing: 5.0,
+              childAspectRatio: 129 / 148,
             ),
             itemCount: provider.getCategoryCount(),
             itemBuilder: (context, index) {
               return Card(
                 elevation: 0,
-                margin: const EdgeInsets.all(0),
+                color: const Color.fromARGB(255, 229, 232, 235),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      5.0), // Sesuaikan dengan radius lengkungan yang diinginkan
+                ),
                 child: InkWell(
                   onTap: () {
                     // Menyimpan indeks yang dipilih
@@ -210,13 +234,16 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        height: 100,
-                        width: 100,
+                        height: 79,
+                        width: 82,
                       ),
                       const SizedBox(height: 15.0),
                       Text(
                         provider.getCategoryAtIndex(index),
-                        style: const TextStyle(fontSize: 16.0),
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],
