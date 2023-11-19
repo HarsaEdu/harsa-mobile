@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/views/widgets/card_progres.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -12,8 +13,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    String imageUrl =
-        "https://i.guim.co.uk/img/static/sys-images/Observer/Columnist/Columnists/2011/1/6/1294316555078/Ryan-Gosling-007.jpg?width=465&dpr=1&s=none";
+    String imagePath = "assets/images/profile.png";
 
     return Material(
       color: const Color(0xffffffff),
@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         physics: const BouncingScrollPhysics(),
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(13.0),
             child: Text(
               "Profile",
               style: GoogleFonts.poppins(
@@ -33,10 +33,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                imageUrl,
-                width: 50,
-                height: 50,
+              child: Image.asset(
+                imagePath,
+                width: 58,
+                height: 80,
                 fit: BoxFit.cover,
               ),
             ),
@@ -51,6 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               "Mahasiswa",
               style: GoogleFonts.poppins(
                 fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -59,6 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Divider(
               thickness: 1.5,
             ),
+          ),
+          const CustomCardWidget(
+            packageName: 'Paket Reguler\nBulanan',
+            subText: 'Harsa',
+            logoAssetPath: 'assets/images/WFill_Logo_Harsa.jpg',
           ),
           Column(
             children: [
