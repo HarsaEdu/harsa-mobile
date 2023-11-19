@@ -1,7 +1,6 @@
-// ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -21,11 +20,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               "Profile",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
             ),
           ),
           ListTile(
@@ -38,16 +40,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            title: const Text(
+            title: Text(
               "rafi",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
               ),
             ),
-            subtitle: const Text(
+            subtitle: Text(
               "Mahasiswa",
-              style: TextStyle(fontSize: 18),
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+              ),
             ),
           ),
           const Padding(
@@ -58,65 +62,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Column(
             children: [
-              ListTile(
-                leading: SizedBox(
-                  child: SvgPicture.asset(
-                      'assets/icons/outline/books_vertical.svg'),
-                ),
-                title: const Text(
-                  "Kelas saya",
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () {},
+                style: TextButtonTheme.of(context).style,
+                child: ListTile(
+                  leading: SizedBox(
+                    child: SvgPicture.asset(
+                        'assets/icons/outline/books_vertical.svg'),
                   ),
+                  title: Text(
+                    "Kelas saya",
+                    style: GoogleFonts.poppins(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: SvgPicture.asset(
+                      'assets/icons/outline/chevron_forward.svg'),
                 ),
-                trailing: SvgPicture.asset(
-                    'assets/icons/outline/chevron_forward.svg'),
               ),
-              ListTile(
-                leading: SizedBox(
-                  child:
-                      SvgPicture.asset('assets/icons/outline/sertifikat.svg'),
-                ),
-                title: const Text(
-                  "Sertifikat",
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () {},
+                style: TextButtonTheme.of(context).style,
+                child: ListTile(
+                  leading: SizedBox(
+                    child:
+                        SvgPicture.asset('assets/icons/outline/sertifikat.svg'),
                   ),
+                  title: Text(
+                    "Sertifikat",
+                    style: GoogleFonts.poppins(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: SvgPicture.asset(
+                      'assets/icons/outline/chevron_forward.svg'),
                 ),
-                trailing: SvgPicture.asset(
-                    'assets/icons/outline/chevron_forward.svg'),
               ),
-              ListTile(
-                leading: SizedBox(
-                  child:
-                      SvgPicture.asset('assets/icons/outline/exclamation.svg'),
-                ),
-                title: const Text(
-                  "FAQ",
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () {},
+                style: TextButtonTheme.of(context).style,
+                child: ListTile(
+                  leading: SizedBox(
+                    child: SvgPicture.asset(
+                        'assets/icons/outline/exclamation.svg'),
                   ),
+                  title: Text(
+                    "FAQ",
+                    style: GoogleFonts.poppins(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: SvgPicture.asset(
+                      'assets/icons/outline/chevron_forward.svg'),
                 ),
-                trailing: SvgPicture.asset(
-                    'assets/icons/outline/chevron_forward.svg'),
               ),
-              ListTile(
-                leading: SizedBox(
-                  child: SvgPicture.asset(
-                      'assets/icons/outline/rectangle_arrow_fw.svg'),
-                ),
-                title: const Text(
-                  "Logout",
-                  style: TextStyle(
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () {},
+                style: TextButtonTheme.of(context).style,
+                child: ListTile(
+                  leading: SizedBox(
+                    child: SvgPicture.asset(
+                        'assets/icons/outline/rectangle_arrow_fw.svg'),
                   ),
+                  title: Text(
+                    "Logout",
+                    style: GoogleFonts.poppins(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: SvgPicture.asset(
+                      'assets/icons/outline/chevron_forward.svg'),
                 ),
-                trailing: SvgPicture.asset(
-                    'assets/icons/outline/chevron_forward.svg'),
               ),
             ],
           ),
