@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
-import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_category_screen.dart';
-import 'package:harsa_mobile/views/screens/signup_screen.dart';
-import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/auth_screen/signup_screen.dart';
+import 'package:harsa_mobile/views/screens/auth_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
@@ -23,11 +24,10 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
+        ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
-        ChangeNotifierProvider(
-          create: (context) => InboxProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MaterialApp(

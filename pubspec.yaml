@@ -37,6 +37,7 @@ dependencies:
   provider: ^6.1.1
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
     - assets/images/
     - assets/icons/outline/
     - assets/icons/filled/
+    - assets/icons/category_icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
