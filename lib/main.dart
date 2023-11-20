@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:harsa_mobile/viewmodels/login_provider.dart';
-import 'package:harsa_mobile/views/screens/login_screen.dart';
-import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
-import 'package:harsa_mobile/viewmodels/signup_provider.dart';
-import 'package:harsa_mobile/views/screens/main_screen/InterestScreen/interest_category_screen.dart';
-import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
-import 'package:harsa_mobile/views/screens/signup_screen.dart';
-import 'package:harsa_mobile/views/screens/signupdata_screen.dart';
-import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
-import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
-import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
-import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
+import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:harsa_mobile/viewmodels/login_provider.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
+import 'package:harsa_mobile/viewmodels/signup_provider.dart';
+import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
+import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
+import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
+import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
+import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
+import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -29,15 +38,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
+        ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
-        ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -66,31 +78,50 @@ class MainApp extends StatelessWidget {
             ),
           ),
         ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/main', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (context) => const MainScreen());
-            case '/category':
+                builder: (context) => const SplashScreen(),
+              );
+            case '/onboarding':
               return MaterialPageRoute(
-                  builder: (context) => const CategoryScreen());
+                builder: (context) => const OnboardingScreen(),
+              );
+            case '/main':
+              return MaterialPageRoute(
+                builder: (context) => const MainScreen(),
+              );
             case '/signup':
               return MaterialPageRoute(
-                  builder: (context) => const SignupScreen());
+                builder: (context) => const SignupScreen(),
+              );
             case '/signupdata':
               return MaterialPageRoute(
-                  builder: (context) => const SignupDataScreen());
+                builder: (context) => const SignupDataScreen(),
+              );
             case '/signupcategory':
               return MaterialPageRoute(
-                  builder: (context) => const InterestCategoryScreen());
+                builder: (context) => const InterestCategoryScreen(),
+              );
             case '/login':
               return MaterialPageRoute(
-                  builder: (context) => const LoginScreen());
+                builder: (context) => const LoginScreen(),
+              );
             case '/notification':
               return MaterialPageRoute(
-                  builder: (context) => const NotificationScreen());
+                builder: (context) => const NotificationScreen(),
+              );
             case '/faq':
-              return MaterialPageRoute(builder: (context) => const FaqScreen());
+              return MaterialPageRoute(
+                builder: (context) => const FaqScreen(),
+              );
+            case '/kelas':
+              return MaterialPageRoute(
+                builder: (context) => const DetailKelasScreen(),
+              );
           }
           return null;
         },
