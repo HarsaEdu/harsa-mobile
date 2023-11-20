@@ -3,26 +3,27 @@ import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
+import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:harsa_mobile/viewmodels/login_provider.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
+import 'package:harsa_mobile/viewmodels/signup_provider.dart';
+import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
+import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
+import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
+import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
 import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
-import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
-import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
-
-import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
-import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
-import 'package:harsa_mobile/viewmodels/login_provider.dart';
-import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
-import 'package:harsa_mobile/viewmodels/signup_provider.dart';
-import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
-import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
-import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
-import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,11 +40,11 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SplashProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
+        ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
-        ChangeNotifierProvider(create: (_) => InboxProvider()),
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
@@ -77,7 +78,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/', // Atur rute halaman disini
+        initialRoute: '/main', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
