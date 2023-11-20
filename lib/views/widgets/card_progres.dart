@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomCardWidget extends StatelessWidget {
   final String packageName;
   final String subText;
-  final String logoAssetPath; // Change this to the asset path
+  final String logoAssetPath;
 
   const CustomCardWidget({
     Key? key,
@@ -35,7 +35,7 @@ class CustomCardWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image.asset(
-                      logoAssetPath, // Use asset path
+                      logoAssetPath,
                       width: MediaQuery.of(context).size.width / 3,
                       height: 120.0,
                       fit: BoxFit.cover,
@@ -87,12 +87,12 @@ class CustomCardWidget extends StatelessWidget {
                   const SizedBox(height: 3.0),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: SizedBox(
-                      height: 10.0, // Sesuaikan tinggi dengan preferensimu
+                    child: const SizedBox(
+                      height: 10.0,
                       child: LinearProgressIndicator(
                         value: 0.1,
                         color: Colors.orange,
-                        backgroundColor: Colors.grey[300],
+                        backgroundColor: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                   ),
