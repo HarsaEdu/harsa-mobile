@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:harsa_mobile/models/category_card_model.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryCardModel category;
@@ -11,6 +13,7 @@ class CategoryCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(10),
       color: Colors.white,
+      surfaceTintColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: const BorderSide(
@@ -33,18 +36,25 @@ class CategoryCard extends StatelessWidget {
                 color: Colors.grey,
                 width: 1.0,
               ),
+              image: DecorationImage(
+                image: NetworkImage(category
+                    .imageUrl), // Gunakan NetworkImage untuk gambar dari URL
+                fit: BoxFit.cover, // Sesuaikan dengan kebutuhan Anda
+              ),
             ),
           ),
           const SizedBox(width: 5),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     category.title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -54,9 +64,14 @@ class CategoryCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.circle,
-                        color: Color.fromARGB(255, 224, 221, 221),
+                      SvgPicture.asset(
+                        'assets/icons/filled/rating.svg',
+                        width: 16, // Sesuaikan ukuran sesuai kebutuhan Anda
+                        height: 14,
+                        colorFilter: const ColorFilter.mode(
+                          ColorsPallete.citrine,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -68,7 +83,7 @@ class CategoryCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

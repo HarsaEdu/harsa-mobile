@@ -51,6 +51,7 @@ class CategoryScreenProvider extends ChangeNotifier {
       title: 'UI/UX: Becoming Professional',
       subtitle: 'Bagus Adhi Laksana',
       rating: 4.5,
+      imageUrl: 'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/08/learn-coding-online-for-free.webp',
     );
   }
 }

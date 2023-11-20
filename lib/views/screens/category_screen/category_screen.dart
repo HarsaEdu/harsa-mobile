@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
-import 'package:harsa_mobile/views/widgets/category_card.dart';
+import 'package:harsa_mobile/views/widgets/category_widgets/category_card.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
       builder: (context, provider, child) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: ColorsPallete.whiteGrey,
             elevation: 0,
             title: Padding(
               padding: const EdgeInsets.only(left: 0),
@@ -61,7 +62,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
               child: Container(),
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: ColorsPallete.whiteGrey,
           body: DefaultTabController(
             length: provider.getCategoryCount(),
             child: Column(
@@ -135,33 +136,35 @@ class _CategoryScreenState extends State<_CategoryScreen> {
   }
 
   Widget _buildCategoryTabBar(CategoryScreenProvider provider) {
-    return Row(
-      children: [
-        Expanded(
-          child: TabBar(
-            tabs: List.generate(
-              provider.getCategoryCount(),
-              (index) => Tab(text: provider.getCategoryAtIndex(index)),
+    return Container(
+      color: Colors.white, // Atur warna latar belakang Container ke putih
+      child: Row(
+        children: [
+          Expanded(
+            child: TabBar(
+              tabs: List.generate(
+                provider.getCategoryCount(),
+                (index) => Tab(text: provider.getCategoryAtIndex(index)),
+              ),
+              isScrollable: true,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.black,
+              labelColor: Colors.black,
+              indicatorSize: TabBarIndicatorSize.label,
+              labelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
+              labelPadding: const EdgeInsets.symmetric(horizontal: 11.0),
             ),
-            isScrollable: true,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.black,
-            labelColor: Colors.black,
-            indicatorSize: TabBarIndicatorSize.label,
-            labelStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight
-                  .normal, // Setel ke FontWeight.normal atau sesuai kebutuhan Anda
-            ),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 11.0),
           ),
-        ),
-        const SizedBox(width: 50.0),
-      ],
+          const SizedBox(width: 50.0),
+        ],
+      ),
     );
   }
 
@@ -169,6 +172,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
     return Container(
       height: 47.8,
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      color: Colors.white, // Atur warna latar belakang Container ke putih
       child: const Row(
         children: [
           Text(
@@ -202,34 +206,41 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
+              crossAxisSpacing: 1.0,
+              mainAxisSpacing: 1.0,
               childAspectRatio: 129 / 148,
             ),
             itemCount: provider.getCategoryCount(),
             itemBuilder: (context, index) {
               return Card(
                 elevation: 0,
-                color: const Color.fromARGB(255, 229, 232, 235),
+                color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: InkWell(
                   onTap: () {
                     provider.changeTabIndex(index);
-
                     DefaultTabController.of(context).animateTo(index);
                     setState(() {
                       provider.toggleArrowDirection();
                     });
                   },
+                  splashColor: ColorsPallete.lightBlueSky,
+                  highlightColor: ColorsPallete.lightBlueSky,
+                  borderRadius: BorderRadius.circular(5.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey,
                           borderRadius: BorderRadius.circular(5.0),
+                          image: const DecorationImage(
+                            image: NetworkImage(
+                                'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/08/learn-coding-online-for-free.webp'),
+                            fit:
+                                BoxFit.cover, // Sesuaikan dengan kebutuhan Anda
+                          ),
                         ),
                         height: 79,
                         width: 82,
