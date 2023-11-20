@@ -1,16 +1,17 @@
-//profile belum berlanganan
+//profile berlanganan
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/views/widgets/card_progres.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileBerlanganan extends StatefulWidget {
+  const ProfileBerlanganan({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileBerlanganan> createState() => _ProfileBerlanganana();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileBerlanganana extends State<ProfileBerlanganan> {
   @override
   Widget build(BuildContext context) {
     String imagePath = "assets/images/profile.png";
@@ -61,39 +62,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               thickness: 1.5,
             ),
           ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 60, right: 60, top: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFf2994a),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                fixedSize: const Size(
-                    .0, 55.0), // atur lebar dan tinggi sesuai keinginan
-              ),
-              child: SizedBox(
-                width: 200.0, // atur lebar sesuai keinginan
-                height: 50.0, // atur tinggi sesuai keinginan
-                child: Center(
-                  child: Text(
-                    "Langganan Sekarang",
-                    style: GoogleFonts.poppins(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          const CustomCardWidget(
+            packageName: 'Paket Reguler\nBulanan',
+            subText: 'Harsa',
+            logoAssetPath: 'assets/images/WFill_Logo_Harsa.jpg',
           ),
           Padding(
             padding: const EdgeInsets.only(
-              left: 10.0,
-              top: 16.0,
-            ), // Sesuaikan nilai left dan top sesuai kebutuhan
+                left: 10.0), // Sesuaikan nilai left sesuai kebutuhan
             child: Text(
               "General",
               style: GoogleFonts.poppins(
@@ -102,11 +78,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
+          // Kelas Saya
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.centerLeft,
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+              dense: true, // Add this line to reduce the space
+              leading: SizedBox(
+                width: 30, // Adjust the width as needed
+                child: SvgPicture.asset(
+                  'assets/icons/outline/books_vertical.svg',
+                  width: 36, // Adjust the icon size as needed
+                  height: 36,
+                ),
+              ),
+              title: Text(
+                "Kelas saya",
+                style: GoogleFonts.poppins(
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: SvgPicture.asset(
+                'assets/icons/outline/chevron_forward.svg',
+              ),
+            ),
+          ),
+          // Sertifikat
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.centerLeft,
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+              dense: true,
+              leading: SizedBox(
+                width: 30,
+                child: SvgPicture.asset(
+                  'assets/icons/outline/sertifikat.svg',
+                  width: 36,
+                  height: 36,
+                ),
+              ),
+              title: Text(
+                "Sertifikat",
+                style: GoogleFonts.poppins(
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: SvgPicture.asset(
+                'assets/icons/outline/chevron_forward.svg',
+              ),
+            ),
+          ),
+
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.centerLeft,
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+              dense: true,
+              leading: SizedBox(
+                width: 30,
+                child: SvgPicture.asset(
+                  'assets/icons/outline/credit_card.svg',
+                  width: 36,
+                  height: 36,
+                ),
+              ),
+              title: Text(
+                "Riwayat Transaksi",
+                style: GoogleFonts.poppins(
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: SvgPicture.asset(
+                'assets/icons/outline/chevron_forward.svg',
+              ),
+            ),
+          ),
           // FAQ
           TextButton(
-            onPressed: () {
-              // Tambahkan aksi yang diinginkan saat teks ditekan
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               alignment: Alignment.centerLeft,
@@ -125,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: Text(
                 "FAQ",
                 style: GoogleFonts.poppins(
-                  fontSize: 18.0,
+                  fontSize: 17.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -136,9 +200,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(
-              left: 10.0,
-              top: 16.0,
-            ), // Sesuaikan nilai left dan top sesuai kebutuhan
+                left: 10.0,
+                top: 16.0), // Sesuaikan nilai left dan top sesuai kebutuhan
             child: Text(
               "Akun",
               style: GoogleFonts.poppins(
@@ -149,9 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           // Ubah Email
           TextButton(
-            onPressed: () {
-              // Tambahkan aksi yang diinginkan saat teks ditekan
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               alignment: Alignment.centerLeft,
@@ -160,10 +221,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
               dense: true, // Add this line to reduce the space
               leading: SizedBox(
-                width: 30,
+                width: 30, // Adjust the width as needed
                 child: SvgPicture.asset(
                   'assets/icons/outline/books_vertical.svg',
-                  width: 36,
+                  width: 36, // Adjust the icon size as needed
                   height: 36,
                 ),
               ),
@@ -181,9 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           // Ubah Password
           TextButton(
-            onPressed: () {
-              // Tambahkan aksi yang diinginkan saat teks ditekan
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               alignment: Alignment.centerLeft,
@@ -192,10 +251,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
               dense: true, // Add this line to reduce the space
               leading: SizedBox(
-                width: 30,
+                width: 30, // Adjust the width as needed
                 child: SvgPicture.asset(
                   'assets/icons/outline/sertifikat.svg',
-                  width: 36,
+                  width: 36, // Adjust the icon size as needed
                   height: 36,
                 ),
               ),
@@ -213,9 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           // Logout
           TextButton(
-            onPressed: () {
-              // Tambahkan aksi yang diinginkan saat teks ditekan
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               alignment: Alignment.centerLeft,
@@ -224,10 +281,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
               dense: true, // Add this line to reduce the space
               leading: SizedBox(
-                width: 30,
+                width: 30, // Adjust the width as needed
                 child: SvgPicture.asset(
                   'assets/icons/outline/rectangle_arrow_fw.svg',
-                  width: 36,
+                  width: 36, // Adjust the icon size as needed
                   height: 36,
                 ),
               ),

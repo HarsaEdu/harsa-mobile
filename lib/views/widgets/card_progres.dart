@@ -18,6 +18,9 @@ class CustomCardWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,7 +36,7 @@ class CustomCardWidget extends StatelessWidget {
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     child: Image.asset(
                       logoAssetPath,
                       width: MediaQuery.of(context).size.width / 3,
@@ -86,13 +89,13 @@ class CustomCardWidget extends StatelessWidget {
                   const SizedBox(height: 3.0),
                   const SizedBox(height: 3.0),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: const SizedBox(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: SizedBox(
                       height: 10.0,
                       child: LinearProgressIndicator(
                         value: 0.1,
-                        color: Colors.orange,
-                        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                        color: const Color(0xFFf2994a),
+                        backgroundColor: Colors.grey[300],
                       ),
                     ),
                   ),
