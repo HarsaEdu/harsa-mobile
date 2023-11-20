@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:harsa_mobile/viewmodels/login_provider.dart';
+import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
+import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
-import 'package:harsa_mobile/views/screens/auth_screen/signup_screen.dart';
-import 'package:harsa_mobile/views/screens/auth_screen/signupdata_screen.dart';
-import 'package:harsa_mobile/viewmodels/inbox_provider.dart';
-import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
+import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
+import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
+import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
+import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
+import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
+import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -23,45 +34,21 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
-        ChangeNotifierProvider(create: (_) => SignupDataProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => InboxProvider()),
+        ChangeNotifierProvider(create: (_) => SignupDataProvider()),
+        ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
           useMaterial3: true,
-          textTheme: TextTheme(
-            bodySmall: GoogleFonts.poppins(
-              fontSize: 12,
-              color: const Color(0xFF2A2D34),
-            ),
-            bodyMedium: GoogleFonts.poppins(
-              fontSize: 14,
-              color: const Color(0xFF2A2D34),
-            ),
-            bodyLarge: GoogleFonts.poppins(
-              fontSize: 16,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleSmall: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleMedium: GoogleFonts.poppins(
-              fontSize: 36,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-            titleLarge: GoogleFonts.poppins(
-              fontSize: 48,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF2A2D34),
-            ),
-          ),
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -86,20 +73,46 @@ class MainApp extends StatelessWidget {
             ),
           ),
         ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/main', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (context) => const MainScreen());
+                builder: (context) => const SplashScreen(),
+              );
+            case '/onboarding':
+              return MaterialPageRoute(
+                builder: (context) => const OnboardingScreen(),
+              );
+            case '/main':
+              return MaterialPageRoute(
+                builder: (context) => const MainScreen(),
+              );
             case '/signup':
               return MaterialPageRoute(
-                  builder: (context) => const SignupScreen());
+                builder: (context) => const SignupScreen(),
+              );
             case '/signupdata':
               return MaterialPageRoute(
-                  builder: (context) => const SignupDataScreen());
+                builder: (context) => const SignupDataScreen(),
+              );
             case '/signupcategory':
               return MaterialPageRoute(
-                  builder: (context) => const InterestCategoryScreen());
+                builder: (context) => const InterestCategoryScreen(),
+              );
+            case '/login':
+              return MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              );
+            case '/notification':
+              return MaterialPageRoute(
+                builder: (context) => const NotificationScreen(),
+              );
+            case '/faq':
+              return MaterialPageRoute(
+                builder: (context) => const FaqScreen(),
+              );
           }
           return null;
         },
