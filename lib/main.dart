@@ -79,7 +79,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        // initialRoute: '/main',
+        home: const CategoryScreen(), // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':

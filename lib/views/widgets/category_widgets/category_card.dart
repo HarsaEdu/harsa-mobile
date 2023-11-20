@@ -69,11 +69,11 @@ class CategoryCard extends StatelessWidget {
                         width: 16, // Sesuaikan ukuran sesuai kebutuhan Anda
                         height: 14,
                         colorFilter: const ColorFilter.mode(
-                          ColorsPallete.citrine,
+                          ColorsPallete.sandyBrown,
                           BlendMode.srcIn,
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 10),
                       Text(
                         category.rating.toString(),
                         style: const TextStyle(
