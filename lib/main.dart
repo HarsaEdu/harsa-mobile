@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
@@ -44,6 +47,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SignupDataProvider()),
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -112,6 +116,10 @@ class MainApp extends StatelessWidget {
             case '/faq':
               return MaterialPageRoute(
                 builder: (context) => const FaqScreen(),
+              );
+            case '/kelas':
+              return MaterialPageRoute(
+                builder: (context) => const DetailKelasScreen(),
               );
           }
           return null;
