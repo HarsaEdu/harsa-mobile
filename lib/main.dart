@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +26,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +50,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => KelasProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -120,6 +123,14 @@ class MainApp extends StatelessWidget {
             case '/kelas':
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
+              );
+            case '/kelasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const KelasScreen(),
+              );
+            case '/daftarkelas':
+              return MaterialPageRoute(
+                builder: (context) => const DaftarKelasScreen(),
               );
           }
           return null;
