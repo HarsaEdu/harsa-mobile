@@ -19,18 +19,17 @@ class MateriCardLightBlue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: const EdgeInsets.all(8), // Sesuaikan margin jika diperlukan
       decoration: BoxDecoration(
         color: ColorsPallete.lightBlueSky,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Stack(
-        clipBehavior: Clip.none, // Memungkinkan anak-anak berada di luar kotak
+        // Memungkinkan anak-anak berada di luar kotak
+        clipBehavior: Clip.none,
         children: [
-          // Konten utama
           Padding(
             padding: const EdgeInsets.only(
-              top: 8, // Tinggi badge / 2, menyesuaikan dengan badge
+              top: 8,
               left: 36,
               right: 24,
               bottom: 8,
