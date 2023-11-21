@@ -82,12 +82,12 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/listmateri', // Atur rute halaman disini
+        initialRoute: '/main', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const ListMateriScreen(),
+                builder: (context) => const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
