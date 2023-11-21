@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
+import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,9 +16,7 @@ import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
-import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
 import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
@@ -23,7 +24,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,6 +120,14 @@ class MainApp extends StatelessWidget {
             case '/kelas':
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
+              );
+            case '/Profile':
+              return MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              );
+            case '/ProfileBerlanganan':
+              return MaterialPageRoute(
+                builder: (context) => const ProfileBerlanganan(),
               );
           }
           return null;
