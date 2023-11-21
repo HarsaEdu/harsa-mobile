@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -15,7 +16,6 @@ import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
 import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
@@ -23,7 +23,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,12 +77,13 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        // initialRoute: '/main', // Atur rute halaman disini
+        home: UlasanScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const SplashScreen(),
+                builder: (context) =>  const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
@@ -120,6 +120,10 @@ class MainApp extends StatelessWidget {
             case '/kelas':
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
+              );
+            case '/ulasan':
+              return MaterialPageRoute(
+                builder: (context) => UlasanScreen(),
               );
           }
           return null;
