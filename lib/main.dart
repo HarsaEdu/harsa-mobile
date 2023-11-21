@@ -27,6 +27,8 @@ import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart'
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'views/screens/kelas_screen/list_materi_screen.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
@@ -80,12 +82,12 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        initialRoute: '/listmateri', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const SplashScreen(),
+                builder: (context) => const ListMateriScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
@@ -130,6 +132,10 @@ class MainApp extends StatelessWidget {
             case '/ProfileBerlanganan':
               return MaterialPageRoute(
                 builder: (context) => const ProfileBerlanganan(),
+              );
+            case '/listmateri':
+              return MaterialPageRoute(
+                builder: (context) => const ListMateriScreen(),
               );
           }
           return null;
