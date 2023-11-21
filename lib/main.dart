@@ -17,7 +17,6 @@ import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
 import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
@@ -25,7 +24,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
