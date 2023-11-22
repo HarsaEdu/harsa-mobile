@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
+import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,8 +39,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SplashProvider()),
-        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        // ChangeNotifierProvider(create: (_) => SplashProvider()),
+        // ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
@@ -48,6 +50,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -78,17 +81,17 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        initialRoute: '/sertifikat', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/':
-              return MaterialPageRoute(
-                builder: (context) => const SplashScreen(),
-              );
-            case '/onboarding':
-              return MaterialPageRoute(
-                builder: (context) => const OnboardingScreen(),
-              );
+            // case '/':
+            //   return MaterialPageRoute(
+            //     builder: (context) => const SplashScreen(),
+            //   );
+            // case '/onboarding':
+            //   return MaterialPageRoute(
+            //     builder: (context) => const OnboardingScreen(),
+            //   );
             case '/main':
               return MaterialPageRoute(
                 builder: (context) => const MainScreen(),
@@ -128,6 +131,10 @@ class MainApp extends StatelessWidget {
             case '/ProfileBerlanganan':
               return MaterialPageRoute(
                 builder: (context) => const ProfileBerlanganan(),
+              );
+            case '/sertifikat':
+              return MaterialPageRoute(
+                builder: (context) => const CertificateScreen(),
               );
           }
           return null;
