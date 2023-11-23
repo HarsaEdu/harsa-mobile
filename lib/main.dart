@@ -4,6 +4,8 @@ import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interes
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
+import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
+import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +20,6 @@ import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
 import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
 import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
@@ -26,7 +27,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +51,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
+        ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -81,7 +83,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -135,6 +137,12 @@ class MainApp extends StatelessWidget {
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
+            case '/category':
+              return MaterialPageRoute(
+                builder: (context) => const CategoryScreen(),
+            case '/sertifikat':
+              return MaterialPageRoute(
+                builder: (context) => const CertificateScreen(),
               );
           }
           return null;
