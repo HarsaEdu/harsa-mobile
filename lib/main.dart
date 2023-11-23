@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
+import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,6 +51,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
+        ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -81,7 +82,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -135,6 +136,9 @@ class MainApp extends StatelessWidget {
             case '/category':
               return MaterialPageRoute(
                 builder: (context) => const CategoryScreen(),
+            case '/sertifikat':
+              return MaterialPageRoute(
+                builder: (context) => const CertificateScreen(),
               );
           }
           return null;
