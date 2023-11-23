@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
@@ -10,6 +11,8 @@ import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -55,6 +58,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
@@ -147,6 +151,13 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const ProfileBerlanganan(),
               );
+            case '/video':
+              return MaterialPageRoute(
+                builder: (context) => const VideoScreen(),
+              );
+            case '/materi':
+              return MaterialPageRoute(
+                builder: (context) => const MateriViewScreen(),
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
