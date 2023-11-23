@@ -11,7 +11,6 @@ class Certificate {
     this.subtitle,
   );
 
-  // Corrected factory constructor
   factory Certificate.fromJson(dynamic json) {
     return Certificate(
       json['id'],

@@ -63,22 +63,22 @@ class CertificateScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
             Consumer<CertificateProvider>(
               builder: (context, prov, _) {
                 bool isShow =
                     !prov.focusNode.hasFocus || prov.searchQuery.isNotEmpty;
                 bool hasData = prov.filteredData.isNotEmpty;
+
                 return Visibility(
                   visible: isShow,
                   child: hasData
                       ? Expanded(
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: prov.searchResults.length,
+                            itemCount: prov.filteredData.length,
                             itemBuilder: (context, index) {
                               Certificate certificate =
-                                  prov.searchResults[index];
+                                  prov.filteredData[index];
                               return Card(
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 8,
@@ -139,13 +139,14 @@ class CertificateScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              const SizedBox(height: 200),
                               SvgPicture.asset(
-                                'assets/icons/outline/search.svg',
+                                'assets/images/sertifikat_kosong.svg',
                               ),
-                              const SizedBox(height: 18),
+                              const SizedBox(height: 20),
                               Text(
-                                'Data tidak ditemukan',
-                                style: Theme.of(context).textTheme.titleSmall,
+                                'Sertifikat tidak ditemukan',
+                                style: Theme.of(context).textTheme.titleMedium,
                               )
                             ],
                           ),

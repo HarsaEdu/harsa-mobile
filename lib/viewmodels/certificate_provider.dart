@@ -6,35 +6,35 @@ final List<Map<String, Object>> myData = [
   {
     'id': 1,
     'picture':
-        'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+        'https://blogct.creative-tim.com/blog/content/images/2022/07/UX-design-courses.jpg',
     'title': 'UI/UX: Becoming Professional',
     'subtitle': 'Max Verstappen',
   },
   {
     'id': 2,
     'picture':
-        'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+        'https://media.geeksforgeeks.org/wp-content/cdn-uploads/20201111215809/How-to-Become-a-Front-End-Developer-in-2020.png',
     'title': 'Front-End: Becoming Professional',
     'subtitle': 'Lando Norris',
   },
   {
     'id': 3,
     'picture':
-        'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+        'https://assets-global.website-files.com/613baa7ad4f394142e65cb73/6192df82a3ed61da2f44f38a_opengraph-06.jpg',
     'title': 'Back-End: Becoming Professional',
     'subtitle': 'George Russell',
   },
   {
     'id': 4,
     'picture':
-        'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+        'https://softflew.com/wp-content/uploads/2022/12/Flutter-course-in-lucknow.png',
     'title': 'Flutter: Becoming Professional',
     'subtitle': 'Charles Leclerc',
   },
   {
     'id': 5,
     'picture':
-        'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+        'https://www.jagoanhosting.com/blog/wp-content/uploads/2022/10/cara-membuat-elearning.jpg',
     'title': 'QE: Becoming Professional',
     'subtitle': 'Esteban Ocon',
   }
@@ -52,7 +52,6 @@ class CertificateProvider with ChangeNotifier {
   final List<Certificate> data = getCertificateList();
   FocusNode focusNode = FocusNode();
   List<Certificate> filteredData = getCertificateList();
-  List<Certificate> searchResults = getCertificateList();
   String searchQuery = '';
 
   void searchCertificate(String query) {
@@ -60,8 +59,8 @@ class CertificateProvider with ChangeNotifier {
     if (query.isEmpty) {
       filteredData = data;
     } else {
-      filteredData = data.where((faq) {
-        return faq.title.toLowerCase().contains(query.toLowerCase());
+      filteredData = data.where((certificate) {
+        return certificate.title.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }
     notifyListeners();

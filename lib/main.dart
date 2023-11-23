@@ -39,8 +39,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider(create: (_) => SplashProvider()),
-        // ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => MainScreenProvider()),
         ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
@@ -81,17 +81,17 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/sertifikat', // Atur rute halaman disini
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            // case '/':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const SplashScreen(),
-            //   );
-            // case '/onboarding':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const OnboardingScreen(),
-            //   );
+            case '/':
+              return MaterialPageRoute(
+                builder: (context) => const SplashScreen(),
+              );
+            case '/onboarding':
+              return MaterialPageRoute(
+                builder: (context) => const OnboardingScreen(),
+              );
             case '/main':
               return MaterialPageRoute(
                 builder: (context) => const MainScreen(),
