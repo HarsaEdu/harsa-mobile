@@ -45,11 +45,8 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                           width: 24,
                           height: 24,
                         ),
-                        onPressed: () {
-                          // Tambahkan logika yang diinginkan ketika tombol ditekan
-                        },
+                        onPressed: () {},
                       ),
-
                       const Text(
                         'Kategori',
                         style: TextStyle(
