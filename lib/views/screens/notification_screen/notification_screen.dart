@@ -7,7 +7,7 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<InboxProvider>(context);
+    final controller = Provider.of<InboxProvider>(context, listen: false);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -103,9 +103,6 @@ class NotificationScreen extends StatelessWidget {
                             ),
                           ),
                           onDismissed: (direction) {
-                            // Hapus item dari data Anda di sini
-                            // Misalnya, jika Anda menggunakan list:
-                            // setState(() => items.removeAt(index));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content:
