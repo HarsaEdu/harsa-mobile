@@ -32,6 +32,7 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
+import 'views/screens/kelas_screen/list_materi_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -156,6 +157,9 @@ class MainApp extends StatelessWidget {
             case '/materi':
               return MaterialPageRoute(
                 builder: (context) => const MateriViewScreen(),
+            case '/listmateri':
+              return MaterialPageRoute(
+                builder: (context) => const ListMateriScreen(),
             case '/category':
               return MaterialPageRoute(
                 builder: (context) => const CategoryScreen(),
