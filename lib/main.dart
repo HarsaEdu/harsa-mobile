@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
+import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
+import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
+import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
+import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
+import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -15,9 +30,7 @@ import 'package:harsa_mobile/viewmodels/onboarding_viewmodel.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:harsa_mobile/viewmodels/splash_viewmodel.dart';
-import 'package:harsa_mobile/views/screens/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/faq_screen/faq_screen.dart';
-import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
 import 'package:harsa_mobile/views/screens/login_screen/login_screen.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:harsa_mobile/views/screens/notification_screen/notification_screen.dart';
@@ -25,7 +38,7 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'package:provider/provider.dart';
+import 'views/screens/kelas_screen/list_materi_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +64,10 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
         ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
+        ChangeNotifierProvider(create: (_) => MateriViewProvider()),
+        ChangeNotifierProvider(create: (_) => KelasProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
+        ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -81,7 +98,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/main', // Atur rute halaman disini
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -127,6 +144,47 @@ class MainApp extends StatelessWidget {
             case '/aichatbot':
               return MaterialPageRoute(
                 builder: (context) => const AIChatbotScreen(),
+              );
+            case '/kelasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const KelasScreen(),
+              );
+            case '/daftarkelas':
+              return MaterialPageRoute(
+                builder: (context) => const DaftarKelasScreen(),
+              );
+
+            case '/Profile':
+              return MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              );
+            case '/ProfileBerlanganan':
+              return MaterialPageRoute(
+                builder: (context) => const ProfileBerlanganan(),
+              );
+            case '/video':
+              return MaterialPageRoute(
+                builder: (context) => const VideoScreen(),
+              );
+            case '/materi':
+              return MaterialPageRoute(
+                builder: (context) => const MateriViewScreen(),
+              );
+            case '/berlangganan':
+              return MaterialPageRoute(
+                builder: (context) => const BerlanggananScreen(),
+              );
+            case '/listmateri':
+              return MaterialPageRoute(
+                builder: (context) => const ListMateriScreen(),
+              );
+            case '/category':
+              return MaterialPageRoute(
+                builder: (context) => const CategoryScreen(),
+              );
+            case '/sertifikat':
+              return MaterialPageRoute(
+                builder: (context) => const CertificateScreen(),
               );
           }
           return null;
