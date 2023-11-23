@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
@@ -27,6 +30,7 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
+import 'views/screens/kelas_screen/list_materi_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +55,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => KelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
@@ -126,6 +131,14 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
               );
+            case '/kelasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const KelasScreen(),
+              );
+            case '/daftarkelas':
+              return MaterialPageRoute(
+                builder: (context) => const DaftarKelasScreen(),
+
             case '/Profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
@@ -137,6 +150,9 @@ class MainApp extends StatelessWidget {
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
+            case '/listmateri':
+              return MaterialPageRoute(
+                builder: (context) => const ListMateriScreen(),
             case '/category':
               return MaterialPageRoute(
                 builder: (context) => const CategoryScreen(),
