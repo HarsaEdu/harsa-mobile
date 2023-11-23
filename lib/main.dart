@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
@@ -50,6 +53,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => KelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
       ],
@@ -125,6 +129,14 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
               );
+            case '/kelasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const KelasScreen(),
+              );
+            case '/daftarkelas':
+              return MaterialPageRoute(
+                builder: (context) => const DaftarKelasScreen(),
+
             case '/Profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
