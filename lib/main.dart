@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,6 +50,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -120,6 +123,10 @@ class MainApp extends StatelessWidget {
             case '/kelas':
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
+              );
+            case '/aichatbot':
+              return MaterialPageRoute(
+                builder: (context) => const AIChatbotScreen(),
               );
           }
           return null;
