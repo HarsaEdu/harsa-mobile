@@ -3,9 +3,11 @@ import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
-import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
@@ -15,7 +17,6 @@ import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
-import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => UlasanScreenProvider()),
         ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
         ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
@@ -103,7 +105,7 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const SplashScreen(),
+                builder: (context) =>  const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
@@ -141,6 +143,10 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
               );
+            case '/ulasan':
+              return MaterialPageRoute(
+                builder: (context) => const UlasanScreenContent(),
+              );
             case '/aichatbot':
               return MaterialPageRoute(
                 builder: (context) => const AIChatbotScreen(),
@@ -153,7 +159,6 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DaftarKelasScreen(),
               );
-
             case '/Profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
