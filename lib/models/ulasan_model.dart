@@ -2,8 +2,9 @@ class UlasanModel {
   final String fotoUrl;
   final String namaPengguna;
   final String waktu;
-  final String teksUlasan;
-  final double rating;
+  String teksUlasan;
+  double rating;
+  final bool isUserReview;
 
   UlasanModel({
     required this.fotoUrl,
@@ -11,5 +12,6 @@ class UlasanModel {
     required this.waktu,
     required this.teksUlasan,
     required this.rating,
+    this.isUserReview = false,
   });
 }

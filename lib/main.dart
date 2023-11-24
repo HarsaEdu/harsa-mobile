@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => UlasanScreenProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -77,8 +79,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        // initialRoute: '/main', // Atur rute halaman disini
-        home: UlasanScreen(),
+        initialRoute: '/main', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -123,7 +124,7 @@ class MainApp extends StatelessWidget {
               );
             case '/ulasan':
               return MaterialPageRoute(
-                builder: (context) => UlasanScreen(),
+                builder: (context) => const UlasanScreenContent(),
               );
           }
           return null;
