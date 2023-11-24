@@ -41,6 +41,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   sliding_up_panel: ^2.0.0+1
   sliding_sheet: ^0.5.2
+  youtube_player_flutter: ^8.1.2
+  webview_flutter: ^4.4.2
 
 dev_dependencies:
   flutter_test:
