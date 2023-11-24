@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
+import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
+import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
@@ -58,6 +63,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
+        ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
         ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
@@ -135,6 +141,10 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DetailKelasScreen(),
               );
+            case '/aichatbot':
+              return MaterialPageRoute(
+                builder: (context) => const AIChatbotScreen(),
+              );
             case '/kelasscreen':
               return MaterialPageRoute(
                 builder: (context) => const KelasScreen(),
@@ -142,6 +152,7 @@ class MainApp extends StatelessWidget {
             case '/daftarkelas':
               return MaterialPageRoute(
                 builder: (context) => const DaftarKelasScreen(),
+              );
 
             case '/Profile':
               return MaterialPageRoute(
@@ -158,15 +169,19 @@ class MainApp extends StatelessWidget {
             case '/materi':
               return MaterialPageRoute(
                 builder: (context) => const MateriViewScreen(),
+              );
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
+              );
             case '/listmateri':
               return MaterialPageRoute(
                 builder: (context) => const ListMateriScreen(),
+              );
             case '/category':
               return MaterialPageRoute(
                 builder: (context) => const CategoryScreen(),
+              );
             case '/sertifikat':
               return MaterialPageRoute(
                 builder: (context) => const CertificateScreen(),
