@@ -4,10 +4,12 @@ import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -76,6 +78,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
+        ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -204,6 +207,10 @@ class MainApp extends StatelessWidget {
             case '/quizscreen':
               return MaterialPageRoute(
                 builder: (context) => const QuizScreen(),
+              );
+            case '/menukelas':
+              return MaterialPageRoute(
+                builder: (context) => const MenuKelasScreen(),
               );
           }
           return null;
