@@ -211,7 +211,9 @@ class _TugasScreenState extends State<TugasScreen> {
                                     'Tugas mu dapat di perbaikin setelah di kirim',
                                 onConfirm: () {
                                   Navigator.pop(context);
-                                  fileProvider.selectFile("dummy.pdf");
+                                  fileProvider.selectFile(
+                                      fileProvider.selectedFileName ??
+                                          "dummy.pdf");
                                   setState(() {
                                     isSubmitted = true;
                                   });
