@@ -31,14 +31,14 @@ class ConfirmationDialog {
                   child: Column(
                     children: [
                       Text(
-                        'Sudah yakin dengan jawabanmu',
+                        title,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 6),
-                      const Text('Periksa kembali jawabanmu sebelum disimpan'),
+                      Text(content),
                       const SizedBox(height: 6),
                       const Icon(Icons.help_outline,
                           size: 64.0, color: ColorsPallete.sandyBrown),
