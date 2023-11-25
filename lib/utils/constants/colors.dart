@@ -19,4 +19,8 @@ class ColorsPallete {
   //warning
   static const Color citrine = Color.fromRGBO(216, 209, 24, 1);
   static const Color sunny = Color.fromRGBO(239, 235, 118, 1);
+  // text
+  static const Color white = Color.fromRGBO(255, 255, 255, 1);
+  static const Color black = Color.fromRGBO(34, 34, 34, 1);
+  static const Color grey = Color.fromRGBO(153, 153, 153, 1);
 }

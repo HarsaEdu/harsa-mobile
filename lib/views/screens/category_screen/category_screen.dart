@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
@@ -5,21 +7,14 @@ import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/views/widgets/category_widgets/category_card.dart';
 import 'package:provider/provider.dart';
 
-class CategoryScreen extends StatelessWidget {
+class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return _CategoryScreen();
-  }
-}
-
-class _CategoryScreen extends StatefulWidget {
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<_CategoryScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<CategoryScreenProvider>(
@@ -129,7 +124,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
 
   Widget _buildCategoryTabBar(CategoryScreenProvider provider) {
     return Container(
-      color: Colors.white, // Atur warna latar belakang Container ke putih
+      color: Colors.white,
       child: Row(
         children: [
           Expanded(
@@ -164,7 +159,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
     return Container(
       height: 47.8,
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      color: Colors.white, // Atur warna latar belakang Container ke putih
+      color: Colors.white,
       child: const Row(
         children: [
           Text(
@@ -230,8 +225,7 @@ class _CategoryScreenState extends State<_CategoryScreen> {
                           image: const DecorationImage(
                             image: NetworkImage(
                                 'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/08/learn-coding-online-for-free.webp'),
-                            fit:
-                                BoxFit.cover, // Sesuaikan dengan kebutuhan Anda
+                            fit: BoxFit.cover,
                           ),
                         ),
                         height: 79,
