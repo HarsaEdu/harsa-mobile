@@ -106,8 +106,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        // initialRoute: '/', // Atur rute halaman disini
-        home: MenuKelasScreen(),
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
