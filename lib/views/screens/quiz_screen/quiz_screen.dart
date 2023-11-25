@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/quiz.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/views/widgets/congratulation_alert.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/constants/colors.dart';
 import '../../widgets/confirm_dialog.dart';
@@ -289,17 +289,15 @@ class QuizScreen extends StatelessWidget {
                     else
                       ElevatedButton(
                         onPressed: () {
-                          ConfirmationBottomSheet.show(
+                          ConfirmationDialog.show(
                             context,
                             title: 'Sudah Yakin dengan jawaban mu',
-                            message:
+                            content:
                                 'Periksa kembali jawabanmu sebelum di simpan',
                             onConfirm: () {
-                              // Aksi ketika tombol 'Simpan' ditekan
-                              Navigator.of(context).pop();
+                              CustomDialog.show(context);
                             },
                             onCancel: () {
-                              // Aksi ketika tombol 'Batal' ditekan
                               Navigator.of(context).pop();
                             },
                           );

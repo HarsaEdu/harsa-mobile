@@ -16,8 +16,7 @@ class QuizProvider with ChangeNotifier {
       answer: 1,
     ),
     Quiz(
-      question:
-          '2. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+      question: '2. Pertanyaan kedua.',
       options: [
         'A. Lorem Ipsum',
         'B. Lorem Ipsum',
@@ -27,8 +26,7 @@ class QuizProvider with ChangeNotifier {
       answer: 1,
     ),
     Quiz(
-      question:
-          '3. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+      question: '3. Pertanyaan ketiga.',
       options: [
         'A. Lorem Ipsum',
         'B. Lorem Ipsum',
@@ -38,8 +36,7 @@ class QuizProvider with ChangeNotifier {
       answer: 1,
     ),
     Quiz(
-      question:
-          '4. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+      question: '4. Pertanyaan keempat.',
       options: [
         'A. Lorem Ipsum',
         'B. Lorem Ipsum',
@@ -49,8 +46,7 @@ class QuizProvider with ChangeNotifier {
       answer: 1,
     ),
     Quiz(
-      question:
-          '5. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+      question: '5. Pertanyaan kelima.',
       options: [
         'A. Lorem Ipsum',
         'B. Lorem Ipsum',

@@ -6,7 +6,6 @@ import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
-import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
@@ -106,12 +105,8 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
+                builder: (context) => const SplashScreen(),
               );
-            // case '/':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const SplashScreen(),
-            //   );
             case '/onboarding':
               return MaterialPageRoute(
                 builder: (context) => const OnboardingScreen(),
