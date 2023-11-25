@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
+import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
@@ -72,6 +74,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => KelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
+        ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
       ],
       child: MaterialApp(
@@ -193,6 +196,10 @@ class MainApp extends StatelessWidget {
             case '/sertifikat':
               return MaterialPageRoute(
                 builder: (context) => const CertificateScreen(),
+              );
+            case '/kelasdiikuti':
+              return MaterialPageRoute(
+                builder: (context) => const ClassFollowedScreen(),
               );
             case '/quizscreen':
               return MaterialPageRoute(
