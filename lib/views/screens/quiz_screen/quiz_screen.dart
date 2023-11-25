@@ -295,7 +295,10 @@ class QuizScreen extends StatelessWidget {
                             content:
                                 'Periksa kembali jawabanmu sebelum di simpan',
                             onConfirm: () {
-                              CustomDialog.show(context);
+                              CustomDialog.show(context,
+                                  title: 'Congratulation!',
+                                  content:
+                                      'Kamu sudah berhasil menyelesaikan Quiz introducing UI/UX');
                             },
                             onCancel: () {
                               Navigator.of(context).pop();
