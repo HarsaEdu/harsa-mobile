@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/quiz.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
@@ -104,13 +103,9 @@ class MainApp extends StatelessWidget {
         initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            // case '/':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const SplashScreen(),
-            //   );
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
+                builder: (context) => const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
