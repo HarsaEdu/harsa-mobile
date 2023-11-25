@@ -40,6 +40,7 @@ class Mateributton extends StatelessWidget {
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset(
                   'assets/icons/outline/chevron_forward.svg',
+                  // ignore: deprecated_member_use
                   color: Colors.white,
                 ),
               ),

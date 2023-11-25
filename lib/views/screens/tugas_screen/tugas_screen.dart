@@ -2,8 +2,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'package:harsa_mobile/views/screens/tugas_screen/detail_screen.dart';
+import 'package:harsa_mobile/views/widgets/confirm_dialog.dart';
 import 'package:harsa_mobile/views/widgets/kelas_widgets/kelas_card_component.dart';
-import 'package:harsa_mobile/views/widgets/materi_button.dart';
 
 class TugasScreen extends StatefulWidget {
   const TugasScreen({Key? key}) : super(key: key);
@@ -13,11 +17,12 @@ class TugasScreen extends StatefulWidget {
 }
 
 class _TugasScreenState extends State<TugasScreen> {
-  bool isFileSelected = false;
-  String? selectedFileName;
+  bool isSubmitted = false;
 
   @override
   Widget build(BuildContext context) {
+    var fileProvider = context.watch<TugasProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -96,11 +101,10 @@ class _TugasScreenState extends State<TugasScreen> {
               const SizedBox(
                 height: 15.0,
               ),
-              const Mateributton(),
               const SizedBox(
                 height: 80.0,
               ),
-              if (isFileSelected)
+              if (fileProvider.isFileSelected || isSubmitted)
                 Card(
                   elevation: 2.0,
                   margin: const EdgeInsets.all(3.0),
@@ -109,46 +113,86 @@ class _TugasScreenState extends State<TugasScreen> {
                   ),
                   child: Column(
                     children: [
-                      Card(
-                        margin: const EdgeInsets.only(
-                            top: 10.0, left: 5.0, right: 5.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(
-                            color: Color.fromARGB(
-                                255, 209, 206, 206), // Warna garis pinggir
-                            width: 1.0, // Lebar garis pinggir
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Tugas",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              isSubmitted ? "Diserahkan" : "",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
-                        child: SizedBox(
-                          width: double
-                              .infinity, // Agar kartu memenuhi lebar layar
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  selectedFileName ?? "Pilih file",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                  ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (fileProvider.isFileSelected || isSubmitted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailHalaman(
+                                  tugasText: "Tugas Anda",
+                                  fileName: fileProvider.selectedFileName ?? "",
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    // Reset state untuk mengembalikan ke tampilan utama
-                                    setState(() {
-                                      isFileSelected = false;
-                                      selectedFileName = null;
-                                    });
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.red,
+                              ),
+                            );
+                          }
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.only(
+                            top: 10.0,
+                            left: 5.0,
+                            right: 5.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 209, 206, 206),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    isSubmitted
+                                        ? "Lampiran"
+                                        : fileProvider.selectedFileName!,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  if (!isSubmitted) // Tambahkan kondisi ini
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (!isSubmitted) {
+                                          fileProvider.clearFile();
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -159,7 +203,31 @@ class _TugasScreenState extends State<TugasScreen> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
-                            // Logika untuk menyerahkan tugas
+                            if (!isSubmitted) {
+                              ConfirmationDialog.show(
+                                context,
+                                title: 'Kamu Sudah yakin ingin mengumpulkan',
+                                content:
+                                    'Tugas mu dapat di perbaikin setelah di kirim',
+                                onConfirm: () {
+                                  Navigator.pop(context);
+                                  fileProvider.selectFile("dummy.pdf");
+                                  setState(() {
+                                    isSubmitted = true;
+                                  });
+                                },
+                                onCancel: () {
+                                  fileProvider.clearFile();
+                                  Navigator.pop(context);
+                                },
+                              );
+                            } else {
+                              // Tombol "Batal" ketika sudah mengumpulkan
+                              fileProvider.clearFile();
+                              setState(() {
+                                isSubmitted = false;
+                              });
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -168,7 +236,7 @@ class _TugasScreenState extends State<TugasScreen> {
                             minimumSize: const Size.fromHeight(45.0),
                           ),
                           child: Text(
-                            "Serahkan",
+                            isSubmitted ? "Batal" : "Serahkan",
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -176,11 +244,8 @@ class _TugasScreenState extends State<TugasScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 5.0, // Sesuaikan tinggi kartu sesuai kebutuhan
-                        child: Container(
-                            // Content kartu lainnya di sini
-                            ),
+                      const SizedBox(
+                        height: 5.0,
                       ),
                     ],
                   ),
@@ -188,7 +253,8 @@ class _TugasScreenState extends State<TugasScreen> {
               else
                 Container(
                   margin: const EdgeInsets.only(
-                      bottom: 15.0), // Sesuaikan nilai sesuai kebutuhan
+                    bottom: 15.0,
+                  ),
                   child: ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -209,29 +275,28 @@ class _TugasScreenState extends State<TugasScreen> {
                                       );
 
                                       if (result != null) {
-                                        // Lakukan sesuatu dengan file yang dipilih
+                                        // ignore: avoid_print
                                         print(
-                                            'File path: ${result.files.single.path}');
-                                        setState(() {
-                                          selectedFileName =
-                                              result.files.single.name;
-                                          isFileSelected = true;
-                                        });
+                                          'File path: ${result.files.single.path}',
+                                        );
+                                        fileProvider.selectFile(
+                                            result.files.single.name);
                                         // ignore: use_build_context_synchronously
-                                        Navigator.pop(
-                                            context); // Menutup pop-up setelah memilih file
+                                        Navigator.pop(context);
                                       } else {
-                                        // Pengguna membatalkan pemilihan file
+                                        // ignore: avoid_print
                                         print('Pemilihan file dibatalkan');
                                       }
                                     } catch (e) {
+                                      // ignore: avoid_print
                                       print('Error: $e');
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.black,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 95.0),
+                                      horizontal: 95.0,
+                                    ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -242,8 +307,8 @@ class _TugasScreenState extends State<TugasScreen> {
                                     children: [
                                       const Text("Unggah File"),
                                       const SizedBox(
-                                          width:
-                                              8), // Jarak antara ikon dan teks
+                                        width: 8,
+                                      ),
                                       SvgPicture.asset(
                                         'assets/icons/outline/upload.svg',
                                         width: 17,
@@ -255,25 +320,20 @@ class _TugasScreenState extends State<TugasScreen> {
                                 const SizedBox(height: 20.0),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // Logika batal
-                                    setState(() {
-                                      isFileSelected = false;
-                                      selectedFileName = null;
-                                    });
+                                    fileProvider.clearFile();
                                     Navigator.pop(context);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.black,
                                     backgroundColor: Colors.white,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 95.0),
+                                      horizontal: 95.0,
+                                    ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: const BorderSide(
                                         color: Colors.black,
-                                        // Warna garis pinggir
                                         width: 1.0,
-                                        // Lebar garis pinggir
                                       ),
                                     ),
                                     minimumSize: const Size.fromHeight(45.0),
@@ -287,7 +347,9 @@ class _TugasScreenState extends State<TugasScreen> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 95.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 95.0,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),

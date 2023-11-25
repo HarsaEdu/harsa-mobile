@@ -4,8 +4,11 @@ import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+
+import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -73,6 +76,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
+        ChangeNotifierProvider(create: (_) => TugasProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -108,7 +112,7 @@ class MainApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) =>  const SplashScreen(),
+                builder: (context) => const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(
@@ -197,6 +201,10 @@ class MainApp extends StatelessWidget {
             case '/quizscreen':
               return MaterialPageRoute(
                 builder: (context) => const QuizScreen(),
+              );
+            case '/tugasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const TugasScreen(),
               );
           }
           return null;
