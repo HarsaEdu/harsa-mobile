@@ -30,7 +30,7 @@ class ClassFollowedScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Sertifikat',
+                  'Kelas Yang diikuti',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -48,10 +48,81 @@ class ClassFollowedScreen extends StatelessWidget {
                 labelText:
                     classFollowedProvider.focusNode.hasFocus ? '' : 'Search...',
                 filled: true,
-                suffixIcon: const Icon(
-                  Icons.search,
-                  size: 32,
-                  color: Colors.grey,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PopupMenuButton<String>(
+                      offset: const Offset(45, -10),
+                      color: Colors.white,
+                      surfaceTintColor: Colors.white,
+                      icon: const Icon(
+                        Icons.filter_alt_outlined,
+                        size: 32,
+                        color: Colors.grey,
+                      ),
+                      onSelected: (value) {
+                        if (value != 'Filter') {
+                          classFollowedProvider.filterByStatus(value);
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          enabled: false,
+                          height: 40,
+                          child: Text(
+                            'Filter',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Selesai',
+                          height: 40,
+                          child: Text(
+                            'Selesai',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Ongoing',
+                          height: 40,
+                          child: Text(
+                            'Ongoing',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Baru',
+                          height: 40,
+                          child: Text(
+                            'Baru',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Icon(
+                      Icons.search,
+                      size: 32,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 8),
+                  ],
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -145,7 +216,7 @@ class ClassFollowedScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                'Sertifikat tidak ditemukan',
+                                'Kelas tidak ditemukan',
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ],

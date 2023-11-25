@@ -3,12 +3,14 @@ class ClassFollowed {
   final String picture;
   final String title;
   final String subtitle;
+  final String status;
 
   ClassFollowed(
     this.id,
     this.picture,
     this.title,
     this.subtitle,
+    this.status,
   );
 
   factory ClassFollowed.fromJson(dynamic json) {
@@ -17,6 +19,7 @@ class ClassFollowed {
       json['picture'],
       json['title'],
       json['subtitle'],
+      json['status'],
     );
   }
 
@@ -25,5 +28,6 @@ class ClassFollowed {
         "picture": picture,
         "title": title,
         "subtitle": subtitle,
+        "status": status,
       };
 }
