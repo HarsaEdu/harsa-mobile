@@ -109,10 +109,10 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/editsandi', // Atur rute halaman disini
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/splash':
+            case '/':
               return MaterialPageRoute(
                 builder: (context) => const SplashScreen(),
               );

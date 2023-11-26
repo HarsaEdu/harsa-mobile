@@ -32,8 +32,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
         ),
         leading: IconButton(
           onPressed: () {
-            // Navigator.pop(context);
-            Navigator.pushReplacementNamed(context, '/editemail');
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.chevron_left,
