@@ -3,8 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class CustomDialog {
-  static void show(BuildContext context) {
-    showDialog(
+  static Future<void> show(BuildContext context, {
+    required String title,
+    required String content
+  }) {
+   return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -40,13 +43,13 @@ class CustomDialog {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Congratulations!',
+                  title,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold, color: ColorsPallete.white),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Kamu sudah berhasil menyelesaikan Quiz Introducing UI/UX',
+                  content,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
