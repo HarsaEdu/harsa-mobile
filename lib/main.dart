@@ -82,6 +82,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => QuizProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
+        ChangeNotifierProvider(create: (_) => TugasProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(
