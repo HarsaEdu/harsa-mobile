@@ -4,6 +4,12 @@ import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
+import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
+import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
@@ -81,6 +87,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider()),
+        ChangeNotifierProvider(create: (_) => EditEmailProvider()),
+        ChangeNotifierProvider(create: (_) => EditSandiProvider()),
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider())
       ],
@@ -215,6 +223,14 @@ class MainApp extends StatelessWidget {
             case '/tugasscreen':
               return MaterialPageRoute(
                 builder: (context) => const TugasScreen(),
+              );
+            case '/editemail':
+              return MaterialPageRoute(
+                builder: (context) => const EditEmailScreen(),
+              );
+            case '/editsandi':
+              return MaterialPageRoute(
+                builder: (context) => const EditSandiScreen(),
               );
             case '/menukelas':
               return MaterialPageRoute(
