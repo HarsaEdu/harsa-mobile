@@ -5,19 +5,21 @@ import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
+import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
-import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
-import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_screen.dart';
+import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -52,8 +54,6 @@ import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.d
 import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
-import 'views/screens/kelas_screen/list_materi_screen.dart';
-import 'views/screens/quiz_screen/quiz_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,7 +90,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EditEmailProvider()),
         ChangeNotifierProvider(create: (_) => EditSandiProvider()),
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
-        ChangeNotifierProvider(create: (_) => TugasProvider())
+        ChangeNotifierProvider(create: (_) => TugasProvider()),
+        ChangeNotifierProvider(create: (_) => EditProfileProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -121,7 +122,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/', // Atur rute halaman disini
+        home: const EditProfileScreen(), // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -231,6 +232,10 @@ class MainApp extends StatelessWidget {
             case '/editsandi':
               return MaterialPageRoute(
                 builder: (context) => const EditSandiScreen(),
+              );
+            case '/editprofile':
+              return MaterialPageRoute(
+                builder: (context) => const EditProfileScreen(),
               );
             case '/menukelas':
               return MaterialPageRoute(
