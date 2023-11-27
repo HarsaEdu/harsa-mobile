@@ -3,9 +3,13 @@ import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
+import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -71,6 +75,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
+        ChangeNotifierProvider(create: (_) => EditProfileProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -101,12 +106,12 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/', // Atur rute halaman disini
+        home: const EditProfileScreen(), // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) =>  const SplashScreen(),
+                builder: (context) => const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(

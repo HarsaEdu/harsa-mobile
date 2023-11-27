@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class VideoButton extends StatelessWidget {
   const VideoButton({
@@ -27,7 +26,8 @@ class VideoButton extends StatelessWidget {
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset(
                   'assets/icons/outline/chevron_backward.svg',
-                  color: Colors.white,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),
               Text(
@@ -41,7 +41,8 @@ class VideoButton extends StatelessWidget {
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset(
                   'assets/icons/outline/chevron_forward.svg',
-                  color: Colors.white,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),
             ],
