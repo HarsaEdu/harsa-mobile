@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class ConfirmationDialog {
   static Future<void> show(
@@ -32,13 +31,19 @@ class ConfirmationDialog {
                     children: [
                       Text(
                         title,
+                        textAlign: TextAlign
+                            .center, // Tambahkan properti textAlign di sini
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 6),
-                      Text(content),
+                      Text(
+                        content,
+                        textAlign: TextAlign
+                            .center, // Tambahkan properti textAlign di sini
+                      ),
                       const SizedBox(height: 6),
                       const Icon(Icons.help_outline,
                           size: 64.0, color: ColorsPallete.sandyBrown),
@@ -81,8 +86,8 @@ class ConfirmationDialog {
                             borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(8)),
                             border: Border(
-                              top: BorderSide(color: ColorsPallete.sandyBrown),
-                            ),
+                                // top: BorderSide(color: ColorsPallete.sandyBrown),
+                                ),
                           ),
                           alignment: Alignment.center,
                           child: Text(

@@ -12,9 +12,11 @@ import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
 import 'package:harsa_mobile/views/screens/aichatbot_screen/aichatbot_screen.dart';
@@ -84,13 +86,15 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
+        ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => EditEmailProvider()),
         ChangeNotifierProvider(create: (_) => EditSandiProvider()),
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
+        ChangeNotifierProvider(create: (_) => TugasProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(
-          useMaterial3: true,
+          // useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -215,6 +219,10 @@ class MainApp extends StatelessWidget {
             case '/quizscreen':
               return MaterialPageRoute(
                 builder: (context) => const QuizScreen(),
+              );
+            case '/tugasscreen':
+              return MaterialPageRoute(
+                builder: (context) => const TugasScreen(),
               );
             case '/editemail':
               return MaterialPageRoute(
