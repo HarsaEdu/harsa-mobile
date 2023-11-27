@@ -151,7 +151,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.firstNameController,
                         decoration: const InputDecoration(
                           isDense: true,
                           enabledBorder: UnderlineInputBorder(
@@ -184,7 +184,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.lastNameController,
                         decoration: const InputDecoration(
                           isDense: true,
                           enabledBorder: UnderlineInputBorder(
@@ -216,53 +216,51 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ?.copyWith(color: Colors.grey),
                         ),
                       ),
-                      Consumer<EditProfileProvider>(
-                        builder: (context, value, child) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Row(
-                            children: [
-                              Radio(
-                                visualDensity: const VisualDensity(
-                                    horizontal: VisualDensity.minimumDensity,
-                                    vertical: VisualDensity.minimumDensity),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                value: 'male',
-                                groupValue: value.gender,
-                                onChanged: (value) =>
-                                    pageProvider.genderSelector(value!),
-                              ),
-                              Text(
-                                'Pria',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(color: Colors.grey),
-                              ),
-                              SizedBox(
-                                width: screenWidth * 0.05,
-                              ),
-                              Radio(
-                                visualDensity: const VisualDensity(
-                                    horizontal: VisualDensity.minimumDensity,
-                                    vertical: VisualDensity.minimumDensity),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                value: 'female',
-                                groupValue: value.gender,
-                                onChanged: (value) =>
-                                    pageProvider.genderSelector(value!),
-                              ),
-                              Text(
-                                'Wanita',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(color: Colors.grey),
-                              ),
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Row(
+                          children: [
+                            Radio(
+                              visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              value: 'male',
+                              groupValue: value.gender,
+                              onChanged: (value) =>
+                                  pageProvider.genderSelector(value!),
+                            ),
+                            Text(
+                              'Pria',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: Colors.grey),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.05,
+                            ),
+                            Radio(
+                              visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              value: 'female',
+                              groupValue: value.gender,
+                              onChanged: (value) =>
+                                  pageProvider.genderSelector(value!),
+                            ),
+                            Text(
+                              'Wanita',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(color: Colors.grey),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -279,7 +277,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 5,
                       ),
                       TextFormField(
-                        onTap: () {},
+                        controller: value.birthDateController,
+                        onTap: pageProvider.datePicker,
                         readOnly: true,
                         decoration: const InputDecoration(
                           isDense: true,
@@ -329,7 +328,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.jobController,
                         decoration: const InputDecoration(
                           isDense: true,
                           enabledBorder: UnderlineInputBorder(
@@ -361,6 +360,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
+                        controller: value.bioController,
                         maxLines: 5,
                         minLines: 1,
                         decoration: const InputDecoration(
@@ -394,7 +394,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                           isDense: true,
@@ -428,7 +428,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.cityController,
                         decoration: const InputDecoration(
                           isDense: true,
                           enabledBorder: UnderlineInputBorder(
@@ -460,7 +460,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       TextFormField(
-                        maxLines: 1,
+                        controller: value.addressController,
                         decoration: const InputDecoration(
                           isDense: true,
                           enabledBorder: UnderlineInputBorder(

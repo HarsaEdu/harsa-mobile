@@ -6,6 +6,15 @@ class EditProfileProvider extends ChangeNotifier {
 
   final ScrollController scrollController = ScrollController();
 
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
+  final TextEditingController jobController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
   void genderSelector(String value) {
     gender = value;
     notifyListeners();
@@ -19,4 +28,6 @@ class EditProfileProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void datePicker() {}
 }
