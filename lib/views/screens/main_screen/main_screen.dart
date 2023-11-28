@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/viewmodels/main_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/home_screen/home_screen.dart';
+import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -25,7 +26,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Consumer<MainScreenProvider>(
       builder: (context, value, child) => Scaffold(
-        body: const HomeScreen(),
+        resizeToAvoidBottomInset: false,
+        body: const SubscriptionPlanList(),
         backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
