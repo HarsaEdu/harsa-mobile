@@ -72,7 +72,6 @@ flutter:
     - assets/images/
     - assets/icons/filled/
     - assets/icons/outline/
-    - assets/icons/filled/
     - assets/icons/category_icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
