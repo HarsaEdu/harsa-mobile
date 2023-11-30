@@ -49,6 +49,32 @@ class TransactionHistoryProvider with ChangeNotifier {
   List<TransactionHistory> filteredData = getTransactionHistoryList();
   String searchQuery = '';
 
+  Color getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'berhasil':
+        return const Color(0x7F78EC7D);
+      case 'dibatalkan':
+        return const Color(0x7FED7878);
+      case 'menunggu pembayaran':
+        return const Color(0x7FEFEA75);
+      default:
+        return Colors.white;
+    }
+  }
+
+  Color getStatusTextColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'berhasil':
+        return const Color(0xFF159B1A);
+      case 'dibatalkan':
+        return const Color(0xFFDB1D1D);
+      case 'menunggu pembayaran':
+        return const Color(0xFF918B00);
+      default:
+        return Colors.white;
+    }
+  }
+
   void filterByStatus(String status) {
     filteredData = data.where((transactionHistory) {
       return transactionHistory.status.toLowerCase() == status.toLowerCase();

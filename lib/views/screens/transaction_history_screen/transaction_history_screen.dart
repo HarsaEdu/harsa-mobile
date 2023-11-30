@@ -95,7 +95,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                           value: 'Menunggu Pembayaran',
                           height: 40,
                           child: Text(
-                            'Menunggu Pembayaran',
+                            'Pending',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -151,6 +151,13 @@ class TransactionHistoryScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               TransactionHistory transactionHistory =
                                   prov.filteredData[index];
+
+                              Color containerColor = transactionHistoryProvider
+                                  .getStatusColor(transactionHistory.status);
+                              Color textColor =
+                                  transactionHistoryProvider.getStatusTextColor(
+                                      transactionHistory.status);
+
                               return Card(
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -205,7 +212,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                                           Container(
                                             padding: const EdgeInsets.all(6),
                                             decoration: ShapeDecoration(
-                                              color: const Color(0x7F78EC7D),
+                                              color: containerColor,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
@@ -215,8 +222,8 @@ class TransactionHistoryScreen extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   transactionHistory.status,
-                                                  style: const TextStyle(
-                                                    color: Color(0xFF159B1A),
+                                                  style: TextStyle(
+                                                    color: textColor,
                                                     fontSize: 10,
                                                     fontWeight: FontWeight.w400,
                                                   ),
