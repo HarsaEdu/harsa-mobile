@@ -315,7 +315,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                             children: [
                               const SizedBox(height: 200),
                               SvgPicture.asset(
-                                'assets/images/sertifikat_kosong.svg',
+                                'assets/images/creditcard.svg',
                               ),
                               const SizedBox(height: 20),
                               Text(
