@@ -125,8 +125,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const RecommendationScreen(),
-        // initialRoute: '/', // Atur rute halaman disini
+        // home: const RecommendationScreen(),
+        initialRoute: '/', // Atur rute halaman disini
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
