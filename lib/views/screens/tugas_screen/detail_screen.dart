@@ -84,7 +84,7 @@ class DetailHalaman extends StatelessWidget {
                                   width: 10.0), // Jarak antara logo dan teks
                               Text(
                                 fileName,
-                                style: TextStyle(fontSize: 16.0),
+                                style: const TextStyle(fontSize: 16.0),
                               ),
 
                               const SizedBox(

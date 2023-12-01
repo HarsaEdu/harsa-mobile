@@ -8,6 +8,7 @@ import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
@@ -19,6 +20,7 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
+import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
@@ -95,6 +97,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => EditProfileProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionHistoryProvider()),
         ChangeNotifierProvider(create: (_) => RecommendationScreenProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionPlanListProvider()),
       ],
@@ -246,6 +249,10 @@ class MainApp extends StatelessWidget {
             case '/menukelas':
               return MaterialPageRoute(
                 builder: (context) => const MenuKelasScreen(),
+              );
+            case '/riwayattransaksi':
+              return MaterialPageRoute(
+                builder: (context) => const TransactionHistoryScreen(),
               );
             case '/recommendation':
               return MaterialPageRoute(
