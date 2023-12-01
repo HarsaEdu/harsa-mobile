@@ -37,9 +37,8 @@ class CategoryCard extends StatelessWidget {
                 width: 1.0,
               ),
               image: DecorationImage(
-                image: NetworkImage(category
-                    .imageUrl), // Gunakan NetworkImage untuk gambar dari URL
-                fit: BoxFit.cover, // Sesuaikan dengan kebutuhan Anda
+                image: NetworkImage(category.imageUrl),
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -66,7 +65,7 @@ class CategoryCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/icons/filled/rating.svg',
-                        width: 16, // Sesuaikan ukuran sesuai kebutuhan Anda
+                        width: 16,
                         height: 14,
                         colorFilter: const ColorFilter.mode(
                           ColorsPallete.sandyBrown,

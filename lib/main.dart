@@ -8,6 +8,7 @@ import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
@@ -18,6 +19,7 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
+import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
@@ -93,11 +95,12 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => EditProfileProvider()),
+        ChangeNotifierProvider(create: (_) => RecommendationScreenProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionPlanListProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-          // useMaterial3: true,
+          useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -124,7 +127,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const MainScreen(), // Atur rute halaman disini
+        // initialRoute: '/', // Atur rute halaman disini
+        home: const MainScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -242,6 +246,10 @@ class MainApp extends StatelessWidget {
             case '/menukelas':
               return MaterialPageRoute(
                 builder: (context) => const MenuKelasScreen(),
+              );
+            case '/recommendation':
+              return MaterialPageRoute(
+                builder: (context) => const RecommendationScreen(),
               );
           }
           return null;
