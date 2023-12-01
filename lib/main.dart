@@ -9,6 +9,7 @@ import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
+import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
@@ -95,6 +96,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => EditProfileProvider()),
         ChangeNotifierProvider(create: (_) => RecommendationScreenProvider()),
+        ChangeNotifierProvider(create: (_) => SubscriptionPlanListProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -125,7 +127,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/', // Atur rute halaman disini
+        // initialRoute: '/', // Atur rute halaman disini
+        home: const MainScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
