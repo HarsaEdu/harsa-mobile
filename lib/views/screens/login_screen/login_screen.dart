@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/login_provider.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -139,6 +145,7 @@ class LoginScreen extends StatelessWidget {
                     builder: (context, state, _) {
                       return Form(
                         key: state.formKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         // input fields
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -153,18 +160,27 @@ class LoginScreen extends StatelessWidget {
                             // email field
                             TextFormField(
                               controller: state.emailController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8),
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                   vertical: 0,
-                                  horizontal: 12,
+                                  horizontal: 16,
                                 ),
+                                hintText: "Masukkan email / username",
+                                errorStyle: const TextStyle(fontSize: 14),
+                                errorMaxLines: 3,
+                                errorText: state.loginLoadingState ==
+                                        LoadingState.failed
+                                    ? "Email / Username tidak ditemukan"
+                                    : null,
                               ),
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              validator: (value) => state.validateEmail(value),
+                              style: const TextStyle(fontSize: 16),
                             ),
 
                             SizedBox(height: screenHeight / 40),
@@ -177,19 +193,29 @@ class LoginScreen extends StatelessWidget {
                             // password field
                             TextFormField(
                               controller: state.passwordController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
+                              keyboardType: TextInputType.visiblePassword,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8),
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                   vertical: 0,
-                                  horizontal: 12,
+                                  horizontal: 16,
                                 ),
+                                hintText: "Masukkan password Anda",
+                                errorStyle: const TextStyle(fontSize: 14),
+                                errorMaxLines: 3,
+                                errorText: state.loginLoadingState ==
+                                        LoadingState.failed
+                                    ? "Password yang Anda masukkan salah"
+                                    : null,
                               ),
                               obscureText: true,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              validator: (value) =>
+                                  state.validatePassword(value),
+                              style: const TextStyle(fontSize: 16),
                             ),
 
                             SizedBox(height: screenHeight / 60),
@@ -212,8 +238,14 @@ class LoginScreen extends StatelessWidget {
                               children: <Widget>[
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text("Masuk"),
+                                    onPressed: state.loginLoadingState ==
+                                            LoadingState.loading
+                                        ? null
+                                        : () => state.login(context),
+                                    child: const Text(
+                                      "Masuk",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -231,9 +263,9 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // the suffix text
-                      Text(
+                      const Text(
                         "Don't have an account? ",
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: TextStyle(fontSize: 12),
                       ),
 
                       // the button
