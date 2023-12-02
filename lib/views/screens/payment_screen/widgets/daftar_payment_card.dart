@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:provider/provider.dart';
 import '../detail_payment_screen.dart';
 
-class DaftarEWallet extends StatelessWidget {
-  const DaftarEWallet({super.key});
+class DaftarPaymentCard extends StatelessWidget {
+  const DaftarPaymentCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EWalletProvider>(
+    return Consumer<PaymentCardProvider>(
       builder: (context, prov, _) {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              final ewallet = prov.eWalletData[index];
+              final creditCard = prov.paymentCardData[index];
               return InkWell(
                 onTap: () {
-                  prov.selectEWallet(ewallet);
+                  prov.selectPaymentCard(creditCard);
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => DetailPaymentScreen(
-                        paymentName: ewallet.name,
-                        accountType: ewallet.accountType,
-                        accountNumber: ewallet.accountNumber,
+                        paymentName: creditCard.name,
+                        accountType: creditCard.accountType,
+                        accountNumber: creditCard.accountNumber,
                         totalAmount: 'Rp35.000',
-                        imagePath: ewallet.imagePath,
+                        imagePath: creditCard.imagePath,
                       ),
                     ),
                   );
@@ -34,13 +34,14 @@ class DaftarEWallet extends StatelessWidget {
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Image.asset(
-                        ewallet.imagePath,
+                        creditCard.imagePath,
+                        width: 72,
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            ewallet.name,
+                            creditCard.accountType,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -59,7 +60,7 @@ class DaftarEWallet extends StatelessWidget {
                 ),
               );
             },
-            childCount: prov.eWalletData.length,
+            childCount: prov.paymentCardData.length,
           ),
         );
       },

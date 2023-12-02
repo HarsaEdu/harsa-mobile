@@ -1,26 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/bank.dart';
 
-class BankDataProvider with ChangeNotifier {
-  Bank? _selectedBank;
-  Bank? get selectedBank => _selectedBank;
-  List<Bank> get bankData => _bankData;
-
-  int? _selectedBankIndex;
-
-  // Getter dan setter untuk selectedBankIndex
-  int? get selectedBankIndex => _selectedBankIndex;
-  set selectedBankIndex(int? index) {
-    _selectedBankIndex = index;
-    notifyListeners();
-  }
-
-  void selectBank(Bank bank) {
-    _selectedBank = bank;
-    selectedBankIndex = _bankData.indexOf(bank);
-    notifyListeners();
-  }
-
+class BankProvider with ChangeNotifier {
   final List<Bank> _bankData = [
     Bank(
         name: 'BCA',
@@ -53,4 +34,30 @@ class BankDataProvider with ChangeNotifier {
         accountNumber: '882345678901',
         imagePath: 'assets/images/btn_logo.png'),
   ];
+
+  int? _selectedBankIndex = 0;
+
+  // Inisialisasi _selectedBank dengan bank default
+  BankProvider() {
+    _selectedBank = _bankData[_selectedBankIndex!];
+  }
+
+  // Getter untuk bank terpilih dan data bank
+  Bank? get selectedBank => _selectedBank;
+  List<Bank> get bankData => _bankData;
+
+  // Getter dan setter untuk selectedBankIndex
+  int? get selectedBankIndex => _selectedBankIndex;
+  set selectedBankIndex(int? index) {
+    _selectedBankIndex = index;
+    notifyListeners();
+  }
+
+  void selectBank(Bank bank) {
+    _selectedBank = bank;
+    selectedBankIndex = _bankData.indexOf(bank);
+    notifyListeners();
+  }
+
+  Bank? _selectedBank;
 }

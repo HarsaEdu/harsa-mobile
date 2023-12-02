@@ -1,15 +1,18 @@
-class KartuKredit {
+class PaymentCard {
+  final String name;
   final String accountType;
   final String accountNumber;
   final String imagePath;
 
-  KartuKredit(
-      {required this.accountType,
+  PaymentCard(
+      {required this.name,
+      required this.accountType,
       required this.accountNumber,
       required this.imagePath});
 
-  factory KartuKredit.fromJson(Map<String, dynamic> json) {
-    return KartuKredit(
+  factory PaymentCard.fromJson(Map<String, dynamic> json) {
+    return PaymentCard(
+      name: json['name'] as String,
       accountType: json['accountType'] as String,
       accountNumber: json['accountNumber'] as String,
       imagePath: json['imagePath'] as String,

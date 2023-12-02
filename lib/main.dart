@@ -9,7 +9,7 @@ import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
-import 'package:harsa_mobile/viewmodels/kartu_kredit_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
@@ -105,8 +105,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TransactionHistoryProvider()),
         ChangeNotifierProvider(create: (_) => RecommendationScreenProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionPlanListProvider()),
-        ChangeNotifierProvider(create: (_) => BankDataProvider()),
-        ChangeNotifierProvider(create: (_) => KartuKreditProvider()),
+        ChangeNotifierProvider(create: (_) => BankProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
       ],
       child: MaterialApp(
@@ -139,12 +139,12 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // initialRoute: '/', // Atur rute halaman disini
-        home: const AllPaymentScreen(),
+        home: const SplashScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                builder: (context) => const AllPaymentScreen(),
+                builder: (context) => const SplashScreen(),
               );
             case '/onboarding':
               return MaterialPageRoute(

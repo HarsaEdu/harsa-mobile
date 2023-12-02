@@ -3,7 +3,7 @@ import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/views/widgets/congratulation_alert.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/constants/colors.dart';
-import '../../widgets/confirm_dialog.dart';
+import '../../widgets/confirmation_dialog.dart';
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
 class QuizScreen extends StatelessWidget {
@@ -295,7 +295,7 @@ class QuizScreen extends StatelessWidget {
                             content:
                                 'Periksa kembali jawabanmu sebelum di simpan',
                             onConfirm: () {
-                              CustomDialog.show(context,
+                              CongratulationAlert.show(context,
                                   title: 'Congratulation!',
                                   content:
                                       'Kamu sudah berhasil menyelesaikan Quiz introducing UI/UX');

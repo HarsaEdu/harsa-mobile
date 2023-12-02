@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/widgets/daftar_bank.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/widgets/daftar_ewallet.dart';
-import 'package:harsa_mobile/views/screens/payment_screen/widgets/daftar_kartu_kredit.dart';
+import 'package:harsa_mobile/views/screens/payment_screen/widgets/daftar_payment_card.dart';
 
 class AllPaymentScreen extends StatelessWidget {
   const AllPaymentScreen({super.key});
@@ -13,6 +13,7 @@ class AllPaymentScreen extends StatelessWidget {
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
         backgroundColor: ColorsPallete.whiteGrey,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             GestureDetector(
@@ -79,7 +80,7 @@ class AllPaymentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const DaftarKartuKredit(),
+              const DaftarPaymentCard(),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
