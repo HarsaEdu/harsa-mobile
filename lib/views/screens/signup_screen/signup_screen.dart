@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:provider/provider.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -24,15 +30,16 @@ class SignupScreen extends StatelessWidget {
                 children: <Widget>[
                   // back button
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, '/login'),
                     child: SvgPicture.asset(
-                      'assets/icons/chevron-left.svg',
+                      'assets/icons/outline/chevron-left.svg',
                     ),
                   ),
                   // title
-                  Text(
+                  const Text(
                     "Sign Up",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: TextStyle(fontSize: 22),
                   ),
 
                   const SizedBox(width: 10),
@@ -48,6 +55,7 @@ class SignupScreen extends StatelessWidget {
                   builder: (context, state, _) {
                     return Form(
                       key: state.formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -59,18 +67,27 @@ class SignupScreen extends StatelessWidget {
                           // username field
                           TextFormField(
                             controller: state.usernameController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
+                              hintText: "Masukkan Username",
+                              errorStyle: const TextStyle(fontSize: 14),
+                              errorMaxLines: 3,
+                              errorText: state.signupLoadingState ==
+                                      LoadingState.failed
+                                  ? "*Username / Email sudah terdaftar"
+                                  : null,
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            validator: (value) => state.validateUsername(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -83,18 +100,27 @@ class SignupScreen extends StatelessWidget {
                           // email field
                           TextFormField(
                             controller: state.emailController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
+                              hintText: "Masukkan alamat email",
+                              errorStyle: const TextStyle(fontSize: 14),
+                              errorMaxLines: 3,
+                              errorText: state.signupLoadingState ==
+                                      LoadingState.failed
+                                  ? "*Username / Email sudah terdaftar"
+                                  : null,
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            validator: (value) => state.validateEmail(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -107,6 +133,7 @@ class SignupScreen extends StatelessWidget {
                           // password field
                           TextFormField(
                             controller: state.passwordController,
+                            keyboardType: TextInputType.visiblePassword,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
@@ -115,11 +142,15 @@ class SignupScreen extends StatelessWidget {
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
+                              hintText: "Masukkan password",
+                              errorStyle: TextStyle(fontSize: 14),
+                              errorMaxLines: 3,
                             ),
                             obscureText: true,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            validator: (value) => state.validatePassword(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -132,6 +163,7 @@ class SignupScreen extends StatelessWidget {
                           // confirm password field
                           TextFormField(
                             controller: state.confirmPassController,
+                            keyboardType: TextInputType.visiblePassword,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
@@ -140,11 +172,16 @@ class SignupScreen extends StatelessWidget {
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
+                              hintText: "Ketik ulang password",
+                              errorStyle: TextStyle(fontSize: 14),
+                              errorMaxLines: 3,
                             ),
                             obscureText: true,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            validator: (value) =>
+                                state.validateConfirmPassword(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 20),
@@ -154,12 +191,13 @@ class SignupScreen extends StatelessWidget {
                             children: <Widget>[
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    '/signupdata',
-                                  ),
+                                  onPressed: state.signupLoadingState ==
+                                          LoadingState.loading
+                                      ? null
+                                      : () => state.register(context),
                                   child: const Text(
-                                    "Sign Up",
+                                    "Daftar",
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 ),
                               ),
