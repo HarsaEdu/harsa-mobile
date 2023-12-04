@@ -6,7 +6,7 @@ import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:harsa_mobile/views/screens/tugas_screen/detail_screen.dart';
-import 'package:harsa_mobile/views/widgets/confirm_dialog.dart';
+import 'package:harsa_mobile/views/widgets/confirmation_dialog.dart';
 import 'package:harsa_mobile/views/widgets/kelas_widgets/kelas_card_component.dart';
 
 class TugasScreen extends StatefulWidget {

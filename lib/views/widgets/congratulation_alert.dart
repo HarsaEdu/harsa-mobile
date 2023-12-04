@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 
-class CustomDialog {
+class CongratulationAlert {
   static Future<void> show(BuildContext context, {
     required String title,
     required String content
@@ -15,7 +15,7 @@ class CustomDialog {
             borderRadius: BorderRadius.circular(20.0),
           ),
           backgroundColor:
-              ColorsPallete.prussianBlue, // Ganti dengan warna yang tepat
+              ColorsPallete.prussianBlue,
           content: Padding(
             padding: const EdgeInsets.only(top: 32.0, bottom: 12),
             child: Column(
@@ -68,7 +68,7 @@ class CustomDialog {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Menutup dialog
+                    Navigator.of(context).pop();
                   },
                 ),
               ],
