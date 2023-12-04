@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../utils/constants/colors.dart';
 
 class Mateributton extends StatelessWidget {
@@ -28,7 +27,7 @@ class Mateributton extends StatelessWidget {
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset(
                   'assets/icons/outline/chevron_backward.svg',
-                  color: Colors.white,
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),  
                 ),
               ),
               Text(
@@ -40,8 +39,7 @@ class Mateributton extends StatelessWidget {
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset(
                   'assets/icons/outline/chevron_forward.svg',
-                  // ignore: deprecated_member_use
-                  color: Colors.white,
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),  
                 ),
               ),
             ],
