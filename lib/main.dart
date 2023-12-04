@@ -267,6 +267,10 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const RecommendationScreen(),
               );
+            case '/detailsubscription':
+              return MaterialPageRoute(
+                builder: (context) => const DetailSubscription(),
+              );
             case '/payment':
               return MaterialPageRoute(
                 builder: (context) => const PaymentScreen(),
