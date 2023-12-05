@@ -10,6 +10,7 @@ class MainScreenProvider extends ChangeNotifier {
 
   void bottomNaBar(int index) {
     pageIndex = index;
+
     debugPrint(pageIndex.toString());
     notifyListeners();
   }
