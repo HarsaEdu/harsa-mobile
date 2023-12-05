@@ -32,7 +32,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: SvgPicture.asset(
-                      'assets/icons/chevron-left.svg',
+                      'assets/icons/outline/chevron-left.svg',
                     ),
                   ),
 

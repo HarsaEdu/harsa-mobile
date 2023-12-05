@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
+import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
+import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
+import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
+import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
@@ -18,6 +23,10 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
+import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
+import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
+import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
+import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
@@ -27,9 +36,9 @@ import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/InterestScreen/InterestScreen/interest_category_screen.dart';
-import 'package:harsa_mobile/views/screens/Profile_screen/profile_berlanganan_screen.dart';
-import 'package:harsa_mobile/views/screens/Profile_screen/profile_screen.dart';
+import 'package:harsa_mobile/views/screens/interest_screen/InterestScreen/interest_category_screen.dart';
+import 'package:harsa_mobile/views/screens/profile_screen/profile_berlanganan_screen.dart';
+import 'package:harsa_mobile/views/screens/profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
@@ -93,11 +102,16 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MenuKelasProvider()),
         ChangeNotifierProvider(create: (_) => TugasProvider()),
         ChangeNotifierProvider(create: (_) => EditProfileProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionHistoryProvider()),
+        ChangeNotifierProvider(create: (_) => RecommendationScreenProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionPlanListProvider()),
+        ChangeNotifierProvider(create: (_) => BankProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
+        ChangeNotifierProvider(create: (_) => EWalletProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-          // useMaterial3: true,
+          useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -124,7 +138,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const MainScreen(), // Atur rute halaman disini
+        // initialRoute: '/', // Atur rute halaman disini
+        home: const SplashScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -183,11 +198,11 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const DaftarKelasScreen(),
               );
-            case '/Profile':
+            case '/profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
               );
-            case '/ProfileBerlanganan':
+            case '/profileberlanganan':
               return MaterialPageRoute(
                 builder: (context) => const ProfileBerlanganan(),
               );
@@ -242,6 +257,22 @@ class MainApp extends StatelessWidget {
             case '/menukelas':
               return MaterialPageRoute(
                 builder: (context) => const MenuKelasScreen(),
+              );
+            case '/riwayattransaksi':
+              return MaterialPageRoute(
+                builder: (context) => const TransactionHistoryScreen(),
+              );
+            case '/recommendation':
+              return MaterialPageRoute(
+                builder: (context) => const RecommendationScreen(),
+              );
+            case '/payment':
+              return MaterialPageRoute(
+                builder: (context) => const PaymentScreen(),
+              );
+            case '/allpayment':
+              return MaterialPageRoute(
+                builder: (context) => const AllPaymentScreen(),
               );
           }
           return null;
