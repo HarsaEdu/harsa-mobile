@@ -26,6 +26,7 @@ import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
+import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
@@ -140,7 +141,7 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // initialRoute: '/', // Atur rute halaman disini
-        home: const SplashScreen(),
+        home: const SubscriptionPlanList(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -266,6 +267,10 @@ class MainApp extends StatelessWidget {
             case '/recommendation':
               return MaterialPageRoute(
                 builder: (context) => const RecommendationScreen(),
+              );
+            case '/subscriptionlist':
+              return MaterialPageRoute(
+                builder: (context) => const SubscriptionPlanList(),
               );
             case '/detailsubscription':
               return MaterialPageRoute(
