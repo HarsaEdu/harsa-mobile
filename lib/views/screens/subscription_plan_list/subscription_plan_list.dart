@@ -110,7 +110,7 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
 
                     return InkWell(
                       onTap: () {
-                        CustomBottomSheetDialog.show(context);
+                        CustomBottomSheetDialog.show(context, subscription);
                       },
                       child: Container(
                         clipBehavior: Clip.hardEdge,
