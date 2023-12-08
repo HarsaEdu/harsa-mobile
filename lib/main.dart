@@ -16,6 +16,7 @@ import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:harsa_mobile/views/screens/detail_subscription/detail_subscription.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
@@ -266,6 +267,10 @@ class MainApp extends StatelessWidget {
             case '/recommendation':
               return MaterialPageRoute(
                 builder: (context) => const RecommendationScreen(),
+              );
+            case '/detailsubscription':
+              return MaterialPageRoute(
+                builder: (context) => const DetailSubscription(),
               );
             case '/payment':
               return MaterialPageRoute(
