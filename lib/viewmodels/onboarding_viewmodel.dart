@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:harsa_mobile/models/onboarding_content.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingProvider extends ChangeNotifier {
   late final PageController _pageController = PageController();
@@ -33,8 +35,14 @@ class OnboardingProvider extends ChangeNotifier {
         curve: Curves.easeInOut,
       );
     } else {
+      setLogStatus();
       Navigator.pushReplacementNamed(context, '/main');
     }
+  }
+
+  void setLogStatus() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setBool(SPKey.isNew, false);
   }
 
   @override

@@ -6,9 +6,14 @@ import '../../../utils/constants/colors.dart';
 import '../../widgets/confirmation_dialog.dart';
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
-class QuizScreen extends StatelessWidget {
+class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
+  @override
+  State<QuizScreen> createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<QuizProvider>();

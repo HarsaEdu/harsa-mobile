@@ -1,29 +1,4 @@
 class ModulQuizzData {
-  int code;
-  String message;
-  Data data;
-
-  ModulQuizzData({
-    required this.code,
-    required this.message,
-    required this.data,
-  });
-
-  factory ModulQuizzData.fromJson(Map<String, dynamic> json) =>
-      ModulQuizzData(
-        code: json["code"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": data.toJson(),
-      };
-}
-
-class Data {
   int id;
   int moduleId;
   String title;
@@ -33,7 +8,7 @@ class Data {
   DateTime updatedAt;
   List<Question> questions;
 
-  Data({
+  ModulQuizzData({
     required this.id,
     required this.moduleId,
     required this.title,
@@ -44,7 +19,7 @@ class Data {
     required this.questions,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory ModulQuizzData.fromJson(Map<String, dynamic> json) => ModulQuizzData(
         id: json["id"],
         moduleId: json["module_id"],
         title: json["title"],

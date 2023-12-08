@@ -9,6 +9,7 @@ import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
@@ -108,6 +109,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BankProvider()),
         ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
+        ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -139,7 +141,6 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // initialRoute: '/', // Atur rute halaman disini
-        home: const SplashScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
