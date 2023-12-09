@@ -1,69 +1,32 @@
 import 'package:flutter/material.dart';
-import '/models/faq.dart';
-
-final List<Map<String, Object>> myFaq = [
-  {
-    "id": 1,
-    "question": "Apa itu Harsa?",
-    "answer":
-        "Harsa adalah sebuah aplikasi Learning Management System (LMS) inovatif yang dirancang untuk mendukung pengalaman belajar secara digital. Dengan Harsa, pengguna dapat mengakses berbagai materi pembelajaran, tugas, dan ujian secara online.",
-  },
-  {
-    "id": 2,
-    "question": "Bagaimana Cara Mendaftar di Harsa?",
-    "answer": "Jawaban bagaimana cara mendaftar di Harsa.",
-  },
-  {
-    "id": 3,
-    "question": "Apa Saja Materi Pelajaran yang Tersedia di Harsa?",
-    "answer": "Jawaban apa saja materi pelajaran yang tersedia di Harsa.",
-  },
-  {
-    "id": 4,
-    "question": "Bagaimana Cara Memulai Kelas di Harsa?",
-    "answer": "Jawaban bagaimana cara memulai kelas di Harsa.",
-  },
-  {
-    "id": 5,
-    "question":
-        "Apakah Harsa Menyediakan Sertifikat untuk Kelas yang Telah Selesai?",
-    "answer":
-        "Jawaban apakah Harsa menyediakan sertifikat untuk kelas yang telah selesai.",
-  },
-  {
-    "id": 6,
-    "question": "Apakah Harsa Memiliki Fitur Pencarian untuk Materi Pelajaran?",
-    "answer":
-        "Jawaban apakah Harsa memiliki fitur pencarian untuk materi pelajaran.",
-  },
-  {
-    "id": 7,
-    "question": "Bagaimana Cara Menghubungi Tim Dukungan Harsa?",
-    "answer": "Jawaban bagaimana cara menghubungi Tim Dukungan Harsa",
-  },
-  {
-    "id": 8,
-    "question": "Bagaimana Cara Mengumpulkan Tugas?",
-    "answer": "Jawaban bagaimana cara mengumpulkan tugas.",
-  },
-];
-
-List<Faq> getFaqList() {
-  return myFaq.map((json) => Faq.fromJson(json)).toList();
-}
+import 'package:harsa_mobile/models/faq_models/faq_models.dart';
+import 'package:harsa_mobile/services/faq_services.dart';
 
 class FaqScreenProvider with ChangeNotifier {
+  final FaqService _faqService = FaqService();
+
   FaqScreenProvider() {
     focusNode.addListener(notifyListeners);
+    fetchData(); // Automatically fetch data when the provider is initialized.
   }
 
-  final List<Faq> data = getFaqList();
+  List<Faqmodel> data = [];
   FocusNode focusNode = FocusNode();
-  List<Faq> filteredData = getFaqList();
+  List<Datum> filteredData = [];
 
   int? _isExpandedId;
   int? get isExpandedId => _isExpandedId;
   String searchQuery = '';
+
+  Future<void> fetchData() async {
+    final faqData =
+        await _faqService.getAll(1); // Adjust the moduleId as needed
+    if (faqData != null) {
+      data = [faqData];
+      filteredData = faqData.data;
+      notifyListeners();
+    }
+  }
 
   bool togglePanelExpansion(int panelId) {
     bool isExpanded;
@@ -81,9 +44,11 @@ class FaqScreenProvider with ChangeNotifier {
   void searchFaq(String query) {
     searchQuery = query;
     if (query.isEmpty) {
-      filteredData = data;
+      filteredData =
+          data.map((faqModel) => faqModel.data).expand((i) => i).toList();
     } else {
-      filteredData = data.where((faq) {
+      filteredData =
+          data.map((faqModel) => faqModel.data).expand((i) => i).where((faq) {
         return faq.question.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }
