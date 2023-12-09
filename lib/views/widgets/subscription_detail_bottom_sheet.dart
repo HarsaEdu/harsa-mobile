@@ -22,8 +22,10 @@ class CustomBottomSheetDialog {
 class CustomBottomSheetContent extends StatelessWidget {
   final Datum subscription;
 
-  const CustomBottomSheetContent({Key? key, required this.subscription})
-      : super(key: key);
+  const CustomBottomSheetContent({
+    Key? key,
+    required this.subscription,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class CustomBottomSheetContent extends StatelessWidget {
               ),
             ),
             Text(
-              subscription.title,
+              '${subscription.duration} Hari',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -94,7 +96,7 @@ class CustomBottomSheetContent extends StatelessWidget {
               ),
             ),
             Text(
-              'Rp.${subscription.price}',
+              'Rp ${subscription.price}',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -104,7 +106,11 @@ class CustomBottomSheetContent extends StatelessWidget {
             const SizedBox(height: 18),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/detailsubscription');
+                Navigator.pushNamed(
+                  context,
+                  '/detailsubscription',
+                  arguments: subscription,
+                );
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 4),

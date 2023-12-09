@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
@@ -141,7 +142,7 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // initialRoute: '/', // Atur rute halaman disini
-        home: const SubscriptionPlanList(),
+        home: const SplashScreen(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
@@ -273,8 +274,10 @@ class MainApp extends StatelessWidget {
                 builder: (context) => const SubscriptionPlanList(),
               );
             case '/detailsubscription':
+              final subscription = settings.arguments as Datum;
               return MaterialPageRoute(
-                builder: (context) => const DetailSubscription(),
+                builder: (context) =>
+                    DetailSubscription(subscription: subscription),
               );
             case '/payment':
               return MaterialPageRoute(
