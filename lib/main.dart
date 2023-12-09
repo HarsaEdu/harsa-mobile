@@ -141,7 +141,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        // initialRoute: '/', // Atur rute halaman disini
+        // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':

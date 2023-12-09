@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
-import 'package:harsa_mobile/models/quizz_models/modul_quizz_model.dart';
 import 'package:harsa_mobile/models/quizz_models/quizz_model.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:harsa_mobile/utils/constants/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizzServices {
   final Dio _dio = Dio();
@@ -13,69 +14,58 @@ class QuizzServices {
     'Accept': 'application/json',
   };
 
-  String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJlbWFpbCI6InRlc3RzdHVkZW50QGdtYWlsLmNvbSIsImV4cCI6MTcwMTg3MjA2NiwiaWQiOjIsInJvbGVfbmFtZSI6InN0dWRlbnQiLCJ1c2VybmFtZSI6InRlc3RzdHVkZW50In0.m_YZIjlzdL-NlZqIqm7TI1lZ50uqkfVMsZkD4Aeiq_M';
+  String? token;
 
-  Future<QuizzData?> getAll(int moduleId) async {
-    try {
-      _dio.options.headers['Authorization'] = "Bearer $token";
-      Response response = await _dio.get(
-        '${Urls.baseUrl}${Urls.platformUrl}/courses/module/$moduleId/quizzes?limit=10&offset=0',
-        options: Options(headers: head),
-      );
-
-      if (response.statusCode == 200) {
-        return QuizzData.fromJson(response.data['data']);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+  void setToken() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    token = sp.getString(SPKey.accessToken);
   }
 
-  Future<ModulQuizzData?> getQuizzById(int quizId) async {
-    try {
-      _dio.options.headers['Authorization'] = "Bearer $token";
-      Response response = await _dio.get(
-        '${Urls.baseUrl}${Urls.platformUrl}/courses/module/quizzes/$quizId',
-        options: Options(headers: head),
-      );
-      print(response.data);
-
-      if (response.statusCode == 200) {
-        return ModulQuizzData.fromJson(response.data['data']);
-      } else {
-        return null;
-      }
-    } on DioException catch (e) {
-      print(e.message);
-      rethrow;
-    }
-  }
-
-  Future<bool> postQuizzAnswer(String id, List<Map<String, dynamic>> answer) async {
-    try {
-      _dio.options.headers['Authorization'] = "Bearer $token";
-
-      Response response = await _dio.post(
-          '${Urls.baseUrl}${Urls.platformUrl}/courses/module/quizzes/$id/answering',
+  Future<QuizzData?> getQuizzById(
+      {required int moduleId, required int quizId}) async {
+    setToken();
+    if (token != null) {
+      try {
+        _dio.options.headers['Authorization'] = "Bearer $token";
+        Response response = await _dio.get(
+          '${Urls.baseUrl}${Urls.platformUrl}/users/courses/module/$moduleId/quizz/$quizId',
           options: Options(headers: head),
-          data: answer);
+        );
+        print(response.data);
 
-      if (response.statusCode == 201) {
-        return true;
+        if (response.statusCode == 200) {
+          return QuizzData.fromJson(response.data['data']);
+        } else {
+          return null;
+        }
+      } on DioException catch (e) {
+        print(e.message);
+        rethrow;
       }
-    } on DioException catch (e) {
-      print(e.message);
-      rethrow;
+    }
+    return null;
+  }
+
+  Future<bool> postQuizzAnswer(
+      {required String quizzId,
+      required List<Map<String, dynamic>> answer}) async {
+    if (token != null) {
+      try {
+        _dio.options.headers['Authorization'] = "Bearer $token";
+
+        Response response = await _dio.post(
+            '${Urls.baseUrl}${Urls.platformUrl}/courses/module/quizzes/$quizzId/answering',
+            options: Options(headers: head),
+            data: answer);
+
+        if (response.statusCode == 201) {
+          return true;
+        }
+      } on DioException catch (e) {
+        print(e.message);
+        rethrow;
+      }
     }
     return false;
   }
-}
-
-void main() async {
-  // print(await QuizzServices().getQuizzById(8));
-  print(await QuizzServices().getAll(1));
 }
