@@ -1,1 +1,1 @@
-enum AIChatBotScreen { topic, suggestion, chat }
+enum AIChatBotScreen { topic, chat }
