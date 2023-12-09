@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
@@ -27,6 +28,7 @@ import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
+import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
@@ -268,9 +270,15 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const RecommendationScreen(),
               );
-            case '/detailsubscription':
+            case '/subscriptionlist':
               return MaterialPageRoute(
-                builder: (context) => const DetailSubscription(),
+                builder: (context) => const SubscriptionPlanList(),
+              );
+            case '/detailsubscription':
+              final subscription = settings.arguments as Datum;
+              return MaterialPageRoute(
+                builder: (context) =>
+                    DetailSubscription(subscription: subscription),
               );
             case '/payment':
               return MaterialPageRoute(
