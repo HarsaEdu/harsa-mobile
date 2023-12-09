@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/aichatbot_screen_constants.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +15,7 @@ class AIChatbotScreen extends StatefulWidget {
 class _AIChatbotScreenState extends State<AIChatbotScreen> {
   @override
   void initState() {
-    final provider = Provider.of<AIChatbotProvider>(context, listen: false);
-    provider.topicController = TextEditingController();
-    provider.chatController = TextEditingController();
-    provider.topicFormKey = GlobalKey();
-    provider.chatFormKey = GlobalKey();
+    Provider.of<AIChatbotProvider>(context, listen: false);
 
     super.initState();
   }
@@ -50,6 +47,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
         scrolledUnderElevation:
             0, // disable appbar background color changes on scroll
       ),
+      // LIST OF CREATED THREADS
       endDrawer: Drawer(
         backgroundColor: Colors.white,
         width: screenWidth,
@@ -58,13 +56,15 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
             padding: const EdgeInsets.all(16),
             child: ListView(
               children: <Widget>[
+                // HEADER
                 Row(
                   children: <Widget>[
+                    // BUAT CHAT BARU BUTTON
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
                           Provider.of<AIChatbotProvider>(context, listen: false)
-                              .closeDrawer(context);
+                              .buatChatBaru(context);
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -94,6 +94,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                       ),
                     ),
                     const SizedBox(width: 18),
+                    // CLOSE BUTTON
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
@@ -112,18 +113,24 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                     ),
                   ],
                 ),
+                // LIST OF THREADS BODY
                 Consumer<AIChatbotProvider>(builder: (context, state, _) {
                   return Column(
                     children: <Widget>[
-                      for (String topic in state.topics)
+                      for (var thread in state.userThreadsModel!.data!)
+                        // THREAD LIST ITEM
                         Column(
                           children: <Widget>[
                             const SizedBox(height: 8),
                             GestureDetector(
-                              onTap: topic == state.activeTopic
+                              onTap: thread.id == state.activeThreadId
                                   ? null
                                   : () {
-                                      state.tapTopic(context, topic);
+                                      state.tapTopic(
+                                        context: context,
+                                        topic: thread.topic,
+                                        threadId: thread.id,
+                                      );
                                     },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -131,7 +138,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                                   horizontal: 16,
                                 ),
                                 decoration: BoxDecoration(
-                                    color: topic == state.activeTopic
+                                    color: thread.id == state.activeThreadId
                                         ? const Color(0xFF092C4C)
                                         : Colors.transparent,
                                     border: Border.all(
@@ -140,59 +147,120 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Row(
                                   children: <Widget>[
+                                    // CHAT ICON
                                     Icon(
                                       Icons.chat,
-                                      color: topic == state.activeTopic
+                                      color: thread.id == state.activeThreadId
                                           ? Colors.white
                                           : Colors.black,
                                     ),
                                     const SizedBox(width: 24),
+                                    // THREAD TITLE / THREAD RENAME INPUT FIELD
                                     Expanded(
-                                      child: Text(
-                                        topic,
-                                        style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          color: topic == state.activeTopic
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
+                                      child: state.isRenaming == thread.id
+                                          ? Form(
+                                              key: state.renameFormKey,
+                                              child: TextFormField(
+                                                controller:
+                                                    state.renameController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  isDense: true,
+                                                  border: InputBorder.none,
+                                                  contentPadding:
+                                                      EdgeInsets.zero,
+                                                  errorStyle: TextStyle(
+                                                    fontSize: 0,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                                focusNode: state.renameNode,
+                                                cursorColor: Colors.white,
+                                                cursorWidth: 2,
+                                                validator: (value) =>
+                                                    state.validateRename(value),
+                                              ),
+                                            )
+                                          : Text(
+                                              thread.topic,
+                                              style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: thread.id ==
+                                                        state.activeThreadId
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
                                     ),
                                     const SizedBox(width: 10),
-                                    topic == state.activeTopic
+                                    // THREAD RENAME / DELETE / CONFIRM RENAME BUTTON
+                                    thread.id == state.activeThreadId
                                         ? Row(
                                             children: <Widget>[
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                      content: Text("edit"),
+                                              state.isRenaming ==
+                                                      state.activeThreadId
+                                                  // CONFIRM RENAME BUTTON
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2),
+                                                      child: GestureDetector(
+                                                        onTap: () =>
+                                                            state.submitRename(
+                                                          threadTitle:
+                                                              thread.topic,
+                                                          threadId: state
+                                                              .activeThreadId,
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.check,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  // RENAME BUTTON
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        state.renameThread(
+                                                          threadTitle:
+                                                              thread.topic,
+                                                          threadId: thread.id,
+                                                        );
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/outline/square_and_pencil.svg',
+                                                        colorFilter:
+                                                            const ColorFilter
+                                                                .mode(
+                                                          Colors.white,
+                                                          BlendMode.srcIn,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  );
-                                                },
-                                                child: SvgPicture.asset(
-                                                  'assets/icons/outline/square_and_pencil.svg',
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                    Colors.white,
-                                                    BlendMode.srcIn,
-                                                  ),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () =>
-                                                    state.deleteTopic(topic),
-                                                child: SvgPicture.asset(
-                                                  'assets/icons/outline/trash.svg',
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                    Colors.white,
-                                                    BlendMode.srcIn,
-                                                  ),
-                                                ),
-                                              ),
+                                              state.isRenaming ==
+                                                      state.activeThreadId
+                                                  ? const SizedBox()
+                                                  // DELETE THREAD BUTTON
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        state.deleteThread(
+                                                          threadId: state
+                                                              .activeThreadId,
+                                                        );
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/outline/trash.svg',
+                                                        colorFilter:
+                                                            const ColorFilter
+                                                                .mode(
+                                                          Colors.white,
+                                                          BlendMode.srcIn,
+                                                        ),
+                                                      ),
+                                                    ),
                                             ],
                                           )
                                         : const SizedBox()
@@ -214,9 +282,11 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
         builder: (context, state, _) {
           return Column(
             children: <Widget>[
+              // CHAT BOX AREA
               Expanded(
                 child: Stack(
                   children: <Widget>[
+                    // CHAT ICON BACKGROUND
                     const Center(
                       child: Icon(
                         Icons.chat,
@@ -224,7 +294,9 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                         size: 200,
                       ),
                     ),
-                    state.screen == AIChatBotScreen.suggestion
+                    // CHAT RECOMMENDATION SCREEN
+                    state.threadChatsModel == null ||
+                            state.threadChatsModel!.data!.isEmpty
                         ? Align(
                             alignment: Alignment.bottomCenter,
                             child: SingleChildScrollView(
@@ -235,7 +307,14 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                                   for (Map<String, String> s
                                       in state.suggestions)
                                     GestureDetector(
-                                      onTap: () => state.tapSuggestion(s),
+                                      onTap: state.chatLoadingState ==
+                                              LoadingState.loading
+                                          ? null
+                                          : () => state.submitSuggestion(
+                                                suggestion:
+                                                    "${s["title"]!} ${s["subtitle"]!}",
+                                                threadId: state.activeThreadId,
+                                              ),
                                       child: Container(
                                         margin: const EdgeInsets.only(top: 8),
                                         padding: const EdgeInsets.symmetric(
@@ -271,88 +350,71 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                               ),
                             ),
                           )
+                        // CHAT ROOM SCREEN
                         : state.screen == AIChatBotScreen.chat
-                            ? ListView.builder(
-                                itemCount: state.userChats.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(18),
-                                        color: const Color(0xFFF6F6F6),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              radius: screenWidth / 20,
-                                              backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      0, 0, 0, .2),
-                                              child: CircleAvatar(
-                                                radius: screenWidth / 20 - 1,
-                                                backgroundImage:
-                                                    const NetworkImage(
-                                                  "https://picsum.photos/80",
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 18),
-                                            Expanded(
-                                              child: Text(
-                                                state.userChats[index],
-                                              ),
-                                            ),
-                                          ],
+                            ? ListView(
+                                children: <Widget>[
+                                  for (var chat
+                                      in state.threadChatsModel!.data!.reversed)
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: chat.role == "user"
+                                            ? const Color(0xFFF6F6F6)
+                                            : Colors.white,
+                                        border: const Border(
+                                          bottom: BorderSide(
+                                            color: Color(0xFFF6F6F6),
+                                          ),
                                         ),
                                       ),
-                                      const Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Color.fromRGBO(0, 0, 0, .2),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 20,
+                                        horizontal: 16,
                                       ),
-                                      Container(
-                                        padding: const EdgeInsets.all(18),
-                                        color: Colors.white,
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              radius: screenWidth / 20,
-                                              backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      0, 0, 0, .2),
-                                              child: CircleAvatar(
-                                                radius: screenWidth / 20 - 1,
-                                                backgroundImage:
-                                                    const AssetImage(
-                                                  'assets/images/Logo_Harsa.png',
-                                                ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            radius: screenWidth / 20,
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                    0, 0, 0, .2),
+                                            child: CircleAvatar(
+                                              radius: screenWidth / 20 - 1,
+                                              backgroundImage:
+                                                  chat.role == "user"
+                                                      // USER PROFILE PICTURE
+                                                      ? const NetworkImage(
+                                                          "https://picsum.photos/80",
+                                                        )
+                                                      // HARSA PROFILE PICTURE
+                                                      : const AssetImage(
+                                                          'assets/images/Logo_Harsa.png',
+                                                        ) as ImageProvider,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 18),
+                                          Expanded(
+                                            child: Text(
+                                              chat.message,
+                                              style: TextStyle(
+                                                color: chat.role == "user"
+                                                    ? const Color(0xFF222222)
+                                                    : Colors.black,
                                               ),
                                             ),
-                                            const SizedBox(width: 18),
-                                            Expanded(
-                                              child: Text(
-                                                state.aiResponses[index],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        color: Color.fromRGBO(0, 0, 0, .2),
-                                      )
-                                    ],
-                                  );
-                                },
+                                    ),
+                                ],
                               )
                             : const SizedBox(),
                   ],
                 ),
               ),
+              // CHAT INPUT FIELDS AREA
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -368,6 +430,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                 ),
                 padding: const EdgeInsets.all(18),
                 child: state.screen == AIChatBotScreen.topic
+                    // TOPIC INPUT FORM FIELD
                     ? Form(
                         key: state.topicFormKey,
                         child: Column(
@@ -437,6 +500,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                           ],
                         ),
                       )
+                    // CHAT INPUT FORM FIELD
                     : Form(
                         key: state.chatFormKey,
                         child: Stack(
@@ -481,7 +545,11 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: ElevatedButton(
-                                onPressed: state.submitChat,
+                                onPressed: state.chatLoadingState ==
+                                        LoadingState.loading
+                                    ? null
+                                    : () =>
+                                        state.submitChat(state.activeThreadId),
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(0),
@@ -496,6 +564,7 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                         ),
                       ),
               ),
+              // AI REMINDER AREA
               Container(
                 color: state.screen == AIChatBotScreen.topic
                     ? Colors.transparent
