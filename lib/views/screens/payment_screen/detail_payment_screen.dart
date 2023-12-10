@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class DetailPaymentScreen extends StatelessWidget {
   final String paymentName;
   final String accountType;
+  final String? accountNumber;
   final String totalAmount;
   final String imagePath;
 
@@ -15,6 +16,7 @@ class DetailPaymentScreen extends StatelessWidget {
     super.key,
     required this.paymentName,
     required this.accountType,
+    this.accountNumber,
     required this.totalAmount,
     required this.imagePath,
   });

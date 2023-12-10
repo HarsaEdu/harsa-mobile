@@ -22,7 +22,7 @@ class DaftarPaymentCard extends StatelessWidget {
                       builder: (context) => DetailPaymentScreen(
                         paymentName: creditCard.name,
                         accountType: creditCard.accountType,
-
+                        accountNumber: creditCard.accountNumber,
                         totalAmount: 'Rp35.000',
                         imagePath: creditCard.imagePath,
                       ),

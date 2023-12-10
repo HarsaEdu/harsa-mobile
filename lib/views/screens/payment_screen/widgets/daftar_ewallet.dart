@@ -22,7 +22,7 @@ class DaftarEWallet extends StatelessWidget {
                       builder: (context) => DetailPaymentScreen(
                         paymentName: ewallet.name,
                         accountType: ewallet.accountType,
-
+                        accountNumber: ewallet.accountNumber,
                         totalAmount: 'Rp35.000',
                         imagePath: ewallet.imagePath,
                       ),

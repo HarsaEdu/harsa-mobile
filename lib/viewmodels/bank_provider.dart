@@ -4,32 +4,32 @@ import '../models/bank.dart';
 class BankProvider with ChangeNotifier {
   final List<Bank> _bankData = [
     Bank(
-        name: 'BCA',
+        name: 'bca',
         accountType: 'BCA Virtual Account',
         accountNumber: '880123456789',
         imagePath: 'assets/images/bca_logo.png'),
     Bank(
-        name: 'Mandiri',
+        name: 'mandiri',
         accountType: 'Mandiri Virtual Account',
         accountNumber: '881234567890',
         imagePath: 'assets/images/mandiri_logo.png'),
     Bank(
-        name: 'BRI',
+        name: 'bri',
         accountType: 'BRI Virtual Account',
         accountNumber: '882345678901',
         imagePath: 'assets/images/bri_logo.png'),
     Bank(
-        name: 'BNI',
+        name: 'bni',
         accountType: 'BNI Virtual Account',
         accountNumber: '882345678901',
         imagePath: 'assets/images/bni_logo.png'),
     Bank(
-        name: 'CIMB Niaga',
+        name: 'cimb',
         accountType: 'CIMB Virtual Account',
         accountNumber: '882345678901',
         imagePath: 'assets/images/cimb_niaga_logo.png'),
     Bank(
-        name: 'BTN',
+        name: 'btn',
         accountType: 'BTN Virtual Account',
         accountNumber: '882345678901',
         imagePath: 'assets/images/btn_logo.png'),

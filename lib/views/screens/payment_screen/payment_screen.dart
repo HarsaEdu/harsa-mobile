@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/detail_payment_screen.dart';
 import 'package:provider/provider.dart';
@@ -214,26 +215,32 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       final selectedBank =
                           Provider.of<BankProvider>(context, listen: false)
                               .selectedBank;
+                      final paymentProvider =
+                          Provider.of<PaymentProvider>(context, listen: false);
                       if (selectedBank != null) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetailPaymentScreen(
-                              paymentName: selectedBank.name,
-                              accountType: selectedBank.accountType,
-                              totalAmount: 'Rp$price',
-                              imagePath: selectedBank.imagePath,
-                            ),
-                          ),
-                        );
+                        await paymentProvider
+                            .getPaymentData(1, selectedBank.name)
+                            .then(
+                              (value) => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPaymentScreen(
+                                    paymentName: selectedBank.name,
+                                    accountType: selectedBank.accountType,
+                                    totalAmount: 'Rp$price',
+                                    imagePath: selectedBank.imagePath,
+                                  ),
+                                ),
+                              ),
+                            );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content:
-                                Text("Pilih metode pembayaran terlebih dahulu"),
+                                Text("Pilih metode pembayaran terlebih dahulu!"),
                           ),
                         );
                       }
