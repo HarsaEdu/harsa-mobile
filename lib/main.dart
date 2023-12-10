@@ -146,7 +146,6 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const SubscriptionPlanList(),
         // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
