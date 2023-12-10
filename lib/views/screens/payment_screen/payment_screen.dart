@@ -224,7 +224,6 @@ class PaymentScreen extends StatelessWidget {
                             builder: (context) => DetailPaymentScreen(
                               paymentName: selectedBank.name,
                               accountType: selectedBank.accountType,
-                              accountNumber: selectedBank.accountNumber,
                               totalAmount: 'Rp$price',
                               imagePath: selectedBank.imagePath,
                             ),

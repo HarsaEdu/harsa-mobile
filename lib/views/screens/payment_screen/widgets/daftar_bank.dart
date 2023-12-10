@@ -22,7 +22,7 @@ class DaftarBank extends StatelessWidget {
                       builder: (context) => DetailPaymentScreen(
                         paymentName: bank.name,
                         accountType: bank.accountType,
-                        accountNumber: bank.accountNumber,
+
                         totalAmount: 'Rp35.000',
                         imagePath: bank.imagePath,
                       ),

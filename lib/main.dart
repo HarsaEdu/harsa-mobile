@@ -12,6 +12,7 @@ import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
@@ -112,6 +113,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
         ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
