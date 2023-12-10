@@ -216,31 +216,36 @@ class PaymentScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      final selectedBank =
-                          Provider.of<BankProvider>(context, listen: false)
-                              .selectedBank;
+                      final bankProvider =
+                          Provider.of<BankProvider>(context, listen: false);
                       final paymentProvider =
                           Provider.of<PaymentProvider>(context, listen: false);
+
+                      final selectedBank = bankProvider.selectedBank;
+
                       if (selectedBank != null) {
+                        debugPrint('=> ${selectedBank.name.toString()}');
                         await paymentProvider
                             .getPaymentData(1, selectedBank.name)
-                            .then(
-                              (value) => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => DetailPaymentScreen(
-                                    paymentName: selectedBank.name,
-                                    accountType: selectedBank.accountType,
-                                    totalAmount: 'Rp$price',
-                                    imagePath: selectedBank.imagePath,
+                            .then((_) => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPaymentScreen(
+                                      paymentName: selectedBank.name,
+                                      accountType: selectedBank.accountType,
+                                      accountNumber: selectedBank.accountNumber,
+                                      totalAmount: 'Rp$price',
+                                      imagePath: selectedBank.imagePath,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
+                                ))
+                            .catchError((error) {
+                          debugPrint('=> DetailPaymentScreen : $error');
+                        });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Pilih metode pembayaran terlebih dahulu!"),
+                            content: Text(
+                                "Pilih metode pembayaran terlebih dahulu!"),
                           ),
                         );
                       }

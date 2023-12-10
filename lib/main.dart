@@ -48,6 +48,7 @@ import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart'
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -69,8 +70,9 @@ import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id', null);
   runApp(const MainApp());
 }
 

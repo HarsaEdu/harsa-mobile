@@ -9,14 +9,19 @@ class PaymentProvider with ChangeNotifier {
 
   Future<void> getPaymentData(int planId, String bankName) async {
     try {
-      final Payment? newPayment = await PaymentService.createPayment(planId, bankName);
+      final Payment? payment =
+          await PaymentService().createPayment(planId, bankName);
 
-      if (newPayment != null) {
-        _payment = newPayment;
+      if (payment != null) {
+        _payment = payment;
         notifyListeners();
+      } else {
+        debugPrint('New payment data is null');
       }
-    } catch (e) {
-      throw Exception('Error: $e');
+    } catch (e, stackTrace) {
+      debugPrint('Error in getPaymentData: $e');
+      debugPrint('Stack trace: $stackTrace');
+      throw Exception('Error in getPaymentData: $e');
     }
   }
 }

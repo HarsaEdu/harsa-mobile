@@ -4,11 +4,12 @@ import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/status_payment_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class DetailPaymentScreen extends StatelessWidget {
   final String paymentName;
   final String accountType;
-  final String? accountNumber;
+  final String accountNumber;
   final String totalAmount;
   final String imagePath;
 
@@ -16,13 +17,15 @@ class DetailPaymentScreen extends StatelessWidget {
     super.key,
     required this.paymentName,
     required this.accountType,
-    this.accountNumber,
+    required this.accountNumber,
     required this.totalAmount,
     required this.imagePath,
   });
 
   @override
   Widget build(BuildContext context) {
+    final paymentProvider =
+        Provider.of<PaymentProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
@@ -84,7 +87,9 @@ class DetailPaymentScreen extends StatelessWidget {
                                       .copyWith(color: ColorsPallete.grey),
                                 ),
                                 Text(
-                                  'Minggu, 19 Nov 2023 18.00',
+                                  DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
+                                      .format(DateTime.parse(
+                                          paymentProvider.payment!.expiredAt)),
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -123,7 +128,7 @@ class DetailPaymentScreen extends StatelessWidget {
                             accountType,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text(prov.payment!.vaNumber),
+                          subtitle: Text(paymentProvider.payment!.vaNumber),
                         ),
                         const Divider(),
                         const SizedBox(height: 24),
@@ -132,7 +137,7 @@ class DetailPaymentScreen extends StatelessWidget {
                           style: TextStyle(color: ColorsPallete.grey),
                         ),
                         Text(
-                          prov.payment!.vaNumber,
+                          paymentProvider.payment!.vaNumber,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
