@@ -27,7 +27,6 @@ import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_scre
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
-import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
 import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
@@ -143,6 +142,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
+        home: const SubscriptionPlanList(),
         // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -280,10 +280,10 @@ class MainApp extends StatelessWidget {
                 builder: (context) =>
                     DetailSubscription(subscription: subscription),
               );
-            case '/payment':
-              return MaterialPageRoute(
-                builder: (context) => const PaymentScreen(),
-              );
+            // case '/payment':
+            //   return MaterialPageRoute(
+            //     builder: (context) =>  PaymentScreen(),
+            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),

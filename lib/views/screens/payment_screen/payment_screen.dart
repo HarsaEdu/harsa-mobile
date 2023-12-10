@@ -6,14 +6,16 @@ import 'package:provider/provider.dart';
 import '../../../viewmodels/bank_provider.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key});
-
+  final int price;
+  const PaymentScreen({super.key, required this.price});
+  final int pajak = 2000;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
         backgroundColor: ColorsPallete.whiteGrey,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             GestureDetector(
@@ -139,7 +141,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Subtotal Tagihan'),
                       Text(
-                        'Rp33.000',
+                        'Rp${price - pajak}',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -153,7 +155,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Pajak'),
                       Text(
-                        'Rp2.000',
+                        'Rp$pajak',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -167,7 +169,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Total Tagihan'),
                       Text(
-                        'Rp35.000',
+                        'Rp$price',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -196,12 +198,12 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Total Tagihan'),
                       Text(
-                        'Rp35.000',
+                        'Rp$price',
                         style: Theme.of(context)
                             .textTheme
-                            .titleMedium!
+                            .titleSmall!
                             .copyWith(fontWeight: FontWeight.bold),
-                      )
+                      ),
                     ],
                   ),
                   ElevatedButton(
@@ -223,7 +225,7 @@ class PaymentScreen extends StatelessWidget {
                               paymentName: selectedBank.name,
                               accountType: selectedBank.accountType,
                               accountNumber: selectedBank.accountNumber,
-                              totalAmount: 'Rp35.000',
+                              totalAmount: 'Rp$price',
                               imagePath: selectedBank.imagePath,
                             ),
                           ),
