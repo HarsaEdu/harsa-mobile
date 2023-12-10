@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
@@ -6,7 +7,7 @@ import 'package:harsa_mobile/views/screens/payment_screen/status_payment_screen.
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class DetailPaymentScreen extends StatelessWidget {
+class DetailPaymentScreen extends StatefulWidget {
   final String paymentName;
   final String accountType;
   final String accountNumber;
@@ -23,9 +24,48 @@ class DetailPaymentScreen extends StatelessWidget {
   });
 
   @override
+  State<DetailPaymentScreen> createState() => _DetailPaymentScreenState();
+}
+
+class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
+  Timer? _timer;
+  Duration _timeLeft = const Duration();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startTimer());
+  }
+
+  void _startTimer() {
+    final controller = Provider.of<PaymentProvider>(context, listen: false);
+    if (controller.payment != null) {
+      DateTime expiredAt = DateTime.parse(controller.payment!.expiredAt);
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        final now = DateTime.now();
+        setState(() {
+          _timeLeft = expiredAt.difference(now);
+          if (_timeLeft.isNegative) {
+            _timer?.cancel();
+            _timeLeft = Duration.zero;
+          }
+        });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final paymentProvider =
-        Provider.of<PaymentProvider>(context, listen: false);
+    final hours = _timeLeft.inHours.toString().padLeft(2, '0');
+    final minutes = (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
+    final timeString = '$hours : $minutes : $seconds';
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
@@ -89,7 +129,7 @@ class DetailPaymentScreen extends StatelessWidget {
                                 Text(
                                   DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
                                       .format(DateTime.parse(
-                                          paymentProvider.payment!.expiredAt)),
+                                          prov.payment!.expiredAt)),
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -110,7 +150,7 @@ class DetailPaymentScreen extends StatelessWidget {
                                         ColorsPallete.white, BlendMode.srcIn),
                                   ),
                                   Text(
-                                    '23 : 58 : 48',
+                                    timeString,
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelMedium!
@@ -123,12 +163,12 @@ class DetailPaymentScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         ListTile(
-                          leading: Image.asset(imagePath),
+                          leading: Image.asset(widget.imagePath),
                           title: Text(
-                            accountType,
+                            widget.accountType,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text(paymentProvider.payment!.vaNumber),
+                          subtitle: Text(prov.payment!.vaNumber),
                         ),
                         const Divider(),
                         const SizedBox(height: 24),
@@ -137,7 +177,7 @@ class DetailPaymentScreen extends StatelessWidget {
                           style: TextStyle(color: ColorsPallete.grey),
                         ),
                         Text(
-                          paymentProvider.payment!.vaNumber,
+                          prov.payment!.vaNumber,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
@@ -151,7 +191,7 @@ class DetailPaymentScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 16.0),
                         ),
                         Text(
-                          totalAmount,
+                          widget.totalAmount,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
@@ -176,7 +216,10 @@ class DetailPaymentScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed('/subscriptionlist');
+                          },
                           child: const Text('Beli Paket Lagi'),
                         ),
                       ),
@@ -193,12 +236,12 @@ class DetailPaymentScreen extends StatelessWidget {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => StatusPaymentScreen(
-                                  paymentName: paymentName,
-                                  accountType: accountType,
+                                  paymentName: widget.paymentName,
+                                  accountType: widget.accountType,
                                   accountNumber: prov.payment!.vaNumber,
-                                  totalAmount: totalAmount,
-                                  imagePath: imagePath,
-                                  paymentStatus: 'Pembayaran Berhasil',
+                                  totalAmount: widget.totalAmount,
+                                  imagePath: widget.imagePath,
+                                  paymentStatus: prov.payment!.status,
                                 ),
                               ),
                             );

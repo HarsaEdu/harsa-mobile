@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 import '../../../viewmodels/bank_provider.dart';
 
 class PaymentScreen extends StatelessWidget {
+  final int id;
   final int price;
-  const PaymentScreen({super.key, required this.price});
+  const PaymentScreen({super.key, required this.id, required this.price});
   final int pajak = 2000;
   @override
   Widget build(BuildContext context) {
@@ -226,7 +227,7 @@ class PaymentScreen extends StatelessWidget {
                       if (selectedBank != null) {
                         debugPrint('=> ${selectedBank.name.toString()}');
                         await paymentProvider
-                            .getPaymentData(1, selectedBank.name)
+                            .getPaymentData(id, selectedBank.name)
                             .then((_) => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => DetailPaymentScreen(

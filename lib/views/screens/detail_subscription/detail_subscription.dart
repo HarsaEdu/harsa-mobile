@@ -258,7 +258,7 @@ class DetailSubscription extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              PaymentScreen(price: subscription.price),
+                              PaymentScreen(id: subscription.id, price: subscription.price),
                         ),
                       );
                     },
