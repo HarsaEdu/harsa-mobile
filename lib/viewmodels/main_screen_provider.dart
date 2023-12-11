@@ -11,6 +11,8 @@ import '/views/screens/notification_screen/notification_screen.dart';
 class MainScreenProvider extends ChangeNotifier {
   bool isLogged = false;
 
+  bool canPop = false;
+
   List<Widget> pageList = [
     const HomeScreen(),
     const LoginReminderScreen(),
@@ -26,9 +28,20 @@ class MainScreenProvider extends ChangeNotifier {
   }
 
   void bottomNaBar(int index) {
+    canPop = false;
     pageIndex = index;
     debugPrint(pageIndex.toString());
 
+    notifyListeners();
+  }
+
+  void onBack(bool didPop) {
+    if (pageIndex != 0) {
+      pageIndex = 0;
+      canPop = true;
+    } else {
+      canPop = true;
+    }
     notifyListeners();
   }
 
