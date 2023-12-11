@@ -129,15 +129,6 @@ class MainApp extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
           ),
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: const EdgeInsets.all(0),
-              textStyle: GoogleFonts.poppins(fontSize: 12),
-              foregroundColor: const Color(0xFF2A2D34),
-            ),
-          ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.black,
@@ -146,10 +137,11 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
+        initialRoute: '/splash',
         // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/':
+            case '/splash':
               return MaterialPageRoute(
                 builder: (context) => const SplashScreen(),
               );

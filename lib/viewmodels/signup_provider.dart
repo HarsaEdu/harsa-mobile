@@ -82,7 +82,8 @@ class SignupProvider with ChangeNotifier {
         preferences.setString(SPKey.refreshToken, result.data.refreshToken);
 
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, '/signupdata');
+          Navigator.pushReplacementNamed(context, "/main");
+          Navigator.pushNamed(context, "/signupdata");
         }
       } else {
         signupLoadingState = LoadingState.failed;
