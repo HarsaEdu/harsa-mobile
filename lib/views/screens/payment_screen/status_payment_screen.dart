@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../viewmodels/payment_provider.dart';
 import 'widgets/payment_dialog.dart';
 
 class StatusPaymentScreen extends StatefulWidget {
@@ -26,12 +31,15 @@ class StatusPaymentScreen extends StatefulWidget {
 }
 
 class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
+  final int pajak = 2000;
+  Timer? _timer;
+  Duration _timeLeft = const Duration();
   @override
   void initState() {
     super.initState();
-    if (widget.paymentStatus == 'Pembayaran Berhasil') {
+    if (widget.paymentStatus == 'success'.toLowerCase()) {
       Future.delayed(
-        const Duration(seconds: 2),
+        const Duration(seconds: 1),
         () {
           if (mounted) {
             Navigator.of(context).pushReplacement(
@@ -45,9 +53,9 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
           }
         },
       );
-    } else if (widget.paymentStatus == 'Pembayaran Gagal') {
+    } else if (widget.paymentStatus == 'gagal'.toLowerCase()) {
       Future.delayed(
-        const Duration(seconds: 2),
+        const Duration(seconds: 1),
         () {
           if (mounted) {
             Navigator.of(context).pushReplacement(
@@ -62,10 +70,38 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
         },
       );
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startTimer());
+  }
+
+  void _startTimer() {
+    final controller = Provider.of<PaymentProvider>(context, listen: false);
+    if (controller.payment != null) {
+      DateTime expiredAt = DateTime.parse(controller.payment!.expiredAt);
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        final now = DateTime.now();
+        setState(() {
+          _timeLeft = expiredAt.difference(now);
+          if (_timeLeft.isNegative) {
+            _timer?.cancel();
+            _timeLeft = Duration.zero;
+          }
+        });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final hours = _timeLeft.inHours.toString().padLeft(2, '0');
+    final minutes = (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
+    final timeString = '$hours : $minutes : $seconds';
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
@@ -89,205 +125,219 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: ColorsPallete.white,
-                border: Border.all(color: ColorsPallete.grey, width: 0.5),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+        child: Consumer<PaymentProvider>(
+          builder: (context, prov, _) => Column(
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  color: ColorsPallete.white,
+                  border: Border.all(color: ColorsPallete.grey, width: 0.5),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.paymentStatus,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: widget.paymentStatus == 'Pembayaran Berhasil'
-                              ? Colors.green
-                              : widget.paymentStatus == 'Menunggu Pembayaran'
-                                  ? Colors.black
-                                  : widget.paymentStatus == 'Pembayaran Gagal'
-                                      ? Colors.red
-                                      : Colors.black // Warna default
-                          ),
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset('assets/images/icon_harsa.png'),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Paket Reguler',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '19 Nov 2023',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: ColorsPallete.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible:
-                              !(widget.paymentStatus == 'Pembayaran Berhasil' ||
-                                  widget.paymentStatus == 'Pembayaran Gagal'),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Bayar Sebelum',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: ColorsPallete.grey),
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/filled/clock_fill.svg',
-                                    colorFilter: const ColorFilter.mode(
-                                        ColorsPallete.sandyBrown,
-                                        BlendMode.srcIn),
-                                  ),
-                                  Text(
-                                    '23 : 58 : 48',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(
-                                            color: ColorsPallete.sandyBrown),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 16),
-                    ListTile(
-                      leading: Image.asset(widget.imagePath),
-                      title: Text(
-                        widget.accountType,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.paymentStatus == 'success'
+                            ? 'Pembayaran Berhasil'
+                            : widget.paymentStatus == 'pending'
+                                ? 'Menunggu Pembayaran'
+                                : widget.paymentStatus == 'gagal'
+                                    ? 'Pembayaran Gagal'
+                                    : 'Status Tidak Diketahui',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: widget.paymentStatus == 'success'
+                                    ? Colors.green
+                                    : widget.paymentStatus == 'pending'
+                                        ? Colors.black
+                                        : widget.paymentStatus == 'gagal'
+                                            ? Colors.red
+                                            : Colors.black // Warna default
+                                ),
                       ),
-                      subtitle: Text(widget.accountNumber),
-                    ),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Detail Paket',
-                      style: TextStyle(color: ColorsPallete.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    const Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Jenis Paket'),
-                            Text(
-                              'Paket Regular Bulanan',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset('assets/images/icon_harsa.png'),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Paket Reguler',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
+                                      .format(DateTime.parse(
+                                          prov.payment!.expiredAt)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(color: ColorsPallete.grey),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Atas Nama'),
-                            Text(
-                              'Darma Fauzan W.',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Visibility(
+                            visible: !(widget.paymentStatus == 'success' ||
+                                widget.paymentStatus == 'gagal'),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Bayar Sebelum',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(color: ColorsPallete.grey),
+                                ),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/filled/clock_fill.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                          ColorsPallete.sandyBrown,
+                                          BlendMode.srcIn),
+                                    ),
+                                    Text(
+                                      timeString,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                              color: ColorsPallete.sandyBrown),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 16),
+                      ListTile(
+                        leading: Image.asset(widget.imagePath),
+                        title: Text(
+                          widget.accountType,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Total Tagihan'),
-                            Text(
-                              'Rp33.000',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Detail Pembayaran',
-                      style: TextStyle(color: ColorsPallete.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    Column(
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Subtotal Tagihan'),
-                            Text(
-                              'Rp33.000',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Pajak'),
-                            Text(
-                              'Rp2.000',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Total Tagihan'),
-                            Text(
-                              widget.totalAmount,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                  ],
+                        subtitle: Text(widget.accountNumber),
+                      ),
+                      const Divider(),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Detail Paket',
+                        style: TextStyle(color: ColorsPallete.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      Column(
+                        children: [
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Jenis Paket'),
+                              Text(
+                                'Paket Regular Bulanan',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Atas Nama'),
+                              Text(
+                                prov.payment!.customer.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Total Tagihan'),
+                              Text(
+                                'Rp${prov.payment!.grossAmount}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Detail Pembayaran',
+                        style: TextStyle(color: ColorsPallete.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Subtotal Tagihan'),
+                              Text(
+                                'Rp${double.tryParse(prov.payment!.grossAmount)! - pajak}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Pajak'),
+                              Text(
+                                'Rp$pajak',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Total Tagihan'),
+                              Text(
+                                'Rp${prov.payment!.grossAmount}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
