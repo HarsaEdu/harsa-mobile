@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
+import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
+
 class DetailSubscription extends StatelessWidget {
-  const DetailSubscription({super.key});
+  final Datum subscription;
+
+  const DetailSubscription({
+    Key? key,
+    required this.subscription,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +82,7 @@ class DetailSubscription extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.network(
-                          'https://cdn.elearningindustry.com/wp-content/uploads/2015/10/6-convincing-reasons-take-elearning-course-800x600.jpg',
+                          subscription.image,
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 120,
@@ -90,15 +98,17 @@ class DetailSubscription extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Paket Regular Bulanan',
+                                  subscription.title,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 Text(
-                                  'Rp 33.000',
+                                  'Rp ${subscription.price}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ],
                             ),
@@ -108,12 +118,12 @@ class DetailSubscription extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Deskripsi',
                           style: TextStyle(
                             color: Colors.black,
@@ -121,17 +131,17 @@ class DetailSubscription extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Text(
-                          'Harga terjangkau untuk kantong pelajar dan mahasiswa',
-                          style: TextStyle(
+                          subscription.description,
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 19),
-                        Text(
+                        const SizedBox(height: 19),
+                        const Text(
                           'Durasi',
                           style: TextStyle(
                             color: Colors.black,
@@ -139,17 +149,17 @@ class DetailSubscription extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Text(
-                          '30 hari',
-                          style: TextStyle(
+                          '${subscription.duration} Hari',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 19),
-                        Text(
+                        const SizedBox(height: 19),
+                        const Text(
                           'Harga',
                           style: TextStyle(
                             color: Colors.black,
@@ -157,17 +167,17 @@ class DetailSubscription extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Text(
-                          'Rp.33000',
-                          style: TextStyle(
+                          'Rp ${subscription.price}',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 19),
-                        Text(
+                        const SizedBox(height: 19),
+                        const Text(
                           'Ringkasan Pembayaran',
                           style: TextStyle(
                             color: Colors.black,
@@ -175,11 +185,11 @@ class DetailSubscription extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 7),
+                        const SizedBox(height: 7),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Subtotal Tagihan',
                               style: TextStyle(
                                 color: Colors.black,
@@ -188,8 +198,8 @@ class DetailSubscription extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Rp. 35000',
-                              style: TextStyle(
+                              'Rp ${subscription.price}',
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -219,11 +229,11 @@ class DetailSubscription extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Total Tagihan ',
                         style: TextStyle(
                           color: Colors.black,
@@ -231,20 +241,27 @@ class DetailSubscription extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
-                        'Rp.35000',
-                        style: TextStyle(
+                        'Rp ${subscription.price}',
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                     ],
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentScreen(id: subscription.id, price: subscription.price),
+                        ),
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
+import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
+import 'package:harsa_mobile/services/course_recommendation_services.dart';
+import 'package:harsa_mobile/services/subscription_service.dart';
 
 class HomeScreenProvider extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
@@ -39,7 +43,25 @@ class HomeScreenProvider extends ChangeNotifier {
     },
   ];
 
-  List courseRecomendationList = [];
+  List<Recommendation> courseRecomendationList = [];
 
-  List subscriptionPlanList = [];
+  List<Datum> subscriptionPlanList = [];
+
+  HomeScreenProvider() {
+    getRecommendation();
+    getSubsPlanList();
+  }
+
+  void getRecommendation() async {
+    CourseRecommendation? cr =
+        await CourseRecommendationServices().getRecommendation();
+    courseRecomendationList = cr!.recommendations;
+    notifyListeners();
+  }
+
+  void getSubsPlanList() async {
+    final subsplan = await SubsService().getSubscriptions();
+    subscriptionPlanList = subsplan;
+    notifyListeners();
+  }
 }

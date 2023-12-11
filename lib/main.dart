@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
@@ -9,7 +10,9 @@ import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
@@ -25,7 +28,7 @@ import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_scre
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
-import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
+import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
@@ -45,6 +48,7 @@ import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart'
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -66,8 +70,9 @@ import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id', null);
   runApp(const MainApp());
 }
 
@@ -109,6 +114,8 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BankProvider()),
         ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
+        ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -130,8 +137,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/login', // Atur rute halaman disini
-        // home: const SplashScreen(),
+        initialRoute: '/splash',
+        // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/splash':
@@ -258,14 +265,20 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const RecommendationScreen(),
               );
+            case '/subscriptionlist':
+              return MaterialPageRoute(
+                builder: (context) => const SubscriptionPlanList(),
+              );
             case '/detailsubscription':
+              final subscription = settings.arguments as Datum;
               return MaterialPageRoute(
-                builder: (context) => const DetailSubscription(),
+                builder: (context) =>
+                    DetailSubscription(subscription: subscription),
               );
-            case '/payment':
-              return MaterialPageRoute(
-                builder: (context) => const PaymentScreen(),
-              );
+            // case '/payment':
+            //   return MaterialPageRoute(
+            //     builder: (context) =>  PaymentScreen(),
+            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),

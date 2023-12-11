@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harsa_mobile/models/faq.dart';
+
+import 'package:harsa_mobile/models/faq_models/faq_models.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/faq_screen_provider.dart';
 
 class FaqScreen extends StatelessWidget {
-  const FaqScreen({super.key});
+  // ignore: use_key_in_widget_constructors
+  const FaqScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,8 @@ class FaqScreen extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             itemCount: prov.filteredData.length,
                             itemBuilder: (context, index) {
-                              Faq faq = prov.filteredData[index];
+                              Datum faq =
+                                  prov.filteredData[index]; // Change this line
                               bool isExpanded = prov.isExpandedId == faq.id;
                               return ExpansionTile(
                                 shape: const Border(),
