@@ -195,6 +195,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                           LoadingState.loading
                                       ? null
                                       : () => state.register(context),
+                                  // : () {
+                                  //     Navigator.pushReplacementNamed(
+                                  //         context, "/main");
+                                  //     Navigator.pushNamed(
+                                  //         context, "/signupdata");
+                                  //   },
                                   child: const Text(
                                     "Daftar",
                                     style: TextStyle(color: Colors.black),

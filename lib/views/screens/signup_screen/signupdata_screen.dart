@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +19,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: 30, vertical: screenHeight / 10),
+              EdgeInsets.symmetric(horizontal: 28, vertical: screenHeight / 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -37,20 +36,23 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                   ),
 
                   // title
-                  Text(
+                  const Text(
                     "Isi Data",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
 
                   const SizedBox(width: 10),
                 ],
               ),
 
-              SizedBox(height: screenHeight / 10),
+              SizedBox(height: screenHeight / 20),
 
               // isi data form
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Consumer<SignupDataProvider>(
                   builder: (context, state, _) {
                     return Form(
@@ -61,6 +63,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                           // firstname label
                           const Text(
                             "Nama Depan",
+                            style: TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
                           // firstname field
@@ -72,12 +75,21 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              hintText: "Masukkan nama depan",
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            cursorColor: Colors.black,
+                            validator: (value) =>
+                                state.validateFirstName(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -85,6 +97,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                           // last name label
                           const Text(
                             "Nama Belakang",
+                            style: TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
                           // last name field
@@ -96,12 +109,20 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              hintText: "Masukkan nama belakang",
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            cursorColor: Colors.black,
+                            validator: (value) => state.validateLastName(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -109,23 +130,53 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                           // dob label
                           const Text(
                             "Tanggal Lahir",
+                            style: TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
                           // dob field
-                          TextFormField(
-                            controller: state.dateofbirthController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                          Stack(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: state.dateofbirthController,
+                                keyboardType: TextInputType.datetime,
+                                // enabled: false,
+                                readOnly: true,
+                                // focusNode: ,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal: 16,
+                                  ),
+                                ),
+                                cursorColor: Colors.black,
+                                validator: (value) => state.validateDate(value),
+                                style: const TextStyle(fontSize: 16),
+                                onTap: () {
+                                  state.selectDate(context);
+                                },
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  onPressed: () {
+                                    state.selectDate(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.calendar_month_rounded,
+                                  ),
                                 ),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 12,
-                              ),
-                            ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            ],
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -133,23 +184,33 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                           // phone number label
                           const Text(
                             "Nomor Telepon",
+                            style: TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
                           // phone number field
                           TextFormField(
                             controller: state.phoneController,
+                            keyboardType: TextInputType.phone,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              hintText: "Masukkan nomor telepon",
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
-                                horizontal: 12,
+                                horizontal: 16,
                               ),
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            cursorColor: Colors.black,
+                            validator: (value) => state.validatePhone(value),
+                            style: const TextStyle(fontSize: 16),
                           ),
 
                           SizedBox(height: screenHeight / 40),
@@ -157,33 +218,53 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                           // gender label
                           const Text(
                             "Jenis Kelamin",
+                            style: TextStyle(fontSize: 16),
                           ),
-                          const SizedBox(height: 8),
-                          // gender field
-                          DropdownButtonFormField(
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                          const SizedBox(height: 24),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                value: "m",
+                                groupValue: state.genderValue,
+                                visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity,
+                                ),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onChanged: (value) =>
+                                    state.selectGender(value!),
+                                activeColor: const Color(0xFF105DA3),
+                              ),
+                              const SizedBox(width: 12),
+                              const Text(
+                                "Pria",
+                                style: TextStyle(
+                                  fontSize: 16,
                                 ),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 12,
+                              const SizedBox(width: 20),
+                              Radio(
+                                value: "f",
+                                groupValue: state.genderValue,
+                                visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity,
+                                ),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onChanged: (value) =>
+                                    state.selectGender(value!),
+                                activeColor: const Color(0xFF105DA3),
                               ),
-                            ),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            value: state.genderValue,
-                            onChanged: (String? value) =>
-                                state.selectGender(value!),
-                            items: state.gender
-                                .map<DropdownMenuItem<String>>(
-                                    (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e),
-                                        ))
-                                .toList(),
+                              const SizedBox(width: 12),
+                              const Text(
+                                "Wanita",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
 
                           SizedBox(height: screenHeight / 20),
@@ -193,94 +274,20 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                             children: <Widget>[
                               Expanded(
                                 child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
                                   child: const Text(
                                     "Simpan",
+                                    style: TextStyle(
+                                      color: Color(0xFF222222),
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                   onPressed: () {
-                                    // confirmation dialog
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          alignment: Alignment.center,
-                                          actionsPadding:
-                                              const EdgeInsets.fromLTRB(
-                                                  20, 0, 20, 20),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: const BorderSide(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          title: Text(
-                                            "Simpan data user?",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          content: Text(
-                                            "Konfirmasi simpan data",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          actions: <Widget>[
-                                            // cancel button
-                                            OutlinedButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              style: OutlinedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                "No, cancel",
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-
-                                            // confirm button
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pushReplacementNamed(
-                                                  context,
-                                                  '/signupcategory',
-                                                );
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                backgroundColor:
-                                                    const Color(0xFFF2994A),
-                                                side: const BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Text(
-                                                "Yes, confirm",
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
+                                    state.submitProfileData(context);
                                   },
                                 ),
                               ),
@@ -293,33 +300,34 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                 ),
               ),
 
-              // lewati button
-              // ada di wireframe tapi gaada di hifi
+              SizedBox(height: screenHeight / 30),
 
-              // TextButton(
-              //   onPressed: () => Navigator.pushNamed(
-              //     context,
-              //     '/signupcategory',
-              //   ),
-              //   child: Container(
-              //     padding: const EdgeInsets.only(bottom: 1),
-              //     decoration: const BoxDecoration(
-              //       border: Border(
-              //         bottom: BorderSide(
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //     ),
-              //     child: Text(
-              //       "Lewati",
-              //       style: GoogleFonts.poppins(
-              //         color: Colors.black,
-              //         letterSpacing: 0.35,
-              //         fontSize: 14,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              // lewati button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        '/signupcategory',
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        side: const BorderSide(color: Color(0xFFF2994A)),
+                        foregroundColor: Colors.orange,
+                      ),
+                      child: const Text(
+                        "Lewati",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
