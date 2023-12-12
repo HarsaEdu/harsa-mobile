@@ -64,7 +64,7 @@ class LoginProvider with ChangeNotifier {
         preferences.setString(SPKey.refreshToken, result.data.refreshToken);
 
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, '/main');
+          Navigator.pushReplacementNamed(context, '/profile');
         }
 
         loginLoadingState = LoadingState.success;
