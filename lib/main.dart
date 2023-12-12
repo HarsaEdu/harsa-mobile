@@ -138,7 +138,7 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         initialRoute: '/splash',
-        // SCreen Route Name
+        // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/splash':
