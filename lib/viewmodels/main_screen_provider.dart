@@ -6,6 +6,8 @@ import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/login_reminder_screen/login_reminder_screen.dart';
 import 'package:harsa_mobile/views/screens/profile_screen/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:harsa_mobile/models/auth_models/auth_model.dart';
+import 'package:harsa_mobile/services/auth_service.dart';
 import '/views/screens/notification_screen/notification_screen.dart';
 
 class MainScreenProvider extends ChangeNotifier {
@@ -22,10 +24,6 @@ class MainScreenProvider extends ChangeNotifier {
   ];
 
   int pageIndex = 0;
-
-  MainScreenProvider() {
-    checkPreference();
-  }
 
   void bottomNaBar(int index) {
     canPop = false;
@@ -60,6 +58,8 @@ class MainScreenProvider extends ChangeNotifier {
       ];
     } else {
       isLogged = true;
+      pageIndex = 0;
+      refreshToken();
       pageList = [
         const HomeScreen(),
         const MenuKelasScreen(),
@@ -68,6 +68,22 @@ class MainScreenProvider extends ChangeNotifier {
         const ProfileScreen(),
       ];
     }
+    notifyListeners();
+  }
+
+  void refreshToken() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    AuthModel result = await AuthService.refreshToken(
+        refreshToken: sp.getString(SPKey.refreshToken)!);
+
+    sp.setBool(SPKey.isLogged, true);
+    sp.setInt(SPKey.id, result.data.id);
+    sp.setString(SPKey.username, result.data.username);
+    sp.setString(SPKey.roleName, result.data.roleName);
+    sp.setString(SPKey.accessToken, result.data.accessToken);
+    sp.setString(SPKey.refreshToken, result.data.refreshToken);
+
     notifyListeners();
   }
 }

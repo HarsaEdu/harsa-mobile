@@ -22,7 +22,7 @@ class Recommendation {
     String courseImage;
     String instructorName;
     bool isInInterestCategories;
-    int predictedRating;
+    double predictedRating;
 
     Recommendation({
         required this.courseId,

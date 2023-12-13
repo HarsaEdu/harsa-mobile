@@ -28,6 +28,7 @@ class ConfirmationDialog {
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         title,

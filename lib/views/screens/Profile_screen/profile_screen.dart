@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/viewmodels/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,6 +13,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late ProfileProvider pageProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    pageProvider = Provider.of<ProfileProvider>(context, listen: false);
+    pageProvider.context = context;
+  }
+
   @override
   Widget build(BuildContext context) {
     String imagePath = "assets/images/profile.png";
@@ -213,9 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           // Logout
           TextButton(
-            onPressed: () {
-              // Tambahkan aksi yang diinginkan saat teks ditekan
-            },
+            onPressed: pageProvider.logOut,
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               alignment: Alignment.centerLeft,

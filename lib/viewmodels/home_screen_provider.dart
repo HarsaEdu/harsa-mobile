@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
@@ -47,15 +49,12 @@ class HomeScreenProvider extends ChangeNotifier {
 
   List<Datum> subscriptionPlanList = [];
 
-  HomeScreenProvider() {
-    getRecommendation();
-    getSubsPlanList();
-  }
-
   void getRecommendation() async {
     CourseRecommendation? cr =
         await CourseRecommendationServices().getRecommendation();
     courseRecomendationList = cr!.recommendations;
+    print('=> $courseRecomendationList');
+    debugPrint('=> ${courseRecomendationList.length.toString()}');
     notifyListeners();
   }
 

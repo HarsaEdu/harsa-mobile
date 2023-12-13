@@ -18,13 +18,14 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     pageProvider = Provider.of<MainScreenProvider>(context, listen: false);
+    pageProvider.checkPreference();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MainScreenProvider>(
       builder: (context, value, child) => PopScope(
-        canPop: value.canPop,   
+        canPop: value.canPop,
         onPopInvoked: (didPop) => pageProvider.onBack(didPop),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
