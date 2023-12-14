@@ -16,12 +16,12 @@ class PaymentProvider with ChangeNotifier {
         _payment = payment;
         notifyListeners();
       } else {
-        debugPrint('New payment data is null');
+        debugPrint('=> New payment data is null');
       }
     } catch (e, stackTrace) {
-      debugPrint('Error in getPaymentData: $e');
-      debugPrint('Stack trace: $stackTrace');
-      throw Exception('Error in getPaymentData: $e');
+      debugPrint('=> Error in getPaymentData: $e');
+      debugPrint('=> Stack trace: $stackTrace');
+      throw Exception('=> Error in getPaymentData: $e');
     }
   }
 }

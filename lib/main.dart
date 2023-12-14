@@ -138,6 +138,7 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         initialRoute: '/splash',
+        // home: const SubscriptionPlanList(),
         // SCreen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {

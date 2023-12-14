@@ -148,7 +148,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             ? 'Pembayaran Berhasil'
                             : widget.paymentStatus == 'pending'
                                 ? 'Menunggu Pembayaran'
-                                : widget.paymentStatus == 'gagal'
+                                : widget.paymentStatus == 'failure'
                                     ? 'Pembayaran Gagal'
                                     : 'Status Tidak Diketahui',
                         style:
@@ -158,7 +158,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                                     ? Colors.green
                                     : widget.paymentStatus == 'pending'
                                         ? Colors.black
-                                        : widget.paymentStatus == 'gagal'
+                                        : widget.paymentStatus == 'failure'
                                             ? Colors.red
                                             : Colors.black // Warna default
                                 ),
@@ -194,7 +194,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                           ),
                           Visibility(
                             visible: !(widget.paymentStatus == 'success' ||
-                                widget.paymentStatus == 'gagal'),
+                                widget.paymentStatus == 'failure'),
                             child: Column(
                               children: [
                                 Text(
@@ -247,13 +247,14 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                       const SizedBox(height: 8),
                       Column(
                         children: [
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Jenis Paket'),
+                              const Text('Jenis Paket'),
                               Text(
-                                'Paket Regular Bulanan',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                prov.payment!.item.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
