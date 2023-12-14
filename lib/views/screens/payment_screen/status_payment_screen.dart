@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
@@ -174,7 +173,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Paket Reguler',
+                                  prov.payment!.item.name,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
