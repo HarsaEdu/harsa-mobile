@@ -11,7 +11,8 @@ class DetailPaymentScreen extends StatefulWidget {
   final String paymentName;
   final String accountType;
   final String accountNumber;
-  final String totalAmount;
+  final int pajak;
+  final int totalAmount;
   final String imagePath;
 
   const DetailPaymentScreen({
@@ -19,6 +20,7 @@ class DetailPaymentScreen extends StatefulWidget {
     required this.paymentName,
     required this.accountType,
     required this.accountNumber,
+    required this.pajak,
     required this.totalAmount,
     required this.imagePath,
   });
@@ -191,7 +193,7 @@ class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
                           style: TextStyle(fontSize: 16.0),
                         ),
                         Text(
-                          widget.totalAmount,
+                          'Rp${widget.totalAmount}',
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
@@ -239,6 +241,7 @@ class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
                                   paymentName: widget.paymentName,
                                   accountType: widget.accountType,
                                   accountNumber: prov.payment!.vaNumber,
+                                  pajak : widget.pajak,
                                   totalAmount: widget.totalAmount,
                                   imagePath: widget.imagePath,
                                   paymentStatus: prov.payment!.status,

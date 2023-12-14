@@ -11,7 +11,8 @@ class StatusPaymentScreen extends StatefulWidget {
   final String paymentName;
   final String accountType;
   final String accountNumber;
-  final String totalAmount;
+  final int pajak;
+  final int totalAmount;
   final String imagePath;
   final String paymentStatus;
 
@@ -20,6 +21,7 @@ class StatusPaymentScreen extends StatefulWidget {
     required this.paymentName,
     required this.accountType,
     required this.accountNumber,
+    required this.pajak,
     required this.totalAmount,
     required this.imagePath,
     required this.paymentStatus,
@@ -30,7 +32,6 @@ class StatusPaymentScreen extends StatefulWidget {
 }
 
 class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
-  final int pajak = 2000;
   Timer? _timer;
   Duration _timeLeft = const Duration();
   @override
@@ -298,7 +299,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             children: [
                               const Text('Subtotal Tagihan'),
                               Text(
-                                'Rp${double.tryParse(prov.payment!.grossAmount)! - pajak}',
+                                'Rp${double.tryParse(prov.payment!.grossAmount)! - widget.pajak}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
@@ -310,7 +311,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             children: [
                               const Text('Pajak'),
                               Text(
-                                'Rp$pajak',
+                                'Rp${widget.pajak}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
