@@ -7,9 +7,9 @@ class Payment {
   final String grossAmount;
   final String bankName;
   final String vaNumber;
-  final String createdAt;
-  final String updatedAt;
-  final String expiredAt;
+  final String transactionTime;
+  final String settlementTime;
+  final String expiryTime;
   final Customer customer;
   final Item item;
 
@@ -22,9 +22,9 @@ class Payment {
     required this.grossAmount,
     required this.bankName,
     required this.vaNumber,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.expiredAt,
+    required this.transactionTime,
+    required this.settlementTime,
+    required this.expiryTime,
     required this.customer,
     required this.item,
   });
@@ -39,9 +39,9 @@ class Payment {
       grossAmount: json['gross_amount'],
       bankName: json['bank_name'],
       vaNumber: json['va_number'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      expiredAt: json['expired_at'],
+      transactionTime: json['transaction_time'],
+      settlementTime: json['settlement_time'],
+      expiryTime: json['expiry_time'],
       customer: Customer.fromJson(json['customer']),
       item: Item.fromJson(json['item']),
     );
@@ -51,13 +51,22 @@ class Payment {
 class Customer {
   final int id;
   final String name;
+  final String username;
+  final String email;
 
-  Customer({required this.id, required this.name});
+  Customer({
+    required this.id,
+    required this.name,
+    required this.username,
+    required this.email,
+  });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
       id: json['id'],
       name: json['name'],
+      username: json['username'],
+      email: json['email'],
     );
   }
 }
@@ -66,7 +75,10 @@ class Item {
   final int id;
   final String name;
 
-  Item({required this.id, required this.name});
+  Item({
+    required this.id,
+    required this.name,
+  });
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(

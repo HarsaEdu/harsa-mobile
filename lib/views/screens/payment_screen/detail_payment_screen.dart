@@ -40,7 +40,7 @@ class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
   void _startTimer() {
     final controller = Provider.of<PaymentProvider>(context, listen: false);
     if (controller.payment != null) {
-      DateTime expiredAt = DateTime.parse(controller.payment!.expiredAt);
+      DateTime expiredAt = DateTime.parse(controller.payment!.expiryTime);
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         final now = DateTime.now();
         setState(() {
@@ -129,7 +129,7 @@ class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
                                 Text(
                                   DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
                                       .format(DateTime.parse(
-                                          prov.payment!.expiredAt)),
+                                          prov.payment!.expiryTime)),
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!

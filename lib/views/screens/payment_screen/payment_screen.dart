@@ -241,6 +241,15 @@ class PaymentScreen extends StatelessWidget {
                                 ))
                             .catchError((error) {
                           debugPrint('=> DetailPaymentScreen : $error');
+                          debugPrint('=> paymentName : ${selectedBank.name}');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.accountType}');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.accountNumber}');
+                          debugPrint('=> paymentName : $price');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.imagePath}');
+                          debugPrint('=> id : ${id.toString()}');
                         });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

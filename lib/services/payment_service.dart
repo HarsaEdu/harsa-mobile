@@ -9,13 +9,14 @@ class PaymentService {
   final Dio _dio = Dio();
   String? token;
 
-  void setToken() async {
+  Future<void> setToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString(SPKey.accessToken);
   }
 
   Future<Payment?> createPayment(int planId, String bankName) async {
-    setToken();
+    await setToken();
+    debugPrint('=> token : ${token.toString()}');
     if (token != null) {
       try {
         _dio.options.headers['Authorization'] = 'Bearer $token';
@@ -34,6 +35,7 @@ class PaymentService {
         );
 
         if (response.statusCode == 201) {
+          debugPrint('=> ${response.data['data']}');
           return Payment.fromJson(response.data['data']);
         }
         return null;

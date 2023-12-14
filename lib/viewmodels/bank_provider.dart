@@ -56,7 +56,6 @@ class BankProvider with ChangeNotifier {
   void selectBank(Bank bank) {
     _selectedBank = bank;
     selectedBankIndex = _bankData.indexOf(bank);
-    debugPrint('=> $selectedBankIndex');
     debugPrint('=> ${_selectedBank!.name}');
     notifyListeners();
   }
