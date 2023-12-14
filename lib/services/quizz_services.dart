@@ -16,14 +16,14 @@ class QuizzServices {
 
   String? token;
 
-  void setToken() async {
+  Future<void> setToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString(SPKey.accessToken);
   }
 
   Future<QuizzData?> getQuizzById(
       {required int moduleId, required int quizId}) async {
-    setToken();
+    await setToken();
     if (token != null) {
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
