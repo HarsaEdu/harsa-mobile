@@ -48,7 +48,7 @@ class PaymentService {
   }
 
   Future<Payment?> getAllPayment(int offset, int limit) async {
-    setToken();
+    await setToken();
     if (token != null) {
       try {
         final Response<dynamic> response = await Dio().get(
@@ -65,7 +65,7 @@ class PaymentService {
   }
 
   Future<Payment?> getPaymentById(String id) async {
-    setToken();
+    await setToken();
     if (token != null) {
       try {
         final Response<dynamic> response =
