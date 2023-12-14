@@ -18,9 +18,7 @@ class PaymentProvider with ChangeNotifier {
       } else {
         debugPrint('=> New payment data is null');
       }
-    } catch (e, stackTrace) {
-      debugPrint('=> Error in getPaymentData: $e');
-      debugPrint('=> Stack trace: $stackTrace');
+    } catch (e) {
       throw Exception('=> Error in getPaymentData: $e');
     }
   }
