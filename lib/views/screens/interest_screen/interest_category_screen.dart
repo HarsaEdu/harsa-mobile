@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/services/user_interest.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -6,17 +7,48 @@ class InterestCategoryScreen extends StatefulWidget {
   const InterestCategoryScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _InterestCategoryScreenState createState() => _InterestCategoryScreenState();
 }
 
 class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
   late TextEditingController searchController;
+  List<Category> selectedCategories = [];
 
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
+  }
+
+  void toggleCategory(Category category) {
+    if (selectedCategories.contains(category)) {
+      setState(() {
+        selectedCategories.remove(category);
+      });
+    } else {
+      setState(() {
+        selectedCategories.add(category);
+      });
+    }
+  }
+
+  void confirmSelection() async {
+    print('Selected Categories: $selectedCategories');
+
+    // Pastikan bahwa properti id pada Category adalah tipe data int
+    List<int> categoryIds =
+        selectedCategories.map((category) => category.id).toList();
+    print('Category IDs: $categoryIds');
+
+    var userInterestService = UserInterestService();
+    var result = await userInterestService.createInterest(categoryIds);
+
+    if (result != null) {
+      print('Categories successfully submitted!');
+      // Tambahkan navigasi atau tindakan lainnya di sini jika perlu
+    } else {
+      print('Failed to submit categories!');
+    }
   }
 
   @override
@@ -66,8 +98,13 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
               ),
               itemCount: categoryProvider.displayedCategories.length,
               itemBuilder: (context, index) {
+                final category = categoryProvider.displayedCategories[index];
+                final isSelected = selectedCategories.contains(category);
+
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    toggleCategory(category);
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
                     width: MediaQuery.of(context).size.width * 0.4,
@@ -76,28 +113,22 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      color: const Color(0xFF092C4C), // Warna #092C4C
+                      color: isSelected
+                          ? const Color(0xFF499DE9)
+                          : const Color(0xFFA2D2FF),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFFF2994A),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.image,
-                                color: Colors.white,
-                                size: 30.0,
-                              ),
+                          Center(
+                            child: Image.asset(
+                              category.imagePath,
+                              height: 80.0,
+                              width: 80.0,
                             ),
                           ),
-                          const SizedBox(height: 8.0),
+                          const SizedBox(height: 15.0),
                           Text(
-                            categoryProvider.displayedCategories[index],
+                            category.name,
                             style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -117,7 +148,9 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
             width: double.infinity,
             margin: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                confirmSelection();
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF999999),
                 shape: RoundedRectangleBorder(
