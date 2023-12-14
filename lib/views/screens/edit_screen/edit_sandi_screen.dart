@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,9 +14,10 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
   @override
   void initState() {
     final provider = Provider.of<EditSandiProvider>(context, listen: false);
-    provider.sandiLamaController = TextEditingController();
-    provider.sandiBaruController = TextEditingController();
-    provider.sandiConfirmController = TextEditingController();
+    provider.sandiLamaController.clear();
+    provider.sandiBaruController.clear();
+    provider.sandiConfirmController.clear();
+    provider.loadingState = LoadingState.initial;
 
     super.initState();
   }
@@ -42,6 +44,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
       body: Consumer<EditSandiProvider>(builder: (context, state, _) {
         return Form(
           key: state.editSandiFormKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: <Widget>[
@@ -66,6 +69,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
                     ),
                     cursorColor: Colors.black,
                     obscureText: state.isSandiLamaObscure,
+                    validator: (value) => state.validateOldPassword(value),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -103,6 +107,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
                     ),
                     cursorColor: Colors.black,
                     obscureText: state.isSandiBaruObscure,
+                    validator: (value) => state.validateNewPassword(value),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -140,6 +145,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
                     ),
                     cursorColor: Colors.black,
                     obscureText: state.isSandiConfirmObscure,
+                    validator: (value) => state.validateConfirmPassword(value),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -156,11 +162,21 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
                 ],
               ),
               const SizedBox(height: 30),
+              state.loadingState == LoadingState.failed
+                  ? const Text(
+                      "Sandi lama salah",
+                      style: TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    )
+                  : const SizedBox(),
+              const SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: state.submitEditSandi,
+                      onPressed: state.loadingState == LoadingState.loading
+                          ? null
+                          : () => state.submitEditSandi(context),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -173,7 +189,7 @@ class _EditSandiScreenState extends State<EditSandiScreen> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         );

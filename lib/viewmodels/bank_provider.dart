@@ -9,15 +9,15 @@ class BankProvider with ChangeNotifier {
         accountNumber: '880123456789',
         imagePath: 'assets/images/bca_logo.png'),
     Bank(
-        name: 'mandiri',
-        accountType: 'Mandiri Virtual Account',
-        accountNumber: '881234567890',
-        imagePath: 'assets/images/mandiri_logo.png'),
-    Bank(
         name: 'bri',
         accountType: 'BRI Virtual Account',
         accountNumber: '882345678901',
         imagePath: 'assets/images/bri_logo.png'),
+    Bank(
+        name: 'mandiri',
+        accountType: 'Mandiri Virtual Account',
+        accountNumber: '881234567890',
+        imagePath: 'assets/images/mandiri_logo.png'),
     Bank(
         name: 'bni',
         accountType: 'BNI Virtual Account',
@@ -56,7 +56,6 @@ class BankProvider with ChangeNotifier {
   void selectBank(Bank bank) {
     _selectedBank = bank;
     selectedBankIndex = _bankData.indexOf(bank);
-    debugPrint('=> $selectedBankIndex');
     debugPrint('=> ${_selectedBank!.name}');
     notifyListeners();
   }
