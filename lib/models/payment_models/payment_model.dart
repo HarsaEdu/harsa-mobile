@@ -7,9 +7,9 @@ class Payment {
   final String grossAmount;
   final String bankName;
   final String vaNumber;
-  final String createdAt;
-  final String updatedAt;
-  final String expiredAt;
+  final String transactionTime;
+  final String settlementTime;
+  final String expiryTime;
   final Customer customer;
   final Item item;
 
@@ -22,26 +22,26 @@ class Payment {
     required this.grossAmount,
     required this.bankName,
     required this.vaNumber,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.expiredAt,
+    required this.transactionTime,
+    required this.settlementTime,
+    required this.expiryTime,
     required this.customer,
     required this.item,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
     return Payment(
-      id: json['id'] ?? '359fc24f-b4fd-4f7c-90d0-b0415a06ddfc',
-      userId: json['user_id'] ?? 2,
-      itemId: json['item_id'] ?? 1,
-      status: json['status'] ?? 'pending',
-      method: json['method'] ?? 'bank_transfer',
+      id: json['id'],
+      userId: json['user_id'],
+      itemId: json['item_id'],
+      status: json['status'],
+      method: json['method'],
       grossAmount: json['gross_amount'],
-      bankName: json['bank_name'] ?? 'bca',
-      vaNumber: json['va_number'] ?? '-',
-      createdAt: json['created_at'] ?? "2023-12-11T00:17:30Z",
-      updatedAt: json['updated_at'] ?? "2023-12-11T00:17:30Z",
-      expiredAt: json['expired_at'] ?? "2023-12-11T00:17:30Z",
+      bankName: json['bank_name'],
+      vaNumber: json['va_number'],
+      transactionTime: json['transaction_time'],
+      settlementTime: json['settlement_time'],
+      expiryTime: json['expiry_time'],
       customer: Customer.fromJson(json['customer']),
       item: Item.fromJson(json['item']),
     );
@@ -51,13 +51,22 @@ class Payment {
 class Customer {
   final int id;
   final String name;
+  final String username;
+  final String email;
 
-  Customer({required this.id, required this.name});
+  Customer({
+    required this.id,
+    required this.name,
+    required this.username,
+    required this.email,
+  });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
-      id: json['id'] ?? 1,
-      name: json['name'] ?? 'Budi',
+      id: json['id'],
+      name: json['name'],
+      username: json['username'],
+      email: json['email'],
     );
   }
 }
@@ -66,12 +75,15 @@ class Item {
   final int id;
   final String name;
 
-  Item({required this.id, required this.name});
+  Item({
+    required this.id,
+    required this.name,
+  });
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      id: json['id'] ?? 1,
-      name: json['name'] ?? 'Budi',
+      id: json['id'],
+      name: json['name'],
     );
   }
 }
