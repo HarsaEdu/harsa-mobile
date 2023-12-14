@@ -49,6 +49,7 @@ class QuizzServices {
   Future<bool> postQuizzAnswer(
       {required String quizzId,
       required List<Map<String, dynamic>> answer}) async {
+    setToken();
     if (token != null) {
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
