@@ -33,8 +33,8 @@ class UserCoursesData {
   int courseId;
   String title;
   String description;
-  User userIntructur;
-  User userStudent;
+  Intructur intructur;
+  int studentId;
   String imageUrl;
   String status;
   double progress;
@@ -45,8 +45,8 @@ class UserCoursesData {
     required this.courseId,
     required this.title,
     required this.description,
-    required this.userIntructur,
-    required this.userStudent,
+    required this.intructur,
+    required this.studentId,
     required this.imageUrl,
     required this.status,
     required this.progress,
@@ -59,8 +59,8 @@ class UserCoursesData {
         courseId: json["course_id"],
         title: json["title"],
         description: json["description"],
-        userIntructur: User.fromJson(json["user_intructur"]),
-        userStudent: User.fromJson(json["user_student"]),
+        intructur: Intructur.fromJson(json["intructur"]),
+        studentId: json["student_id"],
         imageUrl: json["image_url"],
         status: json["status"],
         progress: json["progress"]?.toDouble(),
@@ -72,8 +72,8 @@ class UserCoursesData {
         "course_id": courseId,
         "title": title,
         "description": description,
-        "user_intructur": userIntructur.toJson(),
-        "user_student": userStudent.toJson(),
+        "intructur": intructur.toJson(),
+        "student_id": studentId,
         "image_url": imageUrl,
         "status": status,
         "progress": progress,
@@ -81,20 +81,20 @@ class UserCoursesData {
       };
 }
 
-class User {
+class Intructur {
   int id;
   String name;
-  String? job;
+  String job;
   String imageUrl;
 
-  User({
+  Intructur({
     required this.id,
     required this.name,
-    this.job,
+    required this.job,
     required this.imageUrl,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Intructur.fromJson(Map<String, dynamic> json) => Intructur(
         id: json["id"],
         name: json["name"],
         job: json["job"],

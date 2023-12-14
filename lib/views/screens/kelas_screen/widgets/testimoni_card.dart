@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../utils/constants/colors.dart';
 
 class TestimoniCard extends StatelessWidget {
+  final String imageUrl;
   final String name;
   final String timeAgo;
   final String reviewText;
@@ -10,6 +11,7 @@ class TestimoniCard extends StatelessWidget {
 
   const TestimoniCard({
     super.key,
+    required this.imageUrl,
     required this.name,
     required this.timeAgo,
     required this.reviewText,
@@ -30,10 +32,10 @@ class TestimoniCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
               child: CircleAvatar(
-                backgroundImage: NetworkImage('https://picsum.photos/40'),
+                backgroundImage: NetworkImage(imageUrl),
               ),
             ),
             const SizedBox(width: 12),

@@ -112,6 +112,7 @@ class DaftarKelasScreen extends StatelessWidget {
                     (context, index) => const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.0),
                       child: TestimoniCard(
+                        imageUrl: "",
                         name: 'Ponyo Sunyopo',
                         timeAgo: '12 h lalu',
                         reviewText:

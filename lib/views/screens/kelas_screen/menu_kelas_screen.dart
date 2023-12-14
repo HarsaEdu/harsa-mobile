@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).padding.top + 16),
@@ -152,6 +154,11 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                               ),
                             ],
                             hintText: 'Search...',
+                            onChanged: (value) {
+                              Provider.of<MenuKelasProvider>(context,
+                                      listen: false)
+                                  .searchKelas(value);
+                            },
                           );
                         },
                       ),
@@ -169,7 +176,8 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
           const SizedBox(height: 10),
           Expanded(child: Consumer<MenuKelasProvider>(
             builder: (context, state, _) {
-              return state.userCoursesModel != null
+              return state.userCoursesModel != null ||
+                      state.searchCourses != null
                   ? CustomScrollView(
                       slivers: <Widget>[
                         SliverToBoxAdapter(
@@ -179,15 +187,25 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 const SizedBox(height: 25),
-                                for (var course
-                                    in state.userCoursesModel?.data ?? [])
+                                for (var course in state.searchCourses ??
+                                    state.userCoursesModel?.data ??
+                                    [])
                                   Column(
                                     children: <Widget>[
-                                      KelasCard(
-                                        classImage: course.imageUrl,
-                                        className: course.title,
-                                        mentorName: course.userIntructur.name,
-                                        progress: course.progress,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            "/kelasscreen",
+                                            arguments: {'course': course},
+                                          );
+                                        },
+                                        child: KelasCard(
+                                          classImage: course.imageUrl,
+                                          className: course.title,
+                                          mentorName: course.intructur.name,
+                                          progress: course.progress,
+                                        ),
                                       ),
                                       const SizedBox(height: 16),
                                     ],
@@ -198,37 +216,39 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                         ),
                       ],
                     )
-                  : Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height / 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "assets/icons/outline/power_circle.svg",
+                  : state.loadingState == LoadingState.loading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorsPallete.sandyBrown,
                           ),
-                          const SizedBox(height: 30),
-                          const Text(
-                            "Belum ada kelas yang kamu daftarkan",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 30),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "assets/icons/outline/power_circle.svg",
+                            ),
+                            const SizedBox(height: 30),
+                            const Text(
+                              "Belum ada kelas yang kamu daftarkan",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 30),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                foregroundColor: const Color(0xFF2A2D34),
                               ),
-                              foregroundColor: const Color(0xFF2A2D34),
+                              child: const Text(
+                                "Daftar Kelas",
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ),
-                            child: const Text(
-                              "Daftar Kelas",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                          ],
+                        );
             },
           )),
         ],
