@@ -12,7 +12,7 @@ import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
-import 'package:harsa_mobile/viewmodels/profile_provider.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
@@ -28,7 +28,6 @@ import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_scre
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
-import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
 import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
@@ -49,6 +48,7 @@ import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart'
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/faq_screen_provider.dart';
@@ -70,8 +70,9 @@ import 'package:harsa_mobile/views/screens/signup_screen/signup_screen.dart';
 import 'package:harsa_mobile/views/screens/signup_screen/signupdata_screen.dart';
 import 'package:harsa_mobile/views/screens/splash_screen/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id', null);
   runApp(const MainApp());
 }
 
@@ -115,6 +116,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
         ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -128,15 +130,6 @@ class MainApp extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
           ),
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: const EdgeInsets.all(0),
-              textStyle: GoogleFonts.poppins(fontSize: 12),
-              foregroundColor: const Color(0xFF2A2D34),
-            ),
-          ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.black,
@@ -145,10 +138,11 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        // SCreen Route Name
+        initialRoute: '/splash',
+        // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/':
+            case '/splash':
               return MaterialPageRoute(
                 builder: (context) => const SplashScreen(),
               );
@@ -198,7 +192,10 @@ class MainApp extends StatelessWidget {
               );
             case '/kelasscreen':
               return MaterialPageRoute(
-                builder: (context) => const KelasScreen(),
+                builder: (context) {
+                  final Map? args = (settings.arguments ?? {}) as Map?;
+                  return KelasScreen(data: args);
+                },
               );
             case '/daftarkelas':
               return MaterialPageRoute(
@@ -282,10 +279,10 @@ class MainApp extends StatelessWidget {
                 builder: (context) =>
                     DetailSubscription(subscription: subscription),
               );
-            case '/payment':
-              return MaterialPageRoute(
-                builder: (context) => const PaymentScreen(),
-              );
+            // case '/payment':
+            //   return MaterialPageRoute(
+            //     builder: (context) =>  PaymentScreen(),
+            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),

@@ -162,6 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           TextButton(
             onPressed: () {
               // Tambahkan aksi yang diinginkan saat teks ditekan
+              Navigator.pushNamed(context, "/editemail");
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
@@ -194,6 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           TextButton(
             onPressed: () {
               // Tambahkan aksi yang diinginkan saat teks ditekan
+              Navigator.pushNamed(context, "/editsandi");
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,

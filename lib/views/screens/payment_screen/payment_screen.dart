@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/detail_payment_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/bank_provider.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key});
-
+  final int id;
+  final int price;
+  const PaymentScreen({super.key, required this.id, required this.price});
+  final int pajak = 2000;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
         backgroundColor: ColorsPallete.whiteGrey,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             GestureDetector(
@@ -139,7 +143,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Subtotal Tagihan'),
                       Text(
-                        'Rp33.000',
+                        'Rp${price - pajak}',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -153,7 +157,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Pajak'),
                       Text(
-                        'Rp2.000',
+                        'Rp$pajak',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -167,7 +171,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Total Tagihan'),
                       Text(
-                        'Rp35.000',
+                        'Rp$price',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
@@ -196,12 +200,12 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       const Text('Total Tagihan'),
                       Text(
-                        'Rp35.000',
+                        'Rp$price',
                         style: Theme.of(context)
                             .textTheme
-                            .titleMedium!
+                            .titleSmall!
                             .copyWith(fontWeight: FontWeight.bold),
-                      )
+                      ),
                     ],
                   ),
                   ElevatedButton(
@@ -212,27 +216,37 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      final selectedBank =
-                          Provider.of<BankProvider>(context, listen: false)
-                              .selectedBank;
+                    onPressed: () async {
+                      final bankProvider =
+                          Provider.of<BankProvider>(context, listen: false);
+                      final paymentProvider =
+                          Provider.of<PaymentProvider>(context, listen: false);
+
+                      final selectedBank = bankProvider.selectedBank;
+
                       if (selectedBank != null) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetailPaymentScreen(
-                              paymentName: selectedBank.name,
-                              accountType: selectedBank.accountType,
-                              accountNumber: selectedBank.accountNumber,
-                              totalAmount: 'Rp35.000',
-                              imagePath: selectedBank.imagePath,
-                            ),
-                          ),
-                        );
+                        debugPrint('=> ${selectedBank.name.toString()}');
+                        await paymentProvider
+                            .getPaymentData(id, selectedBank.name)
+                            .then((_) => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPaymentScreen(
+                                      paymentName: selectedBank.name,
+                                      accountType: selectedBank.accountType,
+                                      accountNumber: selectedBank.accountNumber,
+                                      totalAmount: 'Rp$price',
+                                      imagePath: selectedBank.imagePath,
+                                    ),
+                                  ),
+                                ))
+                            .catchError((error) {
+                          debugPrint('=> DetailPaymentScreen : $error');
+                        });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Pilih metode pembayaran terlebih dahulu"),
+                            content: Text(
+                                "Pilih metode pembayaran terlebih dahulu!"),
                           ),
                         );
                       }

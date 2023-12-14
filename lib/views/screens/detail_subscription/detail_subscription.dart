@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
+import 'package:harsa_mobile/views/screens/payment_screen/payment_screen.dart';
 
 class DetailSubscription extends StatelessWidget {
   final Datum subscription;
@@ -254,7 +255,12 @@ class DetailSubscription extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/payment');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentScreen(id: subscription.id, price: subscription.price),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),

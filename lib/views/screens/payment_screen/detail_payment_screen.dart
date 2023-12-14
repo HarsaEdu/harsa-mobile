@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/status_payment_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
-class DetailPaymentScreen extends StatelessWidget {
+class DetailPaymentScreen extends StatefulWidget {
   final String paymentName;
   final String accountType;
   final String accountNumber;
@@ -20,7 +24,48 @@ class DetailPaymentScreen extends StatelessWidget {
   });
 
   @override
+  State<DetailPaymentScreen> createState() => _DetailPaymentScreenState();
+}
+
+class _DetailPaymentScreenState extends State<DetailPaymentScreen> {
+  Timer? _timer;
+  Duration _timeLeft = const Duration();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startTimer());
+  }
+
+  void _startTimer() {
+    final controller = Provider.of<PaymentProvider>(context, listen: false);
+    if (controller.payment != null) {
+      DateTime expiredAt = DateTime.parse(controller.payment!.expiredAt);
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        final now = DateTime.now();
+        setState(() {
+          _timeLeft = expiredAt.difference(now);
+          if (_timeLeft.isNegative) {
+            _timer?.cancel();
+            _timeLeft = Duration.zero;
+          }
+        });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final hours = _timeLeft.inHours.toString().padLeft(2, '0');
+    final minutes = (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
+    final timeString = '$hours : $minutes : $seconds';
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       appBar: AppBar(
@@ -44,161 +89,175 @@ class DetailPaymentScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: ColorsPallete.white,
-                border: Border.all(color: ColorsPallete.grey, width: 0.5),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Consumer<PaymentProvider>(
+          builder: (context, prov, _) {
+            if (prov.payment == null) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: ColorsPallete.white,
+                    border: Border.all(color: ColorsPallete.grey, width: 0.5),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Batas Akhir Pembayaran',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(color: ColorsPallete.grey),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Batas Akhir Pembayaran',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(color: ColorsPallete.grey),
+                                ),
+                                Text(
+                                  DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
+                                      .format(DateTime.parse(
+                                          prov.payment!.expiredAt)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Minggu, 19 Nov 2023 18.00',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontWeight: FontWeight.bold),
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
+                              decoration: BoxDecoration(
+                                  color: ColorsPallete.lightRed,
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/filled/clock_fill.svg',
+                                    colorFilter: const ColorFilter.mode(
+                                        ColorsPallete.white, BlendMode.srcIn),
+                                  ),
+                                  Text(
+                                    timeString,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(color: ColorsPallete.white),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
-                          decoration: BoxDecoration(
-                              color: ColorsPallete.lightRed,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/filled/clock_fill.svg',
-                                colorFilter: const ColorFilter.mode(
-                                    ColorsPallete.white, BlendMode.srcIn),
-                              ),
-                              Text(
-                                '23 : 58 : 48',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: ColorsPallete.white),
-                              ),
-                            ],
+                        const SizedBox(height: 16),
+                        ListTile(
+                          leading: Image.asset(widget.imagePath),
+                          title: Text(
+                            widget.accountType,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
+                          subtitle: Text(prov.payment!.vaNumber),
                         ),
+                        const Divider(),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Nomor Virtual Account',
+                          style: TextStyle(color: ColorsPallete.grey),
+                        ),
+                        Text(
+                          prov.payment!.vaNumber,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        const Divider(),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Total Pembayaran',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        Text(
+                          widget.totalAmount,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        const Divider(),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    ListTile(
-                      leading: Image.asset(imagePath),
-                      title: Text(
-                        accountType,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(accountNumber),
-                    ),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Nomor Virtual Account',
-                      style: TextStyle(color: ColorsPallete.grey),
-                    ),
-                    Text(
-                      accountNumber,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Total Pembayaran',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    Text(
-                      totalAmount,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Text('Beli Paket Lagi'),
-                    ),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        side: const BorderSide(
-                            color: ColorsPallete.sandyBrown, width: 1),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => StatusPaymentScreen(
-                              paymentName: paymentName,
-                              accountType: accountType,
-                              accountNumber: accountNumber,
-                              totalAmount: totalAmount,
-                              imagePath: imagePath,
-                              paymentStatus: 'Pembayaran Berhasil',
+                ),
+                const SizedBox(height: 80),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Cek Status Pembayaran',
-                        style: TextStyle(color: ColorsPallete.sandyBrown),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed('/subscriptionlist');
+                          },
+                          child: const Text('Beli Paket Lagi'),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            side: const BorderSide(
+                                color: ColorsPallete.sandyBrown, width: 1),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StatusPaymentScreen(
+                                  paymentName: widget.paymentName,
+                                  accountType: widget.accountType,
+                                  accountNumber: prov.payment!.vaNumber,
+                                  totalAmount: widget.totalAmount,
+                                  imagePath: widget.imagePath,
+                                  paymentStatus: prov.payment!.status,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Cek Status Pembayaran',
+                            style: TextStyle(color: ColorsPallete.sandyBrown),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

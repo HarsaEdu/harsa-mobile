@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/menu_kelas_screen_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
-class MenuKelasScreen extends StatelessWidget {
+class MenuKelasScreen extends StatefulWidget {
   const MenuKelasScreen({super.key});
+
+  @override
+  State<MenuKelasScreen> createState() => _MenuKelasScreenState();
+}
+
+class _MenuKelasScreenState extends State<MenuKelasScreen> {
+  @override
+  void initState() {
+    final provider = Provider.of<MenuKelasProvider>(context, listen: false);
+    provider.loadingState = LoadingState.initial;
+    provider.getUserCourses(filter: "");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
-        children: [
+        children: <Widget>[
           SizedBox(height: MediaQuery.of(context).padding.top + 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 const Text(
                   'Kelas',
                   style: TextStyle(
@@ -28,7 +44,7 @@ class MenuKelasScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Expanded(
                       child: Consumer<MenuKelasProvider>(
                         builder: (context, provider, child) {
@@ -44,7 +60,7 @@ class MenuKelasScreen extends StatelessWidget {
                                 vertical: 0,
                               ),
                             ),
-                            trailing: [
+                            trailing: <Widget>[
                               PopupMenuButton<String>(
                                 constraints: const BoxConstraints.tightFor(
                                     width: 100, height: 110),
@@ -72,7 +88,7 @@ class MenuKelasScreen extends StatelessWidget {
                                     ),
                                   ),
                                   const PopupMenuItem<String>(
-                                    value: 'Selesai',
+                                    value: 'completed',
                                     height: 25,
                                     child: Text(
                                       'Selesai',
@@ -84,7 +100,7 @@ class MenuKelasScreen extends StatelessWidget {
                                     ),
                                   ),
                                   const PopupMenuItem<String>(
-                                    value: 'Ongoing',
+                                    value: 'progress',
                                     height: 25,
                                     child: Text(
                                       'Ongoing',
@@ -96,7 +112,7 @@ class MenuKelasScreen extends StatelessWidget {
                                     ),
                                   ),
                                   const PopupMenuItem<String>(
-                                    value: 'Baru',
+                                    value: '',
                                     height: 25,
                                     child: Text(
                                       'Baru',
@@ -138,6 +154,11 @@ class MenuKelasScreen extends StatelessWidget {
                               ),
                             ],
                             hintText: 'Search...',
+                            onChanged: (value) {
+                              Provider.of<MenuKelasProvider>(context,
+                                      listen: false)
+                                  .searchKelas(value);
+                            },
                           );
                         },
                       ),
@@ -153,65 +174,83 @@ class MenuKelasScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 25),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
+          Expanded(child: Consumer<MenuKelasProvider>(
+            builder: (context, state, _) {
+              return state.userCoursesModel != null ||
+                      state.searchCourses != null
+                  ? CustomScrollView(
+                      slivers: <Widget>[
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const SizedBox(height: 25),
+                                for (var course in state.searchCourses ??
+                                    state.userCoursesModel?.data ??
+                                    [])
+                                  Column(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            "/kelasscreen",
+                                            arguments: {'course': course},
+                                          );
+                                        },
+                                        child: KelasCard(
+                                          classImage: course.imageUrl,
+                                          className: course.title,
+                                          mentorName: course.intructur.name,
+                                          progress: course.progress,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 16),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
-                        ),
-                        SizedBox(height: 10),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
-                        ),
-                        SizedBox(height: 10),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
-                        ),
-                        SizedBox(height: 10),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
-                        ),
-                        SizedBox(height: 10),
-                        KelasCard(
-                          classImage: 'https://picsum.photos/40',
-                          className: "UI/UX : Becoming Professional",
-                          mentorName: "Bagus Adhi Laksana",
-                          progress: 65,
-                        ),
-                        SizedBox(height: 25),
                       ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    )
+                  : state.loadingState == LoadingState.loading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorsPallete.sandyBrown,
+                          ),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "assets/icons/outline/power_circle.svg",
+                            ),
+                            const SizedBox(height: 30),
+                            const Text(
+                              "Belum ada kelas yang kamu daftarkan",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(height: 30),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                foregroundColor: const Color(0xFF2A2D34),
+                              ),
+                              child: const Text(
+                                "Daftar Kelas",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        );
+            },
+          )),
         ],
       ),
     );
