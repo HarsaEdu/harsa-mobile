@@ -138,7 +138,7 @@ class MainApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         initialRoute: '/splash',
-        // SCreen Route Name
+        // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/splash':
@@ -191,7 +191,10 @@ class MainApp extends StatelessWidget {
               );
             case '/kelasscreen':
               return MaterialPageRoute(
-                builder: (context) => const KelasScreen(),
+                builder: (context) {
+                  final Map? args = (settings.arguments ?? {}) as Map?;
+                  return KelasScreen(data: args);
+                },
               );
             case '/daftarkelas':
               return MaterialPageRoute(

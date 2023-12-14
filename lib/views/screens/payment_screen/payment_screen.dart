@@ -9,8 +9,10 @@ import '../../../viewmodels/bank_provider.dart';
 class PaymentScreen extends StatelessWidget {
   final int id;
   final int price;
-  const PaymentScreen({super.key, required this.id, required this.price});
-  final int pajak = 2000;
+  late final int pajak;
+  PaymentScreen({super.key, required this.id, required this.price}) {
+    pajak = (price * 0.10).toInt();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,9 @@ class PaymentScreen extends StatelessWidget {
         title: Row(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+              },
               child: const Icon(Icons.arrow_back_ios),
             ),
             const SizedBox(width: 10),
@@ -234,13 +238,23 @@ class PaymentScreen extends StatelessWidget {
                                       paymentName: selectedBank.name,
                                       accountType: selectedBank.accountType,
                                       accountNumber: selectedBank.accountNumber,
-                                      totalAmount: 'Rp$price',
+                                      pajak: pajak,
+                                      totalAmount: price,
                                       imagePath: selectedBank.imagePath,
                                     ),
                                   ),
                                 ))
                             .catchError((error) {
                           debugPrint('=> DetailPaymentScreen : $error');
+                          debugPrint('=> paymentName : ${selectedBank.name}');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.accountType}');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.accountNumber}');
+                          debugPrint('=> paymentName : $price');
+                          debugPrint(
+                              '=> paymentName : ${selectedBank.imagePath}');
+                          debugPrint('=> id : ${id.toString()}');
                         });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
