@@ -1,273 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/quiz.dart';
+import 'package:harsa_mobile/models/quizz_models/quizz_model.dart';
+import 'package:harsa_mobile/services/quizz_services.dart';
 
 class QuizProvider with ChangeNotifier {
-  // Data quiz disimpan dalam bentuk list karena list menyediakan urutan yang jelas dan teratur dari pertanyaan-pertanyaan tersebut.
-  List<Quiz> _questions = [
-    Quiz(
-      question:
-          '1. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: '2. Pertanyaan kedua.',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: '3. Pertanyaan ketiga.',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: '4. Pertanyaan keempat.',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: '5. Pertanyaan kelima.',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keenam',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan ketujuh',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan kedelapan',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-    Quiz(
-      question: 'Pernyataan keempat',
-      options: [
-        'A. Lorem Ipsum',
-        'B. Lorem Ipsum',
-        'C. Lorem Ipsum',
-        'D. Lorem Ipsum'
-      ],
-      answer: 1,
-    ),
-  ];
-
   final PageController pageController = PageController();
+  QuizzData? _quizzData;
 
-  // Menambahkan getter untuk _questions
-  List<Quiz> get questions => _questions;
+  QuizzData? get quizzData => _quizzData;
+  Future<void> getQuizzData(int id, int moduleId) async {
+    try {
+      final quizzData =
+          await QuizzServices().getQuizzById(id: id, moduleId: moduleId);
+      if (quizzData != null) {
+        _quizzData = quizzData;
+        debugPrint('=> ${quizzData.toString()}');
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('=> error: $e');
+      rethrow;
+    }
+  }
+
   // Indeks pertanyaan yang sedang aktif
   int _currentQuestionIndex = 0;
 
   // Map untuk menyimpan jawaban yang dipilih
   final Map<int, int> _selectedOptions = {};
 
-  // Getter untuk pertanyaan saat ini
-  Quiz get currentQuestion => _questions[_currentQuestionIndex];
-
-  // Fungsi untuk menginisialisasi pertanyaan dari JSON atau sumber lain
-  void loadQuestions(List<Quiz> questionsFromJson) {
-    _questions = questionsFromJson;
-    notifyListeners();
+  Future<void> submitQuizzAnswers(int id) async {
+    try {
+      List<QuizzAnswer> answers = _selectedOptions.entries.map((entry) {
+        return QuizzAnswer(questionId: entry.key, optionId: entry.value);
+      }).toList();
+      debugPrint('=> answers : ${answers.toList()}');
+      await QuizzServices().submitAnswers(id, answers);
+    } catch (e) {
+      debugPrint('=> error: $e');
+      rethrow;
+    }
   }
-
-  // Getter untuk total pertanyaan
-  int get totalQuestions => _questions.length;
 
   // Getter untuk indeks pertanyaan saat ini
   int get currentQuestionIndex => _currentQuestionIndex;
@@ -309,7 +81,7 @@ class QuizProvider with ChangeNotifier {
 
   // Fungsi untuk berpindah ke pertanyaan berikutnya
   void goToNextQuestion() {
-    if (_currentQuestionIndex < _questions.length - 1) {
+    if (_currentQuestionIndex < quizzData!.questions.length - 1) {
       _currentQuestionIndex++;
       if (pageController.hasClients) {
         pageController.jumpToPage(_currentQuestionIndex);
@@ -325,7 +97,7 @@ class QuizProvider with ChangeNotifier {
   }
 
   void goToQuestion(int questionIndex) {
-    if (questionIndex >= 0 && questionIndex < totalQuestions) {
+    if (questionIndex >= 0 && questionIndex < quizzData!.questions.length) {
       _currentQuestionIndex = questionIndex;
       pageController.jumpToPage(questionIndex);
       notifyListeners();

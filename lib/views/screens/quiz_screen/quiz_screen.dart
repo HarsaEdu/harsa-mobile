@@ -15,6 +15,12 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   @override
+  void initState() {
+    super.initState();
+    Provider.of<QuizProvider>(context, listen: false).getQuizzData(1, 1);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = context.watch<QuizProvider>();
     return Scaffold(
@@ -62,9 +68,9 @@ class _QuizScreenState extends State<QuizScreen> {
                             ),
                             Column(
                               children: [
-                                const KelasCard(
-                                  className: "Introducing UI/UX Design",
-                                  mentorName: "Explain About UI/UX Fundamental",
+                                KelasCard(
+                                  className: controller.quizzData!.title,
+                                  mentorName: controller.quizzData!.description,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
@@ -104,19 +110,20 @@ class _QuizScreenState extends State<QuizScreen> {
                                             controller
                                                 .updateQuestionIndex(index);
                                           },
-                                          itemCount: controller.totalQuestions,
+                                          itemCount: controller
+                                              .quizzData?.questions.length,
                                           itemBuilder: (context, index) {
-                                            final question =
-                                                controller.questions[index];
+                                            final question = controller
+                                                .quizzData?.questions[index];
                                             return Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  question.question,
+                                                  question!.question,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .bodySmall,
+                                                      .bodyMedium,
                                                 ),
                                                 const SizedBox(height: 12.0),
                                                 ...question.options
@@ -151,7 +158,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                                         border: Border.all(),
                                                       ),
                                                       child: Text(
-                                                        option,
+                                                        option.value,
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .labelMedium!
@@ -203,7 +210,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         crossAxisCount: 8,
                         childAspectRatio: 1,
                       ),
-                      itemCount: controller.totalQuestions,
+                      itemCount: controller.quizzData?.questions.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () => controller.goToQuestion(index),
@@ -271,14 +278,14 @@ class _QuizScreenState extends State<QuizScreen> {
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(color: ColorsPallete.grey)),
                         child: Text(
-                          '${controller.currentQuestionIndex + 1}/${controller.totalQuestions}',
+                          '${controller.currentQuestionIndex + 1}/${controller.quizzData!.questions.length}',
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ),
                     ),
                     const Spacer(),
                     if (controller.currentQuestionIndex <
-                        controller.totalQuestions - 1)
+                        controller.quizzData!.questions.length - 1)
                       ElevatedButton(
                         onPressed: () {
                           controller.goToNextQuestion();
@@ -299,11 +306,16 @@ class _QuizScreenState extends State<QuizScreen> {
                             title: 'Sudah Yakin dengan jawaban mu',
                             content:
                                 'Periksa kembali jawabanmu sebelum di simpan',
-                            onConfirm: () {
-                              CongratulationAlert.show(context,
-                                  title: 'Congratulation!',
-                                  content:
-                                      'Kamu sudah berhasil menyelesaikan Quiz introducing UI/UX');
+                            onConfirm: () async {
+                              await controller
+                                  .submitQuizzAnswers(1)
+                                  .then((value) => Navigator.of(context).pop());
+                              if (mounted) {
+                                CongratulationAlert.show(context,
+                                    title: 'Congratulation!',
+                                    content:
+                                        'Kamu sudah berhasil menyelesaikan ${controller.quizzData!.title}');
+                              }
                             },
                             onCancel: () {
                               Navigator.of(context).pop();
@@ -318,13 +330,9 @@ class _QuizScreenState extends State<QuizScreen> {
                               .copyWith(color: ColorsPallete.black),
                         ),
                       ),
-                    // if (provider.currentQuestionIndex >=
-                    //     provider.totalQuestions - 1)
-                    //   const Spacer(),
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
             ],
           )
         ],
