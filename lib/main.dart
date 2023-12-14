@@ -191,7 +191,10 @@ class MainApp extends StatelessWidget {
               );
             case '/kelasscreen':
               return MaterialPageRoute(
-                builder: (context) => const KelasScreen(),
+                builder: (context) {
+                  final Map? args = (settings.arguments ?? {}) as Map?;
+                  return KelasScreen(data: args);
+                },
               );
             case '/daftarkelas':
               return MaterialPageRoute(
