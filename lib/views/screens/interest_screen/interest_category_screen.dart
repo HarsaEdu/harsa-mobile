@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/services/user_interest.dart';
+import 'package:harsa_mobile/services/interest_services.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
+import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
 class InterestCategoryScreen extends StatefulWidget {
@@ -33,9 +34,6 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
   }
 
   void confirmSelection() async {
-    print('Selected Categories: $selectedCategories');
-
-    // Pastikan bahwa properti id pada Category adalah tipe data int
     List<int> categoryIds =
         selectedCategories.map((category) => category.id).toList();
     print('Category IDs: $categoryIds');
@@ -45,7 +43,6 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
 
     if (result != null) {
       print('Categories successfully submitted!');
-      // Tambahkan navigasi atau tindakan lainnya di sini jika perlu
     } else {
       print('Failed to submit categories!');
     }
@@ -150,6 +147,12 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
             child: ElevatedButton(
               onPressed: () {
                 confirmSelection();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const MainScreen()), // Ganti MainScreen() dengan halaman tujuan
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF999999),
