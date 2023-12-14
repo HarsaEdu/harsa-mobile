@@ -79,9 +79,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50.0, // atur tinggi sesuai keinginan
                 child: Center(
                   child: Text(
-                    "Langganan Sekarang",
+                    "Langganan Sekaranga",
                     style: GoogleFonts.poppins(
-                      fontSize: 18.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
