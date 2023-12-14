@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
@@ -12,7 +11,8 @@ class StatusPaymentScreen extends StatefulWidget {
   final String paymentName;
   final String accountType;
   final String accountNumber;
-  final String totalAmount;
+  final int pajak;
+  final int totalAmount;
   final String imagePath;
   final String paymentStatus;
 
@@ -21,6 +21,7 @@ class StatusPaymentScreen extends StatefulWidget {
     required this.paymentName,
     required this.accountType,
     required this.accountNumber,
+    required this.pajak,
     required this.totalAmount,
     required this.imagePath,
     required this.paymentStatus,
@@ -31,7 +32,6 @@ class StatusPaymentScreen extends StatefulWidget {
 }
 
 class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
-  final int pajak = 2000;
   Timer? _timer;
   Duration _timeLeft = const Duration();
   @override
@@ -76,7 +76,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
   void _startTimer() {
     final controller = Provider.of<PaymentProvider>(context, listen: false);
     if (controller.payment != null) {
-      DateTime expiredAt = DateTime.parse(controller.payment!.expiredAt);
+      DateTime expiredAt = DateTime.parse(controller.payment!.expiryTime);
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         final now = DateTime.now();
         setState(() {
@@ -148,7 +148,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             ? 'Pembayaran Berhasil'
                             : widget.paymentStatus == 'pending'
                                 ? 'Menunggu Pembayaran'
-                                : widget.paymentStatus == 'gagal'
+                                : widget.paymentStatus == 'failure'
                                     ? 'Pembayaran Gagal'
                                     : 'Status Tidak Diketahui',
                         style:
@@ -158,7 +158,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                                     ? Colors.green
                                     : widget.paymentStatus == 'pending'
                                         ? Colors.black
-                                        : widget.paymentStatus == 'gagal'
+                                        : widget.paymentStatus == 'failure'
                                             ? Colors.red
                                             : Colors.black // Warna default
                                 ),
@@ -174,7 +174,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Paket Reguler',
+                                  prov.payment!.item.name,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -183,7 +183,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                                 Text(
                                   DateFormat('EEEE, d MMM yyyy HH.mm', 'id_ID')
                                       .format(DateTime.parse(
-                                          prov.payment!.expiredAt)),
+                                          prov.payment!.expiryTime)),
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelMedium!
@@ -194,7 +194,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                           ),
                           Visibility(
                             visible: !(widget.paymentStatus == 'success' ||
-                                widget.paymentStatus == 'gagal'),
+                                widget.paymentStatus == 'failure'),
                             child: Column(
                               children: [
                                 Text(
@@ -247,13 +247,14 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                       const SizedBox(height: 8),
                       Column(
                         children: [
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Jenis Paket'),
+                              const Text('Jenis Paket'),
                               Text(
-                                'Paket Regular Bulanan',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                prov.payment!.item.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -298,7 +299,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             children: [
                               const Text('Subtotal Tagihan'),
                               Text(
-                                'Rp${double.tryParse(prov.payment!.grossAmount)! - pajak}',
+                                'Rp${double.tryParse(prov.payment!.grossAmount)! - widget.pajak}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
@@ -310,7 +311,7 @@ class _StatusPaymentScreenState extends State<StatusPaymentScreen> {
                             children: [
                               const Text('Pajak'),
                               Text(
-                                'Rp$pajak',
+                                'Rp${widget.pajak}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
