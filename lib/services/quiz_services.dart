@@ -2,12 +2,12 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/quizz_models/quizz_model.dart';
+import 'package:harsa_mobile/models/quiz_models/quiz_model.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:harsa_mobile/utils/constants/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class QuizzServices {
+class QuizServices {
   final Dio _dio = Dio();
 
   Map<String, String> head = {
@@ -22,7 +22,7 @@ class QuizzServices {
     token = sp.getString(SPKey.accessToken);
   }
 
-  Future<QuizzData?> getQuizzById(
+  Future<Quiz?> getQuizById(
       {required int id, required int moduleId}) async {
     await setToken();
     if (token != null) {
@@ -36,7 +36,7 @@ class QuizzServices {
 
         if (response.statusCode == 200) {
           debugPrint('=> response : ${response.data['data']}');
-          return QuizzData.fromJson(response.data['data']);
+          return Quiz.fromJson(response.data['data']);
         } else {
           return null;
         }
@@ -48,7 +48,7 @@ class QuizzServices {
     return null;
   }
 
-  Future<bool> submitAnswers(int id, List<QuizzAnswer> answers) async {
+  Future<bool> submitAnswers(int id, List<QuizAnswer> answers) async {
     if (token != null) {
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";

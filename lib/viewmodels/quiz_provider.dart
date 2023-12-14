@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/quizz_models/quizz_model.dart';
-import 'package:harsa_mobile/services/quizz_services.dart';
+import 'package:harsa_mobile/models/quiz_models/quiz_model.dart';
+import 'package:harsa_mobile/services/quiz_services.dart';
 
 class QuizProvider with ChangeNotifier {
   final PageController pageController = PageController();
-  QuizzData? _quizzData;
+  Quiz? _quiz;
+  // Indeks pertanyaan yang sedang aktif
+  int _currentQuestionIndex = 0;
+  // Map untuk menyimpan jawaban yang dipilih
+  final Map<int, int> _selectedOptions = {};
+  bool _isGridViewVisible = false;
 
-  QuizzData? get quizzData => _quizzData;
-  Future<void> getQuizzData(int id, int moduleId) async {
+  Quiz? get quiz => _quiz;
+  // Getter untuk indeks pertanyaan saat ini
+  int get currentQuestionIndex => _currentQuestionIndex;
+  bool get isGridViewVisible => _isGridViewVisible;
+
+  Future<void> getQuizData(int id, int moduleId) async {
     try {
-      final quizzData =
-          await QuizzServices().getQuizzById(id: id, moduleId: moduleId);
-      if (quizzData != null) {
-        _quizzData = quizzData;
-        debugPrint('=> ${quizzData.toString()}');
+      final quiz =
+          await QuizServices().getQuizById(id: id, moduleId: moduleId);
+      if (quiz != null) {
+        _quiz = quiz;
+        debugPrint('=> ${quiz.toString()}');
         notifyListeners();
       }
     } catch (e) {
@@ -22,27 +31,18 @@ class QuizProvider with ChangeNotifier {
     }
   }
 
-  // Indeks pertanyaan yang sedang aktif
-  int _currentQuestionIndex = 0;
-
-  // Map untuk menyimpan jawaban yang dipilih
-  final Map<int, int> _selectedOptions = {};
-
-  Future<void> submitQuizzAnswers(int id) async {
+  Future<void> submitQuizAnswers(int id) async {
     try {
-      List<QuizzAnswer> answers = _selectedOptions.entries.map((entry) {
-        return QuizzAnswer(questionId: entry.key, optionId: entry.value);
+      List<QuizAnswer> answers = _selectedOptions.entries.map((entry) {
+        return QuizAnswer(questionId: entry.key, optionId: entry.value);
       }).toList();
       debugPrint('=> answers : ${answers.toList()}');
-      await QuizzServices().submitAnswers(id, answers);
+      await QuizServices().submitAnswers(id, answers);
     } catch (e) {
       debugPrint('=> error: $e');
       rethrow;
     }
   }
-
-  // Getter untuk indeks pertanyaan saat ini
-  int get currentQuestionIndex => _currentQuestionIndex;
 
   // Fungsi untuk memilih jawaban
   void selectOption(int questionIndex, int selectedOption) {
@@ -70,10 +70,6 @@ class QuizProvider with ChangeNotifier {
     }
   }
 
-  bool _isGridViewVisible = false;
-
-  bool get isGridViewVisible => _isGridViewVisible;
-
   void toggleGridViewVisibility() {
     _isGridViewVisible = !_isGridViewVisible;
     notifyListeners();
@@ -81,7 +77,7 @@ class QuizProvider with ChangeNotifier {
 
   // Fungsi untuk berpindah ke pertanyaan berikutnya
   void goToNextQuestion() {
-    if (_currentQuestionIndex < quizzData!.questions.length - 1) {
+    if (_currentQuestionIndex < quiz!.questions.length - 1) {
       _currentQuestionIndex++;
       if (pageController.hasClients) {
         pageController.jumpToPage(_currentQuestionIndex);
@@ -97,7 +93,7 @@ class QuizProvider with ChangeNotifier {
   }
 
   void goToQuestion(int questionIndex) {
-    if (questionIndex >= 0 && questionIndex < quizzData!.questions.length) {
+    if (questionIndex >= 0 && questionIndex < quiz!.questions.length) {
       _currentQuestionIndex = questionIndex;
       pageController.jumpToPage(questionIndex);
       notifyListeners();

@@ -1,4 +1,4 @@
-class QuizzData {
+class Quiz {
   final int id;
   final int moduleId;
   final String title;
@@ -8,7 +8,7 @@ class QuizzData {
   final DateTime updatedAt;
   final List<Question> questions;
 
-  QuizzData({
+  Quiz({
     required this.id,
     required this.moduleId,
     required this.title,
@@ -19,8 +19,8 @@ class QuizzData {
     required this.questions,
   });
 
-  factory QuizzData.fromJson(Map<String, dynamic> json) {
-    return QuizzData(
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    return Quiz(
       id: json['id'] as int,
       moduleId: json['module_id'] as int,
       title: json['title'] as String,
@@ -74,11 +74,11 @@ class Option {
   }
 }
 
-class QuizzAnswer {
+class QuizAnswer {
   final int questionId;
   final int optionId;
 
-  QuizzAnswer({required this.questionId, required this.optionId});
+  QuizAnswer({required this.questionId, required this.optionId});
 
   Map<String, dynamic> toJson() {
     return {

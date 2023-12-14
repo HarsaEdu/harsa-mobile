@@ -15,7 +15,7 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       body: FutureBuilder(
-          future: controller.getQuizzData(1, 1),
+          future: controller.getQuizData(1, 1),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -71,9 +71,9 @@ class QuizScreen extends StatelessWidget {
                                   Column(
                                     children: [
                                       KelasCard(
-                                        className: controller.quizzData!.title,
+                                        className: controller.quiz!.title,
                                         mentorName:
-                                            controller.quizzData!.description,
+                                            controller.quiz!.description,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(16.0),
@@ -119,12 +119,12 @@ class QuizScreen extends StatelessWidget {
                                                     prov.updateQuestionIndex(
                                                         index);
                                                   },
-                                                  itemCount: prov.quizzData
+                                                  itemCount: prov.quiz
                                                       ?.questions.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     final question = prov
-                                                        .quizzData
+                                                        .quiz
                                                         ?.questions[index];
                                                     return Column(
                                                       crossAxisAlignment:
@@ -238,7 +238,7 @@ class QuizScreen extends StatelessWidget {
                                 crossAxisCount: 8,
                                 childAspectRatio: 1,
                               ),
-                              itemCount: prov.quizzData?.questions.length,
+                              itemCount: prov.quiz?.questions.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () => prov.goToQuestion(index),
@@ -309,14 +309,14 @@ class QuizScreen extends StatelessWidget {
                                     border:
                                         Border.all(color: ColorsPallete.grey)),
                                 child: Text(
-                                  '${prov.currentQuestionIndex + 1}/${prov.quizzData!.questions.length}',
+                                  '${prov.currentQuestionIndex + 1}/${prov.quiz!.questions.length}',
                                   style: Theme.of(context).textTheme.labelSmall,
                                 ),
                               ),
                             ),
                             const Spacer(),
                             if (prov.currentQuestionIndex <
-                                prov.quizzData!.questions.length - 1)
+                                prov.quiz!.questions.length - 1)
                               ElevatedButton(
                                 onPressed: () {
                                   prov.goToNextQuestion();
@@ -338,14 +338,14 @@ class QuizScreen extends StatelessWidget {
                                     content:
                                         'Periksa kembali jawabanmu sebelum di simpan',
                                     onConfirm: () async {
-                                      await prov.submitQuizzAnswers(1).then(
+                                      await prov.submitQuizAnswers(1).then(
                                           (value) =>
                                               Navigator.of(context).pop());
                                       if (context.mounted) {
                                         CongratulationAlert.show(context,
                                             title: 'Congratulation!',
                                             content:
-                                                'Kamu sudah berhasil menyelesaikan ${controller.quizzData!.title}');
+                                                'Kamu sudah berhasil menyelesaikan ${controller.quiz!.title}');
                                       }
                                     },
                                     onCancel: () {
