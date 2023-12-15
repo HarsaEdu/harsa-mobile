@@ -8,16 +8,6 @@ class CategoryScreenProvider extends ChangeNotifier {
   bool _isCategoryList = true;
   int _lastTabIndex = 0;
 
-  List<String> categories = [
-    'Pemrograman',
-    'Robotika',
-    'Sosial',
-    'Alam',
-    'Bisnis',
-    'Komputer',
-    'Pemrograman',
-  ];
-
   bool get isArrowUp => _isArrowUp;
   bool get isCategoryList => _isCategoryList;
   int get lastTabIndex => _lastTabIndex;
@@ -34,18 +24,14 @@ class CategoryScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int getCategoryCount() {
+    return categoryList.length;
+  }
+
   void changeTabIndex(int index) {
     _lastTabIndex = index;
 
     notifyListeners();
-  }
-
-  String getCategoryAtIndex(int index) {
-    return categories[index];
-  }
-
-  int getCategoryCount() {
-    return categories.length;
   }
 
   List<CategoryListData> categoryList = [];
