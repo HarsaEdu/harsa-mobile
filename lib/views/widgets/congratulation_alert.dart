@@ -3,19 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class CongratulationAlert {
-  static Future<void> show(BuildContext context, {
-    required String title,
-    required String content
-  }) {
-   return showDialog(
+  static Future<void> show(BuildContext context,
+      {required String title, required String content}) {
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          backgroundColor:
-              ColorsPallete.prussianBlue,
+          backgroundColor: ColorsPallete.prussianBlue,
           content: Padding(
             padding: const EdgeInsets.only(top: 32.0, bottom: 12),
             child: Column(
