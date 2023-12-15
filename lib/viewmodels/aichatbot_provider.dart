@@ -7,6 +7,7 @@ import 'package:harsa_mobile/utils/constants/aichatbot_screen_constants.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 
 class AIChatbotProvider with ChangeNotifier {
+  late final GlobalKey<ScaffoldState> scaffoldKey;
   late final GlobalKey<FormState> chatFormKey;
   late final GlobalKey<FormState> topicFormKey;
   late final GlobalKey<FormState> renameFormKey;
@@ -16,6 +17,7 @@ class AIChatbotProvider with ChangeNotifier {
   late final FocusNode renameNode;
 
   AIChatbotProvider() {
+    scaffoldKey = GlobalKey();
     chatFormKey = GlobalKey();
     topicFormKey = GlobalKey();
     renameFormKey = GlobalKey();
@@ -32,6 +34,8 @@ class AIChatbotProvider with ChangeNotifier {
     getUserThreads();
   }
 
+  bool canPop = false;
+
   String isRenaming = "";
   String activeThreadId = "";
   List<Map<String, String>> suggestions = [];
@@ -41,6 +45,25 @@ class AIChatbotProvider with ChangeNotifier {
 
   ThreadChatsModel? threadChatsModel;
   UserThreadsModel? userThreadsModel;
+
+  void onBack(BuildContext context, bool didPop) {
+    if (scaffoldKey.currentState!.isEndDrawerOpen) {
+      scaffoldKey.currentState!.closeEndDrawer();
+      canPop = true;
+    }
+    notifyListeners();
+  }
+
+  void closeDrawer() {
+    scaffoldKey.currentState!.closeEndDrawer();
+    notifyListeners();
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState!.openEndDrawer();
+    canPop = false;
+    notifyListeners();
+  }
 
   String? validateTopic(String? value) {
     if (value == null || value == "") return "Masukkan Topik";
@@ -106,6 +129,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
@@ -131,13 +156,15 @@ class AIChatbotProvider with ChangeNotifier {
 
       threadChatsModel = chats;
       chatController.clear();
+      suggestions.clear();
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
-    suggestions.clear();
     screen = AIChatBotScreen.chat;
     notifyListeners();
   }
@@ -161,6 +188,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
@@ -180,6 +209,7 @@ class AIChatbotProvider with ChangeNotifier {
       final chats = await ChatbotService.getThreadChats(threadId: threadId);
 
       threadChatsModel = chats;
+      chatLoadingState = LoadingState.success;
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         threadChatsModel = null;
@@ -187,6 +217,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
@@ -215,6 +247,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
@@ -245,6 +279,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
@@ -286,6 +322,8 @@ class AIChatbotProvider with ChangeNotifier {
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
+      chatLoadingState = LoadingState.failed;
+      notifyListeners();
       rethrow;
     }
 
