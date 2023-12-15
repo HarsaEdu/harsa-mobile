@@ -1,16 +1,26 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
+import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
-import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/ulasan_card.dart';
+import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/myulasan_card.dart';
+import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/testi_card.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class UlasanScreenContent extends StatelessWidget {
-  const UlasanScreenContent({super.key});
+class UlasanScreen extends StatelessWidget {
+  final CourseDetailsData? course;
+  final CourseFeedbackModel? feedback;
+  final MyFeedbackModel? myFeedback;
+
+  const UlasanScreen({
+    Key? key,
+    this.feedback,
+    this.myFeedback,
+    this.course,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +34,7 @@ class UlasanScreenContent extends StatelessWidget {
         isDraggable: false,
         defaultPanelState: PanelState.OPEN,
         boxShadow: const [],
-        panel: _buildSlidingPanel(context, provider),
+        panel: _buildSlidingPanel(context, provider, course!),
         body: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).padding.top + 16),
@@ -58,23 +68,41 @@ class UlasanScreenContent extends StatelessWidget {
             Expanded(
               child: Consumer<UlasanScreenProvider>(
                 builder: (context, provider, child) {
-                  return ListView.builder(
+                  return ListView.separated(
                     padding: const EdgeInsets.only(top: 10),
-                    itemCount: provider.daftarUlasan.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: CardUlasan(
-                          ulasan: provider.daftarUlasan[index],
-                          onEdit: () {
-                            provider.showEditPanel(
-                                provider.daftarUlasan[index], index);
-                          },
-                          onDelete: () {
-                            provider.deleteUlasan(provider.daftarUlasan[index]);
-                          },
-                        ),
-                      );
+                    itemCount: feedback?.data.length ?? 0,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 10),
+                    itemBuilder: (context, itemIndex) {
+                      final feedbackItem = feedback?.data[itemIndex];
+                      if (feedbackItem != null) {
+                        final isMyFeedback = feedbackItem.user.id ==
+                            provider.myFeedbackModel?.data.user.id;
+                        if (isMyFeedback) {
+                          return MyUlasanCard(
+                            fotoUrl: feedback!.data[itemIndex].user.imageUrl,
+                            namaPengguna: feedback!.data[itemIndex].user.name,
+                            waktu: Provider.of<UlasanScreenProvider>(context,
+                                    listen: false)
+                                .feedbackSince(
+                                    feedback!.data[itemIndex].updatedAt),
+                            teksUlasan: feedback!.data[itemIndex].content,
+                            rating: feedback!.data[itemIndex].rating,
+                          );
+                        } else {
+                          return TestiCard(
+                            fotoUrl: myFeedback!.data.user.imageUrl,
+                            namaPengguna: myFeedback!.data.user.name,
+                            waktu: Provider.of<UlasanScreenProvider>(context,
+                                    listen: false)
+                                .feedbackSince(myFeedback!.data.updatedAt),
+                            teksUlasan: myFeedback!.data.content,
+                            rating: myFeedback!.data.rating,
+                          );
+                        }
+                      } else {
+                        return Container();
+                      }
                     },
                   );
                 },
@@ -86,8 +114,8 @@ class UlasanScreenContent extends StatelessWidget {
     );
   }
 
-  Widget _buildSlidingPanel(
-      BuildContext context, UlasanScreenProvider provider) {
+  Widget _buildSlidingPanel(BuildContext context, UlasanScreenProvider provider,
+      CourseDetailsData course) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -105,28 +133,24 @@ class UlasanScreenContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          RatingBar.builder(
-            initialRating: provider.rating,
-            minRating: 1,
-            direction: Axis.horizontal,
-            itemCount: 5,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 3.0),
-            itemSize: 21,
-            itemBuilder: (context, index) {
-              return SvgPicture.asset(
-                index < provider.rating
-                    ? 'assets/icons/filled/rating.svg'
-                    : 'assets/icons/filled/non_rating.svg',
-                color: index < provider.rating ? Colors.amber : Colors.grey,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(5, (index) {
+              return GestureDetector(
+                onTap: () {
+                  provider.rate(index);
+                },
+                child: Icon(
+                  index < provider.rating ? Icons.star : Icons.star_border,
+                  color: Colors.black,
+                  size: 28,
+                ),
               );
-            },
-            onRatingUpdate: (newRating) {
-              provider.rating = newRating;
-            },
+            }),
           ),
           const SizedBox(height: 16.0),
           TextFormField(
-            controller: provider.komentarController,
+            controller: provider.ratingController,
             maxLines: 5,
             style: const TextStyle(
               fontSize: 12,
@@ -155,13 +179,12 @@ class UlasanScreenContent extends StatelessWidget {
                   minimumSize: const Size(99, 26),
                 ),
                 onPressed: () {
-                  if (provider.ulasanTerbaru != null) {
-                    provider.editUlasan();
+                  if (provider.myFeedbackModel != null) {
+                    provider.editMyFeedback();
                   } else {
-                    provider.kirimUlasan();
+                    provider.submitMyFeedback(courseId: course.course.id);
                   }
-                  provider.updateUlasanState();
-                  if (provider.komentarController.text.isNotEmpty &&
+                  if (provider.ratingController!.text.isNotEmpty &&
                       provider.rating > 0) {
                     provider.panelController.close();
                   }

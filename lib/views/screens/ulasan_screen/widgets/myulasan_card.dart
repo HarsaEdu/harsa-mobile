@@ -2,19 +2,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:harsa_mobile/models/ulasan_model.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
+import 'package:provider/provider.dart';
 
-class CardUlasan extends StatelessWidget {
-  final UlasanModel ulasan;
-  final Function() onEdit;
-  final Function() onDelete;
+class MyUlasanCard extends StatelessWidget {
+  final String fotoUrl;
+  final String namaPengguna;
+  final String waktu;
+  final String teksUlasan;
+  final int rating;
 
-  const CardUlasan({
+  const MyUlasanCard({
     super.key,
-    required this.ulasan,
-    required this.onEdit,
-    required this.onDelete,
+    required this.fotoUrl,
+    required this.namaPengguna,
+    required this.waktu,
+    required this.teksUlasan,
+    required this.rating,
   });
 
   @override
@@ -31,7 +36,7 @@ class CardUlasan extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(ulasan.fotoUrl),
+                backgroundImage: NetworkImage(fotoUrl),
                 radius: (42 / 2),
               ),
               const SizedBox(width: 20.0),
@@ -42,7 +47,7 @@ class CardUlasan extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          ulasan.namaPengguna,
+                          namaPengguna,
                           style: const TextStyle(
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold,
@@ -62,7 +67,7 @@ class CardUlasan extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          ' ${ulasan.waktu}',
+                          ' $waktu',
                           style: const TextStyle(
                             fontSize: 12.0,
                             color: Colors.black,
@@ -72,7 +77,7 @@ class CardUlasan extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      ulasan.teksUlasan,
+                      teksUlasan,
                       style: const TextStyle(fontSize: 12.0),
                     ),
                     const SizedBox(height: 25.0),
@@ -86,10 +91,10 @@ class CardUlasan extends StatelessWidget {
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 3.0),
                                 child: SvgPicture.asset(
-                                  index < ulasan.rating
+                                  index < rating
                                       ? 'assets/icons/filled/rating.svg'
                                       : 'assets/icons/filled/non_rating.svg',
-                                  color: index < ulasan.rating
+                                  color: index < rating
                                       ? Colors.amber
                                       : Colors.grey,
                                   width: 16,
@@ -99,29 +104,32 @@ class CardUlasan extends StatelessWidget {
                             }),
                           ),
                           const Spacer(),
-                          if (ulasan.isUserReview)
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: SvgPicture.asset(
-                                    'assets/icons/outline/square_and_pencil.svg',
-                                    width: 24,
-                                    height: 24,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: onEdit,
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/icons/outline/square_and_pencil.svg',
+                                  width: 24,
+                                  height: 24,
+                                  color: Colors.black,
                                 ),
-                                IconButton(
-                                  icon: SvgPicture.asset(
-                                    'assets/icons/outline/trash.svg',
-                                    width: 24,
-                                    height: 24,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: onDelete,
+                                onPressed: () {
+                                  Provider.of<UlasanScreenProvider>(context,
+                                          listen: false)
+                                      .editMyFeedback();
+                                },
+                              ),
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/icons/outline/trash.svg',
+                                  width: 24,
+                                  height: 24,
+                                  color: Colors.black,
                                 ),
-                              ],
-                            ),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

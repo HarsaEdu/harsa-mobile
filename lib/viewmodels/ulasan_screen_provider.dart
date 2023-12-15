@@ -1,163 +1,120 @@
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/ulasan_model.dart';
+import 'package:harsa_mobile/services/feedback_services.dart';
+import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
+import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class UlasanScreenProvider extends ChangeNotifier {
-  final List<UlasanModel> _daftarUlasan = [
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-    UlasanModel(
-      fotoUrl:
-          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-      namaPengguna: 'Ujang',
-      waktu: '5 h lalu',
-      teksUlasan: 'There are many variations',
-      rating: 4.0,
-      isUserReview: false,
-    ),
-  ];
+  final GlobalKey<FormState> ratingFormKey = GlobalKey();
+  TextEditingController? ratingController;
+  PanelController panelController = PanelController();
 
-  List<UlasanModel> get daftarUlasan => _daftarUlasan;
+  LoadingState loadingState = LoadingState.initial;
 
-  double _rating = 0;
-  final TextEditingController _komentarController = TextEditingController();
-  final PanelController _panelController = PanelController();
-  UlasanModel? _ulasanTerbaru;
-  int? _editedIndex;
+  CourseFeedbackModel? courseFeedbackModel;
+  MyFeedbackModel? myFeedbackModel;
 
-  double get rating => _rating;
-  TextEditingController get komentarController => _komentarController;
-  PanelController get panelController => _panelController;
-  UlasanModel? get ulasanTerbaru => _ulasanTerbaru;
-  int? get editedIndex => _editedIndex;
+  late bool isEditing;
+  late bool isUpdating;
+  late int rating;
 
-  set rating(double value) {
-    _rating = value;
-    notifyListeners(); 
-  }
+  String feedbackSince(DateTime updatedFeedback) {
+    DateTime currentDate = DateTime.now();
 
-  void kirimUlasan() {
-    if (_rating > 0 && _komentarController.text.isNotEmpty) {
-      UlasanModel ulasanBaru = UlasanModel(
-        fotoUrl:
-            'https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg',
-        namaPengguna: 'Asep',
-        waktu: 'Baru saja',
-        teksUlasan: _komentarController.text,
-        rating: _rating,
-        isUserReview: true,
-      );
+    Duration difference = currentDate.difference(updatedFeedback);
 
-      _daftarUlasan.insert(0, ulasanBaru);
-
-      _komentarController.clear();
-      _rating = 0;
-
-      notifyListeners();
-      _panelController.close();
+    if (difference.inMinutes <= 60) {
+      return "${difference.inMinutes.toString()} menit lalu";
+    } else if (difference.inHours >= 1 && difference.inHours < 24) {
+      return "${difference.inHours.toString()} jam lalu";
+    } else if (difference.inDays >= 1 && difference.inDays < 30) {
+      return "${difference.inDays.toString()} hari lalu";
     }
+    return "${updatedFeedback.day}/${updatedFeedback.month}/${updatedFeedback.year}";
   }
 
-  void updateUlasanState() {
+  void editMyFeedback() {
+    ratingController!.text = myFeedbackModel!.data.content;
+    rating = myFeedbackModel!.data.rating;
+    isEditing = true;
+    isUpdating = true;
     notifyListeners();
   }
 
-  void showEditPanel(UlasanModel ulasan, int index) {
-    _ulasanTerbaru = ulasan;
-    _editedIndex = index;
-    _komentarController.text = _ulasanTerbaru!.teksUlasan;
-    _rating = _ulasanTerbaru!.rating;
-
-    _panelController.open();
+  void rate(int newRating) {
+    rating = newRating + 1;
     notifyListeners();
   }
 
-  void editUlasan() {
-    if (_ulasanTerbaru != null && _editedIndex != null) {
-      _daftarUlasan[_editedIndex!] = UlasanModel(
-        fotoUrl: _ulasanTerbaru!.fotoUrl,
-        namaPengguna: _ulasanTerbaru!.namaPengguna,
-        waktu: _ulasanTerbaru!.waktu,
-        teksUlasan: _komentarController.text,
-        rating: _rating,
-        isUserReview: true,
-      );
+  String? validateRating(String? value) {
+    return value == null || value == "" ? "Ulasan wajib diisi" : null;
+  }
 
-      updateUlasanState();
-      _komentarController.clear();
-      _rating = 0;
-      _ulasanTerbaru = null;
-      _editedIndex = null;
+  void submitMyFeedback({required int courseId}) async {
+    if (!ratingFormKey.currentState!.validate() || rating == 0) return;
 
+    try {
+      loadingState = LoadingState.loading;
       notifyListeners();
-      _panelController.close();
+
+      if (isUpdating) {
+        await FeedbackServices.updateMyFeedback(
+          courseId: courseId,
+          rating: rating,
+          feedback: ratingController!.text,
+        );
+      } else {
+        await FeedbackServices.createMyFeedback(
+          courseId: courseId,
+          rating: rating,
+          feedback: ratingController!.text,
+        );
+      }
+
+      final feedbacks =
+          await FeedbackServices.getMyCourseFeedback(courseId: courseId);
+
+      myFeedbackModel = feedbacks;
+
+      isEditing = false;
+      loadingState = LoadingState.success;
+      notifyListeners();
+    } catch (_) {
+      loadingState = LoadingState.failed;
+      notifyListeners();
+      rethrow;
     }
   }
 
-  void deleteUlasan(UlasanModel ulasan) {
-    _daftarUlasan.remove(ulasan);
-    updateUlasanState();
-    _panelController.open();
+  void deleteMyFeedback({required int courseId}) async {
+    try {
+      loadingState = LoadingState.loading;
+      notifyListeners();
+
+      await FeedbackServices.deleteMyFeedback(courseId: courseId);
+
+      final feedbacks =
+          await FeedbackServices.getMyCourseFeedback(courseId: courseId);
+
+      myFeedbackModel = feedbacks;
+
+      isEditing = false;
+      loadingState = LoadingState.failed;
+      notifyListeners();
+    } on DioException catch (e) {
+      if (e.response!.statusCode! == 404) {
+        myFeedbackModel = null;
+        rating = 0;
+        ratingController!.clear();
+        isUpdating = false;
+        isEditing = true;
+      }
+      loadingState = LoadingState.success;
+      notifyListeners();
+      rethrow;
+    }
   }
 }

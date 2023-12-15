@@ -183,7 +183,7 @@ class MainApp extends StatelessWidget {
               );
             case '/ulasan':
               return MaterialPageRoute(
-                builder: (context) => const UlasanScreenContent(),
+                builder: (context) => const UlasanScreen(),
               );
             case '/aichatbot':
               return MaterialPageRoute(
