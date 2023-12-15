@@ -139,11 +139,10 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/splash',
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/splash':
+            case '/':
               return MaterialPageRoute(
                 builder: (context) => const SplashScreen(),
               );

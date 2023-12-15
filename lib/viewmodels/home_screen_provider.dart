@@ -51,10 +51,8 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void getRecommendation() async {
     CourseRecommendation? cr =
-        await CourseRecommendationServices().getRecommendation();
+        await CourseRecommendationServices().getRecommendation(maxItem: 5);
     courseRecomendationList = cr!.recommendations;
-    print('=> $courseRecomendationList');
-    debugPrint('=> ${courseRecomendationList.length.toString()}');
     notifyListeners();
   }
 

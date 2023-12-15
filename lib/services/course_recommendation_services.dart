@@ -25,15 +25,14 @@ class CourseRecommendationServices {
   Future<CourseRecommendation?> getRecommendation({int maxItem = 20}) async {
     await setToken();
     if (token != null) {
+      print(token);
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
         Response response = await _dio.post(
             '${Urls.baseUrl}${Urls.platformUrl}/recommendations',
             options: Options(headers: head),
             data: {'max': maxItem});
-
         if (response.statusCode == 200) {
-          print(response.data);
           return CourseRecommendation.fromJson(response.data['data']);
         } else {
           return null;

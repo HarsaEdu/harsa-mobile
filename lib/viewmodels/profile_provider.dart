@@ -14,6 +14,7 @@ class ProfileProvider extends ChangeNotifier {
 
   void getProfile() async {
     userProfileData = await ProfileServices.getUserProfile();
+    notifyListeners();
   }
 
   void logOut() async {

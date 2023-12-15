@@ -11,8 +11,6 @@ import 'package:harsa_mobile/services/auth_service.dart';
 import '/views/screens/notification_screen/notification_screen.dart';
 
 class MainScreenProvider extends ChangeNotifier {
-  bool isLogged = false;
-
   bool canPop = false;
 
   List<Widget> pageList = [
@@ -48,7 +46,6 @@ class MainScreenProvider extends ChangeNotifier {
 
     if (sp.getBool(SPKey.isLogged) == null ||
         sp.getBool(SPKey.isLogged) == false) {
-      isLogged = false;
       pageList = [
         const HomeScreen(),
         const LoginReminderScreen(),
@@ -57,7 +54,6 @@ class MainScreenProvider extends ChangeNotifier {
         const LoginReminderScreen(),
       ];
     } else {
-      isLogged = true;
       pageIndex = 0;
       refreshToken();
       pageList = [
@@ -83,7 +79,5 @@ class MainScreenProvider extends ChangeNotifier {
     sp.setString(SPKey.roleName, result.data.roleName);
     sp.setString(SPKey.accessToken, result.data.accessToken);
     sp.setString(SPKey.refreshToken, result.data.refreshToken);
-
-    notifyListeners();
   }
 }
