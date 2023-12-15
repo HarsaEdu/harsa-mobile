@@ -1,10 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/home_screen_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -71,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const CircleAvatar(
                       radius: 20,
                     ),
@@ -108,9 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         viewportFraction: 1,
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -122,8 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           InkWell(
                             child: SvgPicture.asset(
-                                'assets/icons/outline/chevron_forward.svg'),
-                          )
+                              'assets/icons/outline/chevron_forward.svg',
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/category');
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -131,42 +132,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, value, child) => GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 8,
+                        itemCount: value.categoryList.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 15,
                           crossAxisCount: 4,
                           crossAxisSpacing: 20,
                         ),
-                        itemBuilder: (context, index) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: ColorsPallete.lightBlueSky,
-                          ),
-                          height: 80,
-                          width: 80,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                value.categoryList[index]['icon']!,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                value.categoryList[index]['name']!,
-                                style: Theme.of(context).textTheme.labelMedium,
-                              ),
-                            ],
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/category');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: ColorsPallete.lightBlueSky,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                  value.categoryList[index].icon,
+                                  height: 45,
+                                  width: 45,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  value.categoryList[index].name,
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -178,8 +181,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           InkWell(
                             child: SvgPicture.asset(
-                                'assets/icons/outline/chevron_forward.svg'),
-                          )
+                              'assets/icons/outline/chevron_forward.svg',
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -214,7 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 15),
+                                        horizontal: 15,
+                                        vertical: 15,
+                                      ),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -228,8 +234,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .textTheme
                                                 .bodyLarge
                                                 ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                           ),
                                           Text(
                                             recommendation.instructorName,
@@ -245,7 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               SvgPicture.asset(
-                                                  'assets/icons/filled/rating.svg'),
+                                                'assets/icons/filled/rating.svg',
+                                              ),
                                               const SizedBox(width: 5),
                                               Text(
                                                 recommendation.predictedRating
@@ -254,8 +261,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .textTheme
                                                     .bodyLarge
                                                     ?.copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -270,9 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -284,8 +290,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           InkWell(
                             child: SvgPicture.asset(
-                                'assets/icons/outline/chevron_forward.svg'),
-                          )
+                              'assets/icons/outline/chevron_forward.svg',
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -293,63 +300,65 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, value, child) => SizedBox(
                         height: 200,
                         child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: value.subscriptionPlanList.length,
-                            itemBuilder: (context, index) {
-                              final subsPlan =
-                                  value.subscriptionPlanList[index];
-                              return Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                margin: const EdgeInsets.only(right: 26),
-                                width: 290,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.network(
-                                      subsPlan.image,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 120,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 18),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              subsPlan.title,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge,
-                                            ),
-                                            Text(
-                                              subsPlan.description,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: value.subscriptionPlanList.length,
+                          itemBuilder: (context, index) {
+                            final subsPlan = value.subscriptionPlanList[index];
+                            return Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              margin: const EdgeInsets.only(right: 26),
+                              width: 290,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.network(
+                                    subsPlan.image,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 120,
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 18,
                                       ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            subsPlan.title,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                          ),
+                                          Text(
+                                            subsPlan.description,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

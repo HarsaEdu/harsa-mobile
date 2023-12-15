@@ -1,47 +1,16 @@
 import 'package:flutter/material.dart';
+
+import 'package:harsa_mobile/models/category_models/category_home_model.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
+import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/course_recommendation_services.dart';
 import 'package:harsa_mobile/services/subscription_service.dart';
 
 class HomeScreenProvider extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
 
-  final List<Map<String, String>> categoryList = [
-    {
-      'name': 'Sosial',
-      'icon': 'assets/icons/category_icon/person.3.fill.svg',
-    },
-    {
-      'name': 'Bisnis',
-      'icon': 'assets/icons/category_icon/Vector.svg',
-    },
-    {
-      'name': 'Mutimedia',
-      'icon': 'assets/icons/category_icon/play.rectangle.on.rectangle.fill.svg'
-    },
-    {
-      'name': 'Jaringan',
-      'icon': 'assets/icons/category_icon/Vector-1.svg',
-    },
-    {
-      'name': 'AI',
-      'icon':
-          'assets/icons/category_icon/rectangles.group.bubble.left.fill.svg',
-    },
-    {
-      'name': 'Desain',
-      'icon': 'assets/icons/category_icon/paintpalette_fill.svg',
-    },
-    {
-      'name': 'Komputer',
-      'icon': 'assets/icons/category_icon/icon_laptop_computer.svg',
-    },
-    {
-      'name': 'Cyber',
-      'icon': 'assets/icons/category_icon/cpu.fill.svg',
-    },
-  ];
+  List<CategoryData> categoryList = [];
 
   List<Recommendation> courseRecomendationList = [];
 
@@ -50,6 +19,7 @@ class HomeScreenProvider extends ChangeNotifier {
   HomeScreenProvider() {
     getRecommendation();
     getSubsPlanList();
+    getCategories();
   }
 
   void getRecommendation() async {
@@ -62,6 +32,12 @@ class HomeScreenProvider extends ChangeNotifier {
   void getSubsPlanList() async {
     final subsplan = await SubsService().getSubscriptions();
     subscriptionPlanList = subsplan;
+    notifyListeners();
+  }
+
+  void getCategories() async {
+    final categoryData = await CategoryService().getCategories();
+    categoryList = categoryData.data;
     notifyListeners();
   }
 }
