@@ -137,7 +137,8 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/splash',
+        // initialRoute: '/splash',
+        home: UlasanScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {

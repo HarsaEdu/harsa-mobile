@@ -10,7 +10,7 @@ import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/testi_card.dart
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class UlasanScreen extends StatelessWidget {
+class UlasanScreen extends StatefulWidget {
   final CourseDetailsData? course;
   final CourseFeedbackModel? feedback;
   final MyFeedbackModel? myFeedback;
@@ -23,6 +23,11 @@ class UlasanScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<UlasanScreen> createState() => _UlasanScreenState();
+}
+
+class _UlasanScreenState extends State<UlasanScreen> {
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UlasanScreenProvider>(context);
     return Scaffold(
@@ -34,7 +39,7 @@ class UlasanScreen extends StatelessWidget {
         isDraggable: false,
         defaultPanelState: PanelState.OPEN,
         boxShadow: const [],
-        panel: _buildSlidingPanel(context, provider, course!),
+        panel: _buildSlidingPanel(context, provider, widget.course!),
         body: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).padding.top + 16),
@@ -70,34 +75,34 @@ class UlasanScreen extends StatelessWidget {
                 builder: (context, provider, child) {
                   return ListView.separated(
                     padding: const EdgeInsets.only(top: 10),
-                    itemCount: feedback?.data.length ?? 0,
+                    itemCount: widget.feedback?.data.length ?? 0,
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 10),
                     itemBuilder: (context, itemIndex) {
-                      final feedbackItem = feedback?.data[itemIndex];
+                      final feedbackItem = widget.feedback?.data[itemIndex];
                       if (feedbackItem != null) {
                         final isMyFeedback = feedbackItem.user.id ==
                             provider.myFeedbackModel?.data.user.id;
                         if (isMyFeedback) {
                           return MyUlasanCard(
-                            fotoUrl: feedback!.data[itemIndex].user.imageUrl,
-                            namaPengguna: feedback!.data[itemIndex].user.name,
-                            waktu: Provider.of<UlasanScreenProvider>(context,
-                                    listen: false)
-                                .feedbackSince(
-                                    feedback!.data[itemIndex].updatedAt),
-                            teksUlasan: feedback!.data[itemIndex].content,
-                            rating: feedback!.data[itemIndex].rating,
+                            fotoUrl:
+                                widget.feedback!.data[itemIndex].user.imageUrl,
+                            namaPengguna:
+                                widget.feedback!.data[itemIndex].user.name,
+                            waktu: provider.feedbackSince(
+                                widget.feedback!.data[itemIndex].updatedAt),
+                            teksUlasan:
+                                widget.feedback!.data[itemIndex].content,
+                            rating: widget.feedback!.data[itemIndex].rating,
                           );
                         } else {
                           return TestiCard(
-                            fotoUrl: myFeedback!.data.user.imageUrl,
-                            namaPengguna: myFeedback!.data.user.name,
-                            waktu: Provider.of<UlasanScreenProvider>(context,
-                                    listen: false)
-                                .feedbackSince(myFeedback!.data.updatedAt),
-                            teksUlasan: myFeedback!.data.content,
-                            rating: myFeedback!.data.rating,
+                            fotoUrl: widget.myFeedback!.data.user.imageUrl,
+                            namaPengguna: widget.myFeedback!.data.user.name,
+                            waktu: provider.feedbackSince(
+                                widget.myFeedback!.data.updatedAt),
+                            teksUlasan: widget.myFeedback!.data.content,
+                            rating: widget.myFeedback!.data.rating,
                           );
                         }
                       } else {
