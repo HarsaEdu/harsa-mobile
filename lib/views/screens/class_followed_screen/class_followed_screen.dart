@@ -81,7 +81,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Selesai',
+                          value: 'completed',
                           height: 40,
                           child: Text(
                             'Selesai',
@@ -93,7 +93,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Ongoing',
+                          value: 'in progress',
                           height: 40,
                           child: Text(
                             'Ongoing',
@@ -105,7 +105,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Baru',
+                          value: '',
                           height: 40,
                           child: Text(
                             'Baru',
