@@ -7,9 +7,9 @@ class TugasProvider extends ChangeNotifier {
   bool get isFileSelected => _isFileSelected;
   String? get selectedFileName => _selectedFileName;
 
-  void selectFile(String fileName) {
+  void selectFile(String filePath) {
     _isFileSelected = true;
-    _selectedFileName = fileName;
+    _selectedFileName = filePath;
     notifyListeners();
   }
 
