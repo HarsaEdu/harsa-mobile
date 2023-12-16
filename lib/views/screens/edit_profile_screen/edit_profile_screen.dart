@@ -37,7 +37,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     icon: const Icon(Icons.chevron_left_outlined),
                   ),
                   Text(
