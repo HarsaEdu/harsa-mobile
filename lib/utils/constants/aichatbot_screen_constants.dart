@@ -1,0 +1,1 @@
+enum AIChatBotScreen { topic, chat }
