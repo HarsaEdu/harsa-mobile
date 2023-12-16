@@ -6,35 +6,45 @@ import '../utils/constants/urls.dart';
 
 class TugasService {
   final Dio _dio = Dio();
-  Map<String, String> head = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
-
-  String? token;
-
-  Future<void> setToken() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    token = sp.getString(SPKey.accessToken);
-  }
 
   Future<void> uploadPDF(String filePath) async {
-    String url =
-        '${Urls.baseUrl}${Urls.platformUrl}/courses/submissions/1/submission-answer';
-    await setToken();
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    final String? token = sp.getString(SPKey.accessToken);
+
     if (token != null) {
+      debugPrint('=> token : $token');
       try {
-        FormData formData = FormData.fromMap({
+        final FormData formData = FormData.fromMap({
           "file":
-              await MultipartFile.fromFile(filePath, filename: "submission.pdf")
+              await MultipartFile.fromFile(filePath)
         });
 
-        Response response = await _dio.post(url,
-            options: Options(headers: head), data: formData);
-        debugPrint(response.data);
+        final response = await _dio.post(
+          '${Urls.baseUrl}${Urls.platformUrl}/courses/submissions/1/submission-answer/',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data'
+          }),
+          data: formData,
+        );
+
+        if (response.statusCode == 201 || response.statusCode == 200) {
+          debugPrint('File uploaded successfully: ${response.data}');
+        } else {
+          debugPrint('Failed to upload file: ${response.statusCode}');
+        }
       } on DioException catch (e) {
-        debugPrint(e.toString());
+        if (e.response != null) {
+          debugPrint('DioError: ${e.response!.data}');
+          debugPrint('DioError: ${e.response!.headers}');
+          debugPrint('DioError: ${e.response!.requestOptions}');
+        } else {
+          debugPrint('DioError: ${e.message}');
+          debugPrint('DioError: ${e.requestOptions}');
+        }
       }
+    } else {
+      debugPrint('Access token is null');
     }
   }
 }

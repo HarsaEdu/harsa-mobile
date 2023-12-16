@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 class TugasProvider extends ChangeNotifier {
   bool _isFileSelected = false;
-  String? _selectedFileName;
+  String? _selectedFilePath; 
 
   bool get isFileSelected => _isFileSelected;
-  String? get selectedFileName => _selectedFileName;
+  String? get selectedFilePath => _selectedFilePath;
 
   void selectFile(String filePath) {
     _isFileSelected = true;
-    _selectedFileName = filePath;
+    _selectedFilePath = filePath;
     notifyListeners();
   }
 
   void clearFile() {
     _isFileSelected = false;
-    _selectedFileName = null;
+    _selectedFilePath = null;
     notifyListeners();
   }
 }
+
