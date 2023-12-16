@@ -12,9 +12,39 @@ class ProfileProvider extends ChangeNotifier {
 
   UserProfileData? userProfileData;
 
+  bool isSubs = false;
+
   void getProfile() async {
     userProfileData = await ProfileServices.getUserProfile();
     notifyListeners();
+  }
+
+  void langganan() {
+    Navigator.pushNamed(context, '/subscriptionlist');
+  }
+
+  void history() {
+    Navigator.pushNamed(context, '/riwayattransaksi');
+  }
+
+  void kelasSaya() {
+    Navigator.pushNamed(context, '/kelasdiikuti');
+  }
+
+  void sertif() {
+    Navigator.pushNamed(context, '/sertifikat');
+  }
+
+  void faq() {
+    Navigator.pushNamed(context, '/faq');
+  }
+
+  void editEmail() {
+    Navigator.pushNamed(context, '/editEmail');
+  }
+
+  void editSandi() {
+    Navigator.pushNamed(context, '/editSandi');
   }
 
   void logOut() async {
@@ -22,7 +52,7 @@ class ProfileProvider extends ChangeNotifier {
 
     ConfirmationDialog.show(
       context,
-      title: 'Are you sure?',
+      title: 'Log Out',
       content: 'Are you sure to Log Out?',
       onConfirm: () {
         sp.setBool(SPKey.isLogged, false);

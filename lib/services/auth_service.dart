@@ -52,7 +52,7 @@ class AuthService {
     return authModel;
   }
 
-  static Future<AuthModel> refreshToken({
+  static Future<AuthModel?> refreshToken({
     required String refreshToken,
   }) async {
     AuthModel? authModel;
@@ -64,7 +64,7 @@ class AuthService {
 
       authModel = AuthModel.fromJson(response.data);
     } on DioException catch (_) {
-      rethrow;
+      return null;
     }
 
     return authModel;

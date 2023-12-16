@@ -46,6 +46,7 @@ class MainScreenProvider extends ChangeNotifier {
 
     if (sp.getBool(SPKey.isLogged) == null ||
         sp.getBool(SPKey.isLogged) == false) {
+      pageIndex = 0;
       pageList = [
         const HomeScreen(),
         const LoginReminderScreen(),
@@ -55,29 +56,34 @@ class MainScreenProvider extends ChangeNotifier {
       ];
     } else {
       pageIndex = 0;
-      refreshToken();
-      pageList = [
-        const HomeScreen(),
-        const MenuKelasScreen(),
-        const AIChatbotScreen(),
-        const NotificationScreen(),
-        const ProfileScreen(),
-      ];
+      if (await refreshToken()) {
+        pageList = [
+          const HomeScreen(),
+          const MenuKelasScreen(),
+          const AIChatbotScreen(),
+          const NotificationScreen(),
+          const ProfileScreen(),
+        ];
+      }
     }
     notifyListeners();
   }
 
-  void refreshToken() async {
+  Future<bool> refreshToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
 
-    AuthModel result = await AuthService.refreshToken(
+    AuthModel? result = await AuthService.refreshToken(
         refreshToken: sp.getString(SPKey.refreshToken)!);
 
-    sp.setBool(SPKey.isLogged, true);
-    sp.setInt(SPKey.id, result.data.id);
-    sp.setString(SPKey.username, result.data.username);
-    sp.setString(SPKey.roleName, result.data.roleName);
-    sp.setString(SPKey.accessToken, result.data.accessToken);
-    sp.setString(SPKey.refreshToken, result.data.refreshToken);
+    if (result != null) {
+      sp.setBool(SPKey.isLogged, true);
+      sp.setInt(SPKey.id, result.data.id);
+      sp.setString(SPKey.username, result.data.username);
+      sp.setString(SPKey.roleName, result.data.roleName);
+      sp.setString(SPKey.accessToken, result.data.accessToken);
+      sp.setString(SPKey.refreshToken, result.data.refreshToken);
+      return true;
+    }
+    return false;
   }
 }

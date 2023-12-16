@@ -5,12 +5,18 @@ class CustomCardWidget extends StatelessWidget {
   final String packageName;
   final String subText;
   final String logoAssetPath;
+  final String daysRemain;
+  final double progress;
+  final String date;
 
   const CustomCardWidget({
     Key? key,
     required this.packageName,
     required this.subText,
     required this.logoAssetPath,
+    required this.daysRemain,
+    required this.progress,
+    required this.date,
   }) : super(key: key);
 
   @override
@@ -79,7 +85,7 @@ class CustomCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '1/30 hari',
+                    daysRemain,
                     style: GoogleFonts.poppins(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,
@@ -93,7 +99,7 @@ class CustomCardWidget extends StatelessWidget {
                     child: SizedBox(
                       height: 10.0,
                       child: LinearProgressIndicator(
-                        value: 0.1,
+                        value: progress,
                         color: const Color(0xFFf2994a),
                         backgroundColor: Colors.grey[300],
                       ),
@@ -108,7 +114,7 @@ class CustomCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "18 November - 18 Desember 2023 ",
+                    date,
                     style: GoogleFonts.poppins(
                       fontSize: 13.0,
                       color: const Color(0xff222222),

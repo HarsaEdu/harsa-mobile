@@ -16,13 +16,13 @@ class ProfileServices {
 
   static String? token;
 
-  static void setToken() async {
+  static Future<void> setToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString(SPKey.accessToken);
   }
 
   static Future<UserProfileData?> getUserProfile() async {
-    setToken();
+    await setToken();
     if (token != null) {
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
