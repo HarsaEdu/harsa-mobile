@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 60, right: 60, top: 10),
               child: value.isSubs
-                  ? CustomCardWidget(
+                  ? const CustomCardWidget(
                       packageName: 'packageName',
                       subText: 'subText',
                       logoAssetPath: 'logoAssetPath',

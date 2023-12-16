@@ -46,11 +46,11 @@ class RecommendationScreen extends StatelessWidget {
             child: Consumer<RecommendationScreenProvider>(
               builder: (context, provider, child) {
                 return ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5.0, vertical: 15.0),
                   itemCount: provider.categories.length,
                   itemBuilder: (context, index) {
-                    return CategoryCard(category: provider.categories[index]);
+                    // return CategoryCard(category: provider.categories[index]);
                   },
                 );
               },

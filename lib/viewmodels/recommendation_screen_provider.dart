@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/category_content.dart';
+import 'package:harsa_mobile/models/category_models/category_content.dart';
 
 class RecommendationScreenProvider extends ChangeNotifier {
   List<CategoryCardModel> categories = [
