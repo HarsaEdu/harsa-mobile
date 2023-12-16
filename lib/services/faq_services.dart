@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:harsa_mobile/models/faq_models/faq_models.dart';
 import 'package:harsa_mobile/utils/constants/urls.dart';

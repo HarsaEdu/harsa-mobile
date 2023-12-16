@@ -1,44 +1,44 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
-import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
+import 'package:harsa_mobile/models/profile_models/profile_models.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:harsa_mobile/utils/constants/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CourseRecommendationServices {
-  final Dio _dio = Dio();
+class ProfileServices {
+  static final Dio _dio = Dio();
 
-  Map<String, String> head = {
+  static Map<String, String> head = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
 
-  String? token;
+  static String? token;
 
-  Future<void> setToken() async {
+  static Future<void> setToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString(SPKey.accessToken);
   }
 
-  ///'maxItem' is the maximum number of items, the default is 20.
-  Future<CourseRecommendation?> getRecommendation({int maxItem = 20}) async {
+  static Future<UserProfileData?> getUserProfile() async {
     await setToken();
     if (token != null) {
-      print(token);
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
-        Response response = await _dio.post(
-            '${Urls.baseUrl}${Urls.platformUrl}/recommendations',
-            options: Options(headers: head),
-            data: {'max': maxItem});
+        Response response = await _dio.get(
+          '${Urls.baseUrl}${Urls.platformUrl}/users/profile/myprofile',
+          options: Options(headers: head),
+        );
+        print(response.data);
+
         if (response.statusCode == 200) {
-          return CourseRecommendation.fromJson(response.data['data']);
+          return UserProfileData.fromJson(response.data['data']);
         } else {
           return null;
         }
       } on DioException catch (e) {
-        print('=> ${e.message}');
+        print(e.message);
         rethrow;
       }
     }

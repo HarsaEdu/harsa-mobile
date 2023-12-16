@@ -66,6 +66,9 @@ class _ProfileBerlanganana extends State<ProfileBerlanganan> {
             packageName: 'Paket Reguler\nBulanan',
             subText: 'Harsa',
             logoAssetPath: 'assets/images/WFill_Logo_Harsa.jpg',
+            daysRemain: '',
+            progress: 0.5,
+            date: '',
           ),
           Padding(
             padding: const EdgeInsets.only(
