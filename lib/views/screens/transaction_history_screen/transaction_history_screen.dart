@@ -80,7 +80,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Berhasil',
+                          value: 'success',
                           height: 40,
                           child: Text(
                             'Berhasil',
@@ -92,7 +92,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Menunggu Pembayaran',
+                          value: 'pending',
                           height: 40,
                           child: Text(
                             'Pending',
@@ -104,7 +104,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Dibatalkan',
+                          value: 'failure',
                           height: 40,
                           child: Text(
                             'Dibatalkan',
@@ -139,7 +139,8 @@ class TransactionHistoryScreen extends StatelessWidget {
               builder: (context, prov, _) {
                 bool isShow =
                     !prov.focusNode.hasFocus || prov.searchQuery.isNotEmpty;
-                bool hasData = prov.filteredData.isNotEmpty;
+                bool hasData = prov
+                    .data.isNotEmpty; // Gunakan data utama, bukan filteredData
 
                 return Visibility(
                   visible: isShow,
@@ -147,10 +148,10 @@ class TransactionHistoryScreen extends StatelessWidget {
                       ? Expanded(
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: prov.filteredData.length,
+                            itemCount: prov.data.length, // Gunakan data utama
                             itemBuilder: (context, index) {
                               Payment transactionHistory =
-                                  prov.filteredData[index];
+                                  prov.data[index]; // Gunakan data utama
 
                               Color containerColor = transactionHistoryProvider
                                   .getStatusColor(transactionHistory.status);

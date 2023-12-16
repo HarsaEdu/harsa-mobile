@@ -5,7 +5,7 @@ import 'package:harsa_mobile/services/payment_service.dart';
 class TransactionHistoryProvider with ChangeNotifier {
   TransactionHistoryProvider() {
     focusNode.addListener(notifyListeners);
-    fetchTransactionHistory();
+    getAllPayment();
   }
 
   List<Payment> data = [];
@@ -39,11 +39,12 @@ class TransactionHistoryProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchTransactionHistory() async {
+  Future<void> getAllPayment() async {
     try {
-      final result = await PaymentService().getAllPayment(0, 10);
-      data = result;
-      filteredData = result;
+      final List<Payment> transaction =
+          await PaymentService().getAllPayment(0, 10);
+      data = transaction;
+      filteredData = transaction;
       notifyListeners();
     } catch (e) {
       throw Exception("Error fetching transaction history: $e");
