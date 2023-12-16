@@ -20,8 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     pageProvider = Provider.of<HomeScreenProvider>(context, listen: false);
+    pageProvider.getRecommendation();
+    pageProvider.getSubsPlanList();
   }
 
   @override
@@ -256,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               const SizedBox(width: 5),
                                               Text(
                                                 recommendation.predictedRating
+                                                    .toStringAsFixed(1)
                                                     .toString(),
                                                 style: Theme.of(context)
                                                     .textTheme

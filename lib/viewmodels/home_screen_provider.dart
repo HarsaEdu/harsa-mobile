@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 import 'package:harsa_mobile/models/category_models/category_home_model.dart';
@@ -24,7 +26,7 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void getRecommendation() async {
     CourseRecommendation? cr =
-        await CourseRecommendationServices().getRecommendation();
+        await CourseRecommendationServices().getRecommendation(maxItem: 5);
     courseRecomendationList = cr!.recommendations;
     notifyListeners();
   }
