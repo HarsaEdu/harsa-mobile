@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
-import 'package:harsa_mobile/models/transaction_history.dart';
+import 'package:harsa_mobile/models/payment_models/payment_model.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
   const TransactionHistoryScreen({Key? key}) : super(key: key);
@@ -149,7 +149,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             itemCount: prov.filteredData.length,
                             itemBuilder: (context, index) {
-                              TransactionHistory transactionHistory =
+                              Payment transactionHistory =
                                   prov.filteredData[index];
 
                               Color containerColor = transactionHistoryProvider
@@ -251,7 +251,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            transactionHistory.title,
+                                            transactionHistory.item.name,
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -268,7 +268,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            transactionHistory.price,
+                                            transactionHistory.grossAmount,
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,

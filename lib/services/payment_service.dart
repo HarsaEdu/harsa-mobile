@@ -47,21 +47,22 @@ class PaymentService {
     return null;
   }
 
-  Future<Payment?> getAllPayment(int offset, int limit) async {
+  Future<List<Payment>> getAllPayment(int offset, int limit) async {
     await setToken();
     if (token != null) {
       try {
         final Response<dynamic> response = await Dio().get(
             '${Urls.baseUrl}${Urls.platformUrl}/payments?offset=$offset&limit=$limit');
         if (response.statusCode == 200) {
-          return Payment.fromJson(response.data['data']);
+          List<dynamic> paymentList = response.data['data'];
+          return paymentList.map((data) => Payment.fromJson(data)).toList();
         }
-        return null;
+        return [];
       } on DioException catch (e) {
         throw Exception(e.toString());
       }
     }
-    return null;
+    return [];
   }
 
   Future<Payment?> getPaymentById(String id) async {
