@@ -14,16 +14,14 @@ class TugasService {
     if (token != null) {
       debugPrint('=> token : $token');
       try {
-        final FormData formData = FormData.fromMap({
-          "file":
-              await MultipartFile.fromFile(filePath)
-        });
+        final FormData formData =
+            FormData.fromMap({"file": await MultipartFile.fromFile(filePath)});
 
         final response = await _dio.post(
           '${Urls.baseUrl}${Urls.platformUrl}/courses/submissions/1/submission-answer/',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
           }),
           data: formData,
         );
