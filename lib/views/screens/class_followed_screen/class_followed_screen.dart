@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
-import 'package:harsa_mobile/models/class_followed.dart';
 
 class ClassFollowedScreen extends StatelessWidget {
   const ClassFollowedScreen({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class ClassFollowedScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Kelas Yang diikuti',
+                  'Kelas Yang Diikuti',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -79,7 +81,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Selesai',
+                          value: 'completed',
                           height: 40,
                           child: Text(
                             'Selesai',
@@ -91,7 +93,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Ongoing',
+                          value: 'in progress',
                           height: 40,
                           child: Text(
                             'Ongoing',
@@ -103,7 +105,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Baru',
+                          value: '',
                           height: 40,
                           child: Text(
                             'Baru',
@@ -142,86 +144,111 @@ class ClassFollowedScreen extends StatelessWidget {
 
                 return Visibility(
                   visible: isShow,
-                  child: hasData
-                      ? Expanded(
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: prov.filteredData.length,
-                            itemBuilder: (context, index) {
-                              ClassFollowed classFollowed =
-                                  prov.filteredData[index];
-                              return Card(
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                  horizontal: 8,
-                                ),
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Image.network(
-                                        classFollowed.picture,
-                                        fit: BoxFit.cover,
-                                        height: 145,
+                  child: prov.loadingState == LoadingState.loading
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsPallete.sandyBrown,
+                            ),
+                          ),
+                        )
+                      : hasData
+                          ? Expanded(
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: prov.filteredData.length,
+                                itemBuilder: (context, index) {
+                                  UserCoursesData classFollowed =
+                                      prov.filteredData[index];
+                                  return GestureDetector(
+                                    onTap: () => Navigator.pushNamed(
+                                      context,
+                                      "/kelasscreen",
+                                      arguments: {'course': classFollowed},
+                                    ),
+                                    child: Card(
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 8,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              CrossAxisAlignment.stretch,
                                           children: [
-                                            Text(
-                                              classFollowed.title,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                            Image.network(
+                                              classFollowed.imageUrl,
+                                              fit: BoxFit.cover,
+                                              height: 145,
                                             ),
-                                            Text(
-                                              classFollowed.subtitle,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge!
-                                                  .copyWith(
-                                                    color: Colors.grey,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    classFollowed.title,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                   ),
+                                                  Text(
+                                                    classFollowed
+                                                        .intructur.name,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: Center(
+                                child: ListView(
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 200),
+                                    SvgPicture.asset(
+                                      'assets/images/sertifikat_kosong.svg',
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      'Kelas tidak ditemukan',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
-                        )
-                      : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 200),
-                              SvgPicture.asset(
-                                'assets/images/sertifikat_kosong.svg',
                               ),
-                              const SizedBox(height: 20),
-                              Text(
-                                'Kelas tidak ditemukan',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
                 );
               },
             ),
