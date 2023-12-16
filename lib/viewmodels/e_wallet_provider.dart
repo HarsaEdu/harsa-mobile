@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/e_wallet.dart';
+import 'package:harsa_mobile/models/payment_models/e_wallet.dart';
 
 class EWalletProvider with ChangeNotifier {
   final List<EWallet> _eWalletData = [
