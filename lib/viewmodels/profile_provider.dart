@@ -19,6 +19,10 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editProfile() {
+    Navigator.pushNamed(context, '/editprofile');
+  }
+
   void langganan() {
     Navigator.pushNamed(context, '/subscriptionlist');
   }

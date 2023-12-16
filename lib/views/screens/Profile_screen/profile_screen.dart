@@ -72,6 +72,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              trailing: IconButton(
+                  onPressed: pageProvider.editProfile,
+                  icon: const Icon(
+                    Icons.chevron_right,
+                    size: 40,
+                  )),
             ),
             const Padding(
               padding: EdgeInsets.all(3.0),
