@@ -29,11 +29,11 @@ class LoginProvider with ChangeNotifier {
 
   String? validatePassword(String? value) {
     if (value == null || value == "") return "*Password harus diisi";
-    // if (!RegExp(
-    //   r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
-    // ).hasMatch(value)) {
-    //   return "*Password harus 8 karakter, terdiri dari alphabet, numerc dan karakter";
-    // }
+    if (!RegExp(
+      r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
+    ).hasMatch(value)) {
+      return "*Password harus 8 karakter, terdiri dari alphabet, numerc dan karakter";
+    }
 
     return null;
   }
