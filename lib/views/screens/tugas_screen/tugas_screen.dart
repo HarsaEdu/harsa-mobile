@@ -144,7 +144,8 @@ class _TugasScreenState extends State<TugasScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailHalaman(
                                   tugasText: "Tugas Anda",
-                                  fileName: fileProvider.selectedFilePath ?? "",
+                                  fileName: p
+                                      .basename(fileProvider.selectedFilePath!),
                                 ),
                               ),
                             );
@@ -216,7 +217,6 @@ class _TugasScreenState extends State<TugasScreen> {
                                   if (fileProvider.selectedFilePath != null) {
                                     await TugasService().uploadPDF(
                                         fileProvider.selectedFilePath!);
-                                    fileProvider.clearFile();
                                     setState(() {
                                       isSubmitted = true;
                                     });

@@ -139,14 +139,13 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const TugasScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            // case '/':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const SplashScreen(),
-            //   );
+            case '/':
+              return MaterialPageRoute(
+                builder: (context) => const SplashScreen(),
+              );
             case '/onboarding':
               return MaterialPageRoute(
                 builder: (context) => const OnboardingScreen(),
@@ -280,10 +279,6 @@ class MainApp extends StatelessWidget {
                 builder: (context) =>
                     DetailSubscription(subscription: subscription),
               );
-            // case '/payment':
-            //   return MaterialPageRoute(
-            //     builder: (context) =>  PaymentScreen(),
-            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),
