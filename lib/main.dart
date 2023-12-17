@@ -42,7 +42,6 @@ import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
@@ -204,10 +203,6 @@ class MainApp extends StatelessWidget {
             case '/profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
-              );
-            case '/profileberlanganan':
-              return MaterialPageRoute(
-                builder: (context) => const ProfileBerlanganan(),
               );
             case '/video':
               return MaterialPageRoute(

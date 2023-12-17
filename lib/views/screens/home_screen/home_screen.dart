@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: ColorsPallete.whiteGrey,
         body: Column(
           mainAxisSize: MainAxisSize.min,
