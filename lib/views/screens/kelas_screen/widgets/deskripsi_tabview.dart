@@ -91,43 +91,40 @@ class DeskripsiTabView extends StatelessWidget {
                             .bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/ulasan");
-                        },
-                        child: Text(
-                          'Lainnya',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      feedback == null
+                          ? const SizedBox()
+                          : TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/ulasan");
+                              },
+                              child: Text(
+                                'Lainnya',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  CarouselSlider.builder(
-                    itemCount: 3,
-                    options: CarouselOptions(
-                      // enlargeCenterPage: true,
-                      height: height * 0.16,
-                      autoPlay: true,
-                    ),
-                    itemBuilder: (
-                      BuildContext context,
-                      int itemIndex,
-                      int pageViewIndex,
-                    ) {
-                      return feedback == null
-                          ? const Padding(
-                              padding: EdgeInsets.all(40),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorsPallete.sandyBrown,
-                                ),
-                              ),
-                            )
-                          : TestimoniCard(
+                  feedback == null
+                      ? const Text("Belum ada ulasan")
+                      : CarouselSlider.builder(
+                          itemCount: feedback!.data.length > 3
+                              ? 3
+                              : feedback!.data.length,
+                          options: CarouselOptions(
+                            // enlargeCenterPage: true,
+                            height: height * 0.16,
+                            autoPlay: true,
+                          ),
+                          itemBuilder: (
+                            BuildContext context,
+                            int itemIndex,
+                            int pageViewIndex,
+                          ) {
+                            return TestimoniCard(
                               imageUrl: feedback!.data[itemIndex].user.imageUrl,
                               name: feedback!.data[itemIndex].user.name,
                               timeAgo: Provider.of<KelasProvider>(context,
@@ -137,8 +134,8 @@ class DeskripsiTabView extends StatelessWidget {
                               reviewText: feedback!.data[itemIndex].content,
                               rating: feedback!.data[itemIndex].rating,
                             );
-                    },
-                  ),
+                          },
+                        ),
                   const SizedBox(height: 16),
                   Consumer<KelasProvider>(
                     builder: (context, state, _) {
