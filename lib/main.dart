@@ -139,14 +139,14 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const KelasScreen(),
+        // home: const KelasScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            // case '/':
-            //   return MaterialPageRoute(
-            //     builder: (context) => const SplashScreen(),
-            //   );
+            case '/':
+              return MaterialPageRoute(
+                builder: (context) => const SplashScreen(),
+              );
             case '/onboarding':
               return MaterialPageRoute(
                 builder: (context) => const OnboardingScreen(),
@@ -224,7 +224,10 @@ class MainApp extends StatelessWidget {
               );
             case '/listmateri':
               return MaterialPageRoute(
-                builder: (context) => const ListMateriScreen(),
+                builder: (context) {
+                  final int? args = (settings.arguments ?? {}) as int?;
+                  return ListMateriScreen(moduleId: args);
+                },
               );
             case '/category':
               return MaterialPageRoute(
@@ -244,7 +247,10 @@ class MainApp extends StatelessWidget {
               );
             case '/tugasscreen':
               return MaterialPageRoute(
-                builder: (context) => const TugasScreen(),
+                builder: (context) {
+                  final int args = (settings.arguments ?? {}) as int;
+                  return TugasScreen(idTugas: args);
+                },
               );
             case '/editemail':
               return MaterialPageRoute(

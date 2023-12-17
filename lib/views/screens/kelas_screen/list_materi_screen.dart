@@ -3,7 +3,8 @@ import 'package:harsa_mobile/views/screens/kelas_screen/widgets/materi_card_ligh
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
 class ListMateriScreen extends StatelessWidget {
-  const ListMateriScreen({super.key});
+  final moduleId;
+  const ListMateriScreen({super.key, required this.moduleId});
 
   @override
   Widget build(BuildContext context) {

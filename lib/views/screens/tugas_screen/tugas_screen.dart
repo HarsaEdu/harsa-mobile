@@ -10,7 +10,8 @@ import 'package:harsa_mobile/views/widgets/confirmation_dialog.dart';
 import 'package:harsa_mobile/views/widgets/kelas_widgets/kelas_card_component.dart';
 
 class TugasScreen extends StatefulWidget {
-  const TugasScreen({Key? key}) : super(key: key);
+  final int idTugas;
+  const TugasScreen({super.key, required this.idTugas});
 
   @override
   State<TugasScreen> createState() => _TugasScreenState();
@@ -18,6 +19,13 @@ class TugasScreen extends StatefulWidget {
 
 class _TugasScreenState extends State<TugasScreen> {
   bool isSubmitted = false;
+  late int idTugas;
+
+  @override
+  void initState() {
+    super.initState();
+    idTugas = widget.idTugas;
+  }
 
   @override
   Widget build(BuildContext context) {

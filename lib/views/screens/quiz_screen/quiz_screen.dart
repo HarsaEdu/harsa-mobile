@@ -33,7 +33,11 @@ class QuizScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: Row(
                     children: [
-                      const Icon(Icons.arrow_back_ios),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.arrow_back_ios)),
                       const SizedBox(width: 12),
                       Text(
                         'Quiz',
@@ -119,13 +123,12 @@ class QuizScreen extends StatelessWidget {
                                                     prov.updateQuestionIndex(
                                                         index);
                                                   },
-                                                  itemCount: prov.quiz
-                                                      ?.questions.length,
+                                                  itemCount: prov
+                                                      .quiz?.questions.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     final question = prov
-                                                        .quiz
-                                                        ?.questions[index];
+                                                        .quiz?.questions[index];
                                                     return Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment

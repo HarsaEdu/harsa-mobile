@@ -19,7 +19,11 @@ class VideoScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               children: [
-                const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.arrow_back_ios)),
                 const SizedBox(width: 12),
                 Text(
                   'Video',
@@ -64,7 +68,7 @@ class VideoScreen extends StatelessWidget {
                                 const SizedBox(height: 20),
                                 ChangeNotifierProvider(
                                   create: (_) =>
-                                      VideoScreenProvider('nPt8bK2gbaU'),
+                                      VideoScreenProvider('EiKK04Ht8QI'),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
@@ -99,5 +103,3 @@ class VideoScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -8,18 +8,36 @@ class MateriModel {
   List<Submission> submissions;
   List<Quiz> quizzes;
 
-  MateriModel({required this.id, required this.title, required this.description, required this.progress, required this.order, required this.subModules, required this.submissions, required this.quizzes});
+  MateriModel(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.progress,
+      required this.order,
+      required this.subModules,
+      required this.submissions,
+      required this.quizzes});
 
   factory MateriModel.fromJson(Map<String, dynamic> json) {
     return MateriModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      progress: json['progress'],
-      order: json['order'],
-      subModules: List<SubModule>.from(json['sub_modules'].map((x) => SubModule.fromJson(x))),
-      submissions: List<Submission>.from(json['submissions'].map((x) => Submission.fromJson(x))),
-      quizzes: List<Quiz>.from(json['quizzes'].map((x) => Quiz.fromJson(x))),
+      id: json['id'] ?? 0, // Memberikan nilai default 0 jika null
+      title: json['title'] ?? '', // Memberikan string kosong jika null
+      description: json['description'] ?? '',
+      progress: (json['progress'] as num?)?.toDouble() ??
+          0.0, // Konversi ke double, berikan default 0.0 jika null
+      order: json['order'] ?? 0,
+      subModules: (json['sub_modules'] as List<dynamic>?)
+              ?.map((x) => SubModule.fromJson(x))
+              .toList() ??
+          [],
+      submissions: (json['submissions'] as List<dynamic>?)
+              ?.map((x) => Submission.fromJson(x))
+              .toList() ??
+          [],
+      quizzes: (json['quizzes'] as List<dynamic>?)
+              ?.map((x) => Quiz.fromJson(x))
+              .toList() ??
+          [],
     );
   }
 }
@@ -44,7 +62,11 @@ class Submission {
   SubmissionAnswer submissionAnswer;
   bool isComplete;
 
-  Submission({required this.id, required this.title, required this.submissionAnswer, required this.isComplete});
+  Submission(
+      {required this.id,
+      required this.title,
+      required this.submissionAnswer,
+      required this.isComplete});
 
   factory Submission.fromJson(Map<String, dynamic> json) {
     return Submission(
@@ -62,7 +84,11 @@ class Quiz {
   int historyQuizId;
   bool isComplete;
 
-  Quiz({required this.id, required this.title, required this.historyQuizId, required this.isComplete});
+  Quiz(
+      {required this.id,
+      required this.title,
+      required this.historyQuizId,
+      required this.isComplete});
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(
@@ -80,7 +106,11 @@ class SubModule {
   String type;
   bool isComplete;
 
-  SubModule({required this.id, required this.title, required this.type, required this.isComplete});
+  SubModule(
+      {required this.id,
+      required this.title,
+      required this.type,
+      required this.isComplete});
 
   factory SubModule.fromJson(Map<String, dynamic> json) {
     return SubModule(
@@ -91,5 +121,3 @@ class SubModule {
     );
   }
 }
-
-
