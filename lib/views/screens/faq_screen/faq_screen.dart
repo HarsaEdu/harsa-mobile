@@ -6,8 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../viewmodels/faq_screen_provider.dart';
 
 class FaqScreen extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
-  const FaqScreen({Key? key});
+  const FaqScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,9 @@ class FaqScreen extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).padding.top + 16),
             Row(
               children: [
-                const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(Icons.arrow_back_ios)),
                 const SizedBox(width: 12),
                 Text(
                   'FAQ',
