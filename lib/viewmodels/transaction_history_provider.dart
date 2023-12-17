@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import 'package:harsa_mobile/models/payment_models/payment_model.dart';
 import 'package:harsa_mobile/services/payment_service.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 
 class TransactionHistoryProvider with ChangeNotifier {
   TransactionHistoryProvider() {
@@ -13,13 +16,15 @@ class TransactionHistoryProvider with ChangeNotifier {
   List<Payment> filteredData = [];
   String searchQuery = '';
 
+  LoadingState loadingState = LoadingState.initial;
+
   Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
-      case 'berhasil':
+      case 'success':
         return const Color(0x7F78EC7D);
-      case 'dibatalkan':
+      case 'failure':
         return const Color(0x7FED7878);
-      case 'menunggu pembayaran':
+      case 'pending':
         return const Color(0x7FEFEA75);
       default:
         return Colors.white;
@@ -28,11 +33,11 @@ class TransactionHistoryProvider with ChangeNotifier {
 
   Color getStatusTextColor(String status) {
     switch (status.toLowerCase()) {
-      case 'berhasil':
+      case 'success':
         return const Color(0xFF159B1A);
-      case 'dibatalkan':
+      case 'failure':
         return const Color(0xFFDB1D1D);
-      case 'menunggu pembayaran':
+      case 'pending':
         return const Color(0xFF918B00);
       default:
         return Colors.white;
@@ -41,14 +46,20 @@ class TransactionHistoryProvider with ChangeNotifier {
 
   Future<void> getAllPayment() async {
     try {
+      loadingState = LoadingState.loading;
       final List<Payment> transaction =
           await PaymentService().getAllPayment(0, 10);
-      data = transaction;
-      filteredData = transaction;
+
+      data.addAll(transaction);
+      filteredData.addAll(transaction);
+      loadingState = LoadingState.success;
       notifyListeners();
-    } catch (e) {
-      throw Exception("Error fetching transaction history: $e");
+    } on DioException catch (_) {
+      loadingState = LoadingState.failed;
+      notifyListeners();
+      rethrow;
     }
+    notifyListeners();
   }
 
   void filterByStatus(String status) {

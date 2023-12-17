@@ -51,6 +51,7 @@ class PaymentService {
     await setToken();
     if (token != null) {
       try {
+        _dio.options.headers['Authorization'] = 'Bearer $token';
         final Response<dynamic> response = await _dio.get(
             '${Urls.baseUrl}${Urls.platformUrl}/payments?offset=$offset&limit=$limit');
         if (response.statusCode == 200) {
@@ -69,6 +70,7 @@ class PaymentService {
     await setToken();
     if (token != null) {
       try {
+        _dio.options.headers['Authorization'] = 'Bearer $token';
         final Response<dynamic> response =
             await Dio().get('${Urls.baseUrl}${Urls.platformUrl}/payments/$id');
         if (response.statusCode == 200) {
