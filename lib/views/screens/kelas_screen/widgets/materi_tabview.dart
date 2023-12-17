@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/materi_model.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
 import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
@@ -23,14 +24,23 @@ class MateriTabView extends StatelessWidget {
 
       // Menambahkan subModules
       for (var subModule in moduleData!.subModules) {
-        items.add(InkWell(
+        items.add(
+          InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const VideoScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VideoScreen(),
+                ),
+              );
             },
             child: MateriItem(
-                title: subModule.title, completed: subModule.isComplete)));
-        items.add(const Divider(thickness: 0.5, color: Colors.black));
+                title: subModule.title, completed: subModule.isComplete),
+          ),
+        );
+        items.add(
+          const Divider(thickness: 0.5, color: Colors.black),
+        );
       }
 
       // Menambahkan submissions
@@ -38,10 +48,12 @@ class MateriTabView extends StatelessWidget {
         items.add(InkWell(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        TugasScreen(idTugas: moduleData!.submissions[0].id)));
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    TugasScreen(idTugas: moduleData!.submissions[0].id),
+              ),
+            );
           },
           child: MateriItem(
               title: submission.title, completed: submission.isComplete),
@@ -53,13 +65,16 @@ class MateriTabView extends StatelessWidget {
       for (var quiz in moduleData!.quizzes) {
         items.add(InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const QuizScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const QuizScreen(),
+                ),
+              );
             },
             child: MateriItem(title: quiz.title, completed: quiz.isComplete)));
         items.add(const Divider(thickness: 0.5, color: Colors.black));
       }
-
       return items;
     }
 
@@ -68,10 +83,21 @@ class MateriTabView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
-          MateriCard(
-            title: moduleData!.title,
-            description: moduleData!.description,
-            progress: moduleData!.progress,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ListMateriScreen(moduleId: moduleData!.id),
+                ),
+              );
+            },
+            child: MateriCard(
+              title: moduleData!.title,
+              description: moduleData!.description,
+              progress: moduleData!.progress,
+            ),
           ),
           const SizedBox(height: 10),
           Stack(
@@ -89,20 +115,6 @@ class MateriTabView extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: buildMateriItems(),
-                    // children: [
-                    //   SizedBox(height: 8),
-                    //   Divider(thickness: 0.5, color: Colors.black),
-                    //   MateriItem(
-                    //       title: 'Materi - Pengenalan UI/UX', completed: true),
-                    //   Divider(thickness: 0.5, color: Colors.black),
-                    //   MateriItem(
-                    //       title: 'Tugas - Penjelasan dan contoh UI/UX',
-                    //       completed: false),
-                    //   Divider(thickness: 0.5, color: Colors.black),
-                    //   MateriItem(
-                    //       title: 'Quiz - Post Test Introducing UI/UX',
-                    //       completed: false),
-                    // ],
                   ),
                 ),
               ),

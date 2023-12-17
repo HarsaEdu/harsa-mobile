@@ -225,7 +225,7 @@ class MainApp extends StatelessWidget {
             case '/listmateri':
               return MaterialPageRoute(
                 builder: (context) {
-                  final int? args = (settings.arguments ?? {}) as int?;
+                  final int args = (settings.arguments ?? {}) as int;
                   return ListMateriScreen(moduleId: args);
                 },
               );
