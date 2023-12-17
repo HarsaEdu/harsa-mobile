@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
-import 'package:harsa_mobile/utils/constants/colors.dart';
-import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
+import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class ClassFollowedScreen extends StatelessWidget {
   const ClassFollowedScreen({Key? key}) : super(key: key);
@@ -231,7 +231,6 @@ class ClassFollowedScreen extends StatelessWidget {
                           : Expanded(
                               child: Center(
                                 child: ListView(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const SizedBox(height: 200),
                                     SvgPicture.asset(
