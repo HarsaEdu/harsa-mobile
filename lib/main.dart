@@ -139,13 +139,14 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
+        home: const KelasScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/':
-              return MaterialPageRoute(
-                builder: (context) => const SplashScreen(),
-              );
+            // case '/':
+            //   return MaterialPageRoute(
+            //     builder: (context) => const SplashScreen(),
+            //   );
             case '/onboarding':
               return MaterialPageRoute(
                 builder: (context) => const OnboardingScreen(),
