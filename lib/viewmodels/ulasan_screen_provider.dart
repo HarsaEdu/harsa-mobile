@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/services/feedback_services.dart';
@@ -108,7 +107,9 @@ class UlasanScreenProvider extends ChangeNotifier {
       if (e.response!.statusCode! == 404) {
         myFeedbackModel = null;
         rating = 0;
-        ratingController!.clear();
+        if (ratingController != null) {
+          ratingController!.clear();
+        }
         isUpdating = false;
         isEditing = true;
       }

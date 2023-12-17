@@ -10,7 +10,7 @@ import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/testi_card.dart
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class UlasanScreen extends StatefulWidget {
+class UlasanScreen extends StatelessWidget {
   final CourseDetailsData? course;
   final CourseFeedbackModel? feedback;
   final MyFeedbackModel? myFeedback;
@@ -23,11 +23,6 @@ class UlasanScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<UlasanScreen> createState() => _UlasanScreenState();
-}
-
-class _UlasanScreenState extends State<UlasanScreen> {
-  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UlasanScreenProvider>(context);
     return Scaffold(
@@ -39,7 +34,7 @@ class _UlasanScreenState extends State<UlasanScreen> {
         isDraggable: false,
         defaultPanelState: PanelState.OPEN,
         boxShadow: const [],
-        panel: _buildSlidingPanel(context, provider, widget.course!),
+        panel: _buildSlidingPanel(context, provider ),
         body: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).padding.top + 16),
@@ -75,34 +70,34 @@ class _UlasanScreenState extends State<UlasanScreen> {
                 builder: (context, provider, child) {
                   return ListView.separated(
                     padding: const EdgeInsets.only(top: 10),
-                    itemCount: widget.feedback?.data.length ?? 0,
+                    itemCount: feedback?.data.length ?? 0,
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 10),
                     itemBuilder: (context, itemIndex) {
-                      final feedbackItem = widget.feedback?.data[itemIndex];
+                      final feedbackItem = feedback?.data[itemIndex];
                       if (feedbackItem != null) {
                         final isMyFeedback = feedbackItem.user.id ==
                             provider.myFeedbackModel?.data.user.id;
                         if (isMyFeedback) {
                           return MyUlasanCard(
-                            fotoUrl:
-                                widget.feedback!.data[itemIndex].user.imageUrl,
-                            namaPengguna:
-                                widget.feedback!.data[itemIndex].user.name,
-                            waktu: provider.feedbackSince(
-                                widget.feedback!.data[itemIndex].updatedAt),
-                            teksUlasan:
-                                widget.feedback!.data[itemIndex].content,
-                            rating: widget.feedback!.data[itemIndex].rating,
+                            imageUrl: myFeedback!.data.user.imageUrl,
+                            name: myFeedback!.data.user.name,
+                            timeAgo: Provider.of<UlasanScreenProvider>(context,
+                                    listen: false)
+                                .feedbackSince(myFeedback!.data.updatedAt),
+                            reviewText: myFeedback!.data.content,
+                            rating: myFeedback!.data.rating,
                           );
                         } else {
                           return TestiCard(
-                            fotoUrl: widget.myFeedback!.data.user.imageUrl,
-                            namaPengguna: widget.myFeedback!.data.user.name,
-                            waktu: provider.feedbackSince(
-                                widget.myFeedback!.data.updatedAt),
-                            teksUlasan: widget.myFeedback!.data.content,
-                            rating: widget.myFeedback!.data.rating,
+                            imageUrl: feedback!.data[itemIndex].user.imageUrl,
+                            name: feedback!.data[itemIndex].user.name,
+                            timeAgo: Provider.of<UlasanScreenProvider>(context,
+                                    listen: false)
+                                .feedbackSince(
+                                    feedback!.data[itemIndex].updatedAt),
+                            reviewText: feedback!.data[itemIndex].content,
+                            rating: feedback!.data[itemIndex].rating,
                           );
                         }
                       } else {
@@ -120,7 +115,7 @@ class _UlasanScreenState extends State<UlasanScreen> {
   }
 
   Widget _buildSlidingPanel(BuildContext context, UlasanScreenProvider provider,
-      CourseDetailsData course) {
+      ) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -142,14 +137,14 @@ class _UlasanScreenState extends State<UlasanScreen> {
             mainAxisSize: MainAxisSize.min,
             children: List.generate(5, (index) {
               return GestureDetector(
-                onTap: () {
-                  provider.rate(index);
-                },
-                child: Icon(
-                  index < provider.rating ? Icons.star : Icons.star_border,
-                  color: Colors.black,
-                  size: 28,
-                ),
+                // onTap: () {
+                //   provider.rate(index);
+                // },
+                // child: Icon(
+                //   index < provider.rating ? Icons.star : Icons.star_border,
+                //   color: Colors.black,
+                //   size: 28,
+                // ),
               );
             }),
           ),
@@ -184,15 +179,9 @@ class _UlasanScreenState extends State<UlasanScreen> {
                   minimumSize: const Size(99, 26),
                 ),
                 onPressed: () {
-                  if (provider.myFeedbackModel != null) {
-                    provider.editMyFeedback();
-                  } else {
-                    provider.submitMyFeedback(courseId: course.course.id);
-                  }
-                  if (provider.ratingController!.text.isNotEmpty &&
-                      provider.rating > 0) {
-                    provider.panelController.close();
-                  }
+                  // if (provider.ratingController?.text.isNotEmpty ?? false) {
+                  //   provider.submitMyFeedback(courseId: course.course.id);
+                  // }
                 },
                 child: const Text(
                   'Kirim',

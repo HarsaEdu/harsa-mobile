@@ -5,18 +5,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class TestiCard extends StatelessWidget {
-  final String fotoUrl;
-  final String namaPengguna;
-  final String waktu;
-  final String teksUlasan;
+  final String imageUrl;
+  final String name;
+  final String timeAgo;
+  final String reviewText;
   final int rating;
 
   const TestiCard({
     super.key,
-    required this.fotoUrl,
-    required this.namaPengguna,
-    required this.waktu,
-    required this.teksUlasan,
+    required this.imageUrl,
+    required this.name,
+    required this.timeAgo,
+    required this.reviewText,
     required this.rating,
   });
 
@@ -34,7 +34,7 @@ class TestiCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(fotoUrl),
+                backgroundImage: NetworkImage(imageUrl),
                 radius: (42 / 2),
               ),
               const SizedBox(width: 20.0),
@@ -45,7 +45,7 @@ class TestiCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          namaPengguna,
+                          name,
                           style: const TextStyle(
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold,
@@ -65,7 +65,7 @@ class TestiCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          ' $waktu',
+                          ' $timeAgo',
                           style: const TextStyle(
                             fontSize: 12.0,
                             color: Colors.black,
@@ -75,7 +75,7 @@ class TestiCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      teksUlasan,
+                      reviewText,
                       style: const TextStyle(fontSize: 12.0),
                     ),
                     const SizedBox(height: 25.0),
