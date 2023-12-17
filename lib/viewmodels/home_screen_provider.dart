@@ -27,7 +27,6 @@ class HomeScreenProvider extends ChangeNotifier {
   HomeScreenProvider() {
     searchController = TextEditingController();
     searchFocusNode = FocusNode();
-    searchFocusNode = FocusNode();
     searchFocusNode.addListener(onSearch);
     getRecommendation();
     getSubsPlanList();
