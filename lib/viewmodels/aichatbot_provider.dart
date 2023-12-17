@@ -60,6 +60,7 @@ class AIChatbotProvider with ChangeNotifier {
   }
 
   void openDrawer() {
+    getUserThreads();
     scaffoldKey.currentState!.openEndDrawer();
     canPop = false;
     notifyListeners();
