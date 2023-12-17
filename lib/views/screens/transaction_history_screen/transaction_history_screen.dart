@@ -139,8 +139,7 @@ class TransactionHistoryScreen extends StatelessWidget {
               builder: (context, prov, _) {
                 bool isShow =
                     !prov.focusNode.hasFocus || prov.searchQuery.isNotEmpty;
-                bool hasData = prov
-                    .data.isNotEmpty; // Gunakan data utama, bukan filteredData
+                bool hasData = prov.filteredData.isNotEmpty;
 
                 return Visibility(
                   visible: isShow,
@@ -148,10 +147,10 @@ class TransactionHistoryScreen extends StatelessWidget {
                       ? Expanded(
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: prov.data.length, // Gunakan data utama
+                            itemCount: prov.filteredData.length,
                             itemBuilder: (context, index) {
                               Payment transactionHistory =
-                                  prov.data[index]; // Gunakan data utama
+                                  prov.filteredData[index];
 
                               Color containerColor = transactionHistoryProvider
                                   .getStatusColor(transactionHistory.status);
