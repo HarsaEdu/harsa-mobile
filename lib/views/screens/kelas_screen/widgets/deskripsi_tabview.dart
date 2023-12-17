@@ -110,7 +110,7 @@ class DeskripsiTabView extends StatelessWidget {
                     itemCount: 3,
                     options: CarouselOptions(
                       // enlargeCenterPage: true,
-                      height: height * 0.16,
+                      height: height * 0.18,
                       autoPlay: true,
                     ),
                     itemBuilder: (
