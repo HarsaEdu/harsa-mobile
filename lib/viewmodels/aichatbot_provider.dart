@@ -47,7 +47,7 @@ class AIChatbotProvider with ChangeNotifier {
   UserThreadsModel? userThreadsModel;
 
   void onBack(BuildContext context, bool didPop) {
-    if (scaffoldKey.currentState!.isEndDrawerOpen) {
+    if (canPop == false || scaffoldKey.currentState!.isEndDrawerOpen) {
       scaffoldKey.currentState!.closeEndDrawer();
       canPop = true;
     }
@@ -85,9 +85,8 @@ class AIChatbotProvider with ChangeNotifier {
     suggestions.clear();
     activeThreadId = "";
     screen = AIChatBotScreen.topic;
+    scaffoldKey.currentState!.closeEndDrawer();
     notifyListeners();
-
-    Navigator.pop(context);
   }
 
   void addSuggestions({required String topic}) {
@@ -156,8 +155,6 @@ class AIChatbotProvider with ChangeNotifier {
       final chats = await ChatbotService.getThreadChats(threadId: threadId);
 
       threadChatsModel = chats;
-      chatController.clear();
-      suggestions.clear();
 
       chatLoadingState = LoadingState.success;
     } catch (_) {
@@ -166,6 +163,8 @@ class AIChatbotProvider with ChangeNotifier {
       rethrow;
     }
 
+    chatController.clear();
+    suggestions.clear();
     screen = AIChatBotScreen.chat;
     notifyListeners();
   }
@@ -230,11 +229,8 @@ class AIChatbotProvider with ChangeNotifier {
 
     screen = AIChatBotScreen.chat;
     activeThreadId = threadId;
+    scaffoldKey.currentState!.closeEndDrawer();
     notifyListeners();
-
-    if (context.mounted) {
-      Navigator.pop(context);
-    }
   }
 
   void getUserThreads() async {
@@ -270,8 +266,14 @@ class AIChatbotProvider with ChangeNotifier {
       final newThreads = await ChatbotService.getUserThreads();
 
       userThreadsModel = newThreads;
-      activeThreadId =
-          userThreadsModel!.data![threadIndex == 0 ? 0 : threadIndex - 1].id;
+
+      if (userThreadsModel!.data == null || userThreadsModel!.data!.isEmpty) {
+        screen = AIChatBotScreen.topic;
+        activeThreadId = "";
+      } else {
+        activeThreadId =
+            userThreadsModel!.data![threadIndex == 0 ? 0 : threadIndex - 1].id;
+      }
 
       final chats =
           await ChatbotService.getThreadChats(threadId: activeThreadId);
