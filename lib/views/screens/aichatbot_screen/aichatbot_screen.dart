@@ -127,190 +127,220 @@ class _AIChatbotScreenState extends State<AIChatbotScreen> {
                       ],
                     ),
                     // LIST OF THREADS BODY
-                    state.userThreadsModel == null
-                        ? const SizedBox()
-                        : Column(
-                            children: <Widget>[
-                              for (var thread in state.userThreadsModel!.data!)
-                                // THREAD LIST ITEM
-                                Column(
-                                  children: <Widget>[
-                                    const SizedBox(height: 8),
-                                    GestureDetector(
-                                      onTap: thread.id == state.activeThreadId
-                                          ? null
-                                          : () {
-                                              state.tapTopic(
-                                                context: context,
-                                                topic: thread.topic,
-                                                threadId: thread.id,
-                                              );
-                                            },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 20,
-                                          horizontal: 16,
-                                        ),
-                                        decoration: BoxDecoration(
-                                            color: thread.id ==
-                                                    state.activeThreadId
-                                                ? const Color(0xFF092C4C)
-                                                : Colors.transparent,
-                                            border: Border.all(
-                                              color: const Color(0xFFD9D9D9),
+                    state.chatLoadingState == LoadingState.loading
+                        ? const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: ColorsPallete.prussianBlue,
+                              ),
+                            ),
+                          )
+                        : state.userThreadsModel == null
+                            ? const SizedBox()
+                            : Column(
+                                children: <Widget>[
+                                  for (var thread
+                                      in state.userThreadsModel!.data!)
+                                    // THREAD LIST ITEM
+                                    Column(
+                                      children: <Widget>[
+                                        const SizedBox(height: 8),
+                                        GestureDetector(
+                                          onTap:
+                                              thread.id == state.activeThreadId
+                                                  ? null
+                                                  : () {
+                                                      state.tapTopic(
+                                                        context: context,
+                                                        topic: thread.topic,
+                                                        threadId: thread.id,
+                                                      );
+                                                    },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 20,
+                                              horizontal: 16,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        child: Row(
-                                          children: <Widget>[
-                                            // CHAT ICON
-                                            Icon(
-                                              Icons.chat,
-                                              color: thread.id ==
-                                                      state.activeThreadId
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                            const SizedBox(width: 24),
-                                            // THREAD TITLE / THREAD RENAME INPUT FIELD
-                                            Expanded(
-                                              child: state.isRenaming ==
-                                                      thread.id
-                                                  ? Form(
-                                                      key: state.renameFormKey,
-                                                      child: TextFormField(
-                                                        controller: state
-                                                            .renameController,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                          isDense: true,
-                                                          border:
-                                                              InputBorder.none,
-                                                          contentPadding:
-                                                              EdgeInsets.zero,
-                                                          errorStyle: TextStyle(
-                                                            fontSize: 0,
-                                                            height: 0,
+                                            decoration: BoxDecoration(
+                                                color: thread.id ==
+                                                        state.activeThreadId
+                                                    ? const Color(0xFF092C4C)
+                                                    : Colors.transparent,
+                                                border: Border.all(
+                                                  color:
+                                                      const Color(0xFFD9D9D9),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Row(
+                                              children: <Widget>[
+                                                // CHAT ICON
+                                                Icon(
+                                                  Icons.chat,
+                                                  color: thread.id ==
+                                                          state.activeThreadId
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                ),
+                                                const SizedBox(width: 24),
+                                                // THREAD TITLE / THREAD RENAME INPUT FIELD
+                                                Expanded(
+                                                  child: state.isRenaming ==
+                                                          thread.id
+                                                      ? Form(
+                                                          key: state
+                                                              .renameFormKey,
+                                                          child: TextFormField(
+                                                            controller: state
+                                                                .renameController,
+                                                            decoration:
+                                                                const InputDecoration(
+                                                              isDense: true,
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              errorStyle:
+                                                                  TextStyle(
+                                                                fontSize: 0,
+                                                                height: 0,
+                                                              ),
+                                                            ),
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            focusNode: state
+                                                                .renameNode,
+                                                            cursorColor:
+                                                                Colors.white,
+                                                            cursorWidth: 2,
+                                                            validator:
+                                                                (value) => state
+                                                                    .validateRename(
+                                                                        value),
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          thread.topic,
+                                                          style: TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            color: thread.id ==
+                                                                    state
+                                                                        .activeThreadId
+                                                                ? Colors.white
+                                                                : Colors.black,
                                                           ),
                                                         ),
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                        focusNode:
-                                                            state.renameNode,
-                                                        cursorColor:
-                                                            Colors.white,
-                                                        cursorWidth: 2,
-                                                        validator: (value) =>
-                                                            state
-                                                                .validateRename(
-                                                                    value),
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      thread.topic,
-                                                      style: TextStyle(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: thread.id ==
-                                                                state
-                                                                    .activeThreadId
-                                                            ? Colors.white
-                                                            : Colors.black,
-                                                      ),
-                                                    ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                // THREAD RENAME / DELETE / CONFIRM RENAME BUTTON
+                                                thread.id ==
+                                                        state.activeThreadId
+                                                    ? Row(
+                                                        children: <Widget>[
+                                                          state.isRenaming ==
+                                                                  state
+                                                                      .activeThreadId
+                                                              // CONFIRM RENAME BUTTON
+                                                              ? Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          2),
+                                                                  child:
+                                                                      GestureDetector(
+                                                                    onTap: () =>
+                                                                        state
+                                                                            .submitRename(
+                                                                      threadTitle:
+                                                                          thread
+                                                                              .topic,
+                                                                      threadId:
+                                                                          state
+                                                                              .activeThreadId,
+                                                                    ),
+                                                                    child:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .check,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              // RENAME BUTTON
+                                                              : GestureDetector(
+                                                                  onTap: () {
+                                                                    state
+                                                                        .renameThread(
+                                                                      threadTitle:
+                                                                          thread
+                                                                              .topic,
+                                                                      threadId:
+                                                                          thread
+                                                                              .id,
+                                                                    );
+                                                                  },
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    'assets/icons/outline/square_and_pencil.svg',
+                                                                    colorFilter:
+                                                                        const ColorFilter
+                                                                            .mode(
+                                                                      Colors
+                                                                          .white,
+                                                                      BlendMode
+                                                                          .srcIn,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                          state.isRenaming ==
+                                                                  state
+                                                                      .activeThreadId
+                                                              ? const SizedBox()
+                                                              // DELETE THREAD BUTTON
+                                                              : GestureDetector(
+                                                                  onTap: () {
+                                                                    state
+                                                                        .deleteThread(
+                                                                      threadId:
+                                                                          state
+                                                                              .activeThreadId,
+                                                                    );
+                                                                  },
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    'assets/icons/outline/trash.svg',
+                                                                    colorFilter:
+                                                                        const ColorFilter
+                                                                            .mode(
+                                                                      Colors
+                                                                          .white,
+                                                                      BlendMode
+                                                                          .srcIn,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                        ],
+                                                      )
+                                                    : const SizedBox()
+                                              ],
                                             ),
-                                            const SizedBox(width: 10),
-                                            // THREAD RENAME / DELETE / CONFIRM RENAME BUTTON
-                                            thread.id == state.activeThreadId
-                                                ? Row(
-                                                    children: <Widget>[
-                                                      state.isRenaming ==
-                                                              state
-                                                                  .activeThreadId
-                                                          // CONFIRM RENAME BUTTON
-                                                          ? Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(2),
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () => state
-                                                                    .submitRename(
-                                                                  threadTitle:
-                                                                      thread
-                                                                          .topic,
-                                                                  threadId: state
-                                                                      .activeThreadId,
-                                                                ),
-                                                                child:
-                                                                    const Icon(
-                                                                  Icons.check,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          // RENAME BUTTON
-                                                          : GestureDetector(
-                                                              onTap: () {
-                                                                state
-                                                                    .renameThread(
-                                                                  threadTitle:
-                                                                      thread
-                                                                          .topic,
-                                                                  threadId:
-                                                                      thread.id,
-                                                                );
-                                                              },
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/outline/square_and_pencil.svg',
-                                                                colorFilter:
-                                                                    const ColorFilter
-                                                                        .mode(
-                                                                  Colors.white,
-                                                                  BlendMode
-                                                                      .srcIn,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                      state.isRenaming ==
-                                                              state
-                                                                  .activeThreadId
-                                                          ? const SizedBox()
-                                                          // DELETE THREAD BUTTON
-                                                          : GestureDetector(
-                                                              onTap: () {
-                                                                state
-                                                                    .deleteThread(
-                                                                  threadId: state
-                                                                      .activeThreadId,
-                                                                );
-                                                              },
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/outline/trash.svg',
-                                                                colorFilter:
-                                                                    const ColorFilter
-                                                                        .mode(
-                                                                  Colors.white,
-                                                                  BlendMode
-                                                                      .srcIn,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                    ],
-                                                  )
-                                                : const SizedBox()
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                            ],
-                          ),
+                                ],
+                              ),
                   ],
                 ),
               ),
