@@ -32,7 +32,7 @@ class MainScreenProvider extends ChangeNotifier {
   }
 
   void onBack(bool didPop) {
-    if (pageIndex != 0) {
+    if (pageIndex != 0 && pageIndex != 2) {
       pageIndex = 0;
       canPop = true;
     } else {
