@@ -64,6 +64,13 @@ class MainScreenProvider extends ChangeNotifier {
           const NotificationScreen(),
           const ProfileScreen(),
         ];
+      } else {
+        sp.setBool(SPKey.isLogged, false);
+        sp.setInt(SPKey.id, 0);
+        sp.setString(SPKey.username, '');
+        sp.setString(SPKey.roleName, '');
+        sp.setString(SPKey.accessToken, '');
+        sp.setString(SPKey.refreshToken, '');
       }
     }
     notifyListeners();
