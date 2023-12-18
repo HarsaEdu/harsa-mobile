@@ -23,6 +23,7 @@ class _KelasScreenState extends State<KelasScreen> {
     provider.getCourseFeedbacks(courseId: widget.data?["course"].courseId);
     provider.getMyCourseFeedback(courseId: widget.data?["course"].courseId);
     provider.getModuleData(courseId: widget.data?["course"].courseId);
+    provider.getTrackingByCourseId(courseId: widget.data?["course"].courseId);
     provider.ratingController = TextEditingController();
     provider.isEditing = false;
     provider.isUpdating = false;
@@ -129,7 +130,9 @@ class _KelasScreenState extends State<KelasScreen> {
                             );
                     }),
                     Consumer<KelasProvider>(builder: (context, state, _) {
-                      return MateriTabView(moduleData: state.moduleData);
+                      return MateriTabView(
+                          courseData: state.courseData,
+                          moduleData: state.moduleData);
                     }),
                   ],
                 ),

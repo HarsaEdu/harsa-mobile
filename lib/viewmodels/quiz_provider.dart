@@ -16,10 +16,10 @@ class QuizProvider with ChangeNotifier {
   int get currentQuestionIndex => _currentQuestionIndex;
   bool get isGridViewVisible => _isGridViewVisible;
 
-  Future<void> getQuizData(int id, int moduleId) async {
+  Future<void> getQuizData(int id) async {
     try {
       final quiz =
-          await QuizServices().getQuizById(id: id, moduleId: moduleId);
+          await QuizServices().getQuizById(id: id);
       if (quiz != null) {
         _quiz = quiz;
         debugPrint('=> ${quiz.toString()}');

@@ -222,13 +222,6 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
               );
-            case '/listmateri':
-              return MaterialPageRoute(
-                builder: (context) {
-                  final int args = (settings.arguments ?? {}) as int;
-                  return ListMateriScreen(moduleId: args);
-                },
-              );
             case '/category':
               return MaterialPageRoute(
                 builder: (context) => const CategoryScreen(),
@@ -243,7 +236,10 @@ class MainApp extends StatelessWidget {
               );
             case '/quizscreen':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
+                builder: (context) {
+                  final int args = (settings.arguments ?? {}) as int;
+                  return QuizScreen(id: args);
+                },
               );
             case '/tugasscreen':
               return MaterialPageRoute(

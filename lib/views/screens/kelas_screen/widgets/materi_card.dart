@@ -5,7 +5,7 @@ import 'package:harsa_mobile/utils/constants/colors.dart';
 class MateriCard extends StatelessWidget {
   final String title;
   final String description;
-  final double progress; // 0.0 to 1.0
+  final double progress;
 
   const MateriCard({
     super.key,
@@ -37,7 +37,7 @@ class MateriCard extends StatelessWidget {
               .bodySmall!
               .copyWith(color: Colors.white),
         ),
-        trailing: progress == 1.0
+        trailing: progress == 100.0
             ? CircleAvatar(
                 backgroundColor: ColorsPallete.sandyBrown,
                 child: SvgPicture.asset('assets/icons/filled/checklist.svg'),
@@ -46,7 +46,7 @@ class MateriCard extends StatelessWidget {
                 // radius: 24,
                 backgroundColor: Colors.orange,
                 child: Text(
-                  '${(progress * 100).toInt()}%',
+                  '${(progress.toInt())}%',
                   style: Theme.of(context)
                       .textTheme
                       .labelMedium!
