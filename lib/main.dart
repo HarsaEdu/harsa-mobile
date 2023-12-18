@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
+import 'package:harsa_mobile/viewmodels/daftar_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
@@ -98,6 +100,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
         ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
+        ChangeNotifierProvider(create: (_) => DaftarKelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
@@ -138,6 +141,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
+        // home: const KelasScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -192,21 +196,22 @@ class MainApp extends StatelessWidget {
             case '/kelasscreen':
               return MaterialPageRoute(
                 builder: (context) {
-                  final Map? args = (settings.arguments ?? {}) as Map?;
+                  final CourseDetailsData args =
+                      (settings.arguments) as CourseDetailsData;
                   return KelasScreen(data: args);
                 },
               );
             case '/daftarkelas':
               return MaterialPageRoute(
-                builder: (context) => const DaftarKelasScreen(),
+                builder: (context) {
+                  final CourseDetailsData args =
+                      (settings.arguments) as CourseDetailsData;
+                  return DaftarKelasScreen(data: args);
+                },
               );
             case '/profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
-              );
-            case '/video':
-              return MaterialPageRoute(
-                builder: (context) => const VideoScreen(),
               );
             case '/materi':
               return MaterialPageRoute(
@@ -215,10 +220,6 @@ class MainApp extends StatelessWidget {
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
-              );
-            case '/listmateri':
-              return MaterialPageRoute(
-                builder: (context) => const ListMateriScreen(),
               );
             case '/category':
               return MaterialPageRoute(
@@ -234,11 +235,10 @@ class MainApp extends StatelessWidget {
               );
             case '/quizscreen':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
-              );
-            case '/tugasscreen':
-              return MaterialPageRoute(
-                builder: (context) => const TugasScreen(),
+                builder: (context) {
+                  final int args = (settings.arguments ?? {}) as int;
+                  return QuizScreen(id: args);
+                },
               );
             case '/editemail':
               return MaterialPageRoute(

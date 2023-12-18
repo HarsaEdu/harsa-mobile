@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/category_models/category_content.dart';
 
 import 'package:harsa_mobile/models/category_models/category_home_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/course_recommendation_services.dart';
+import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/services/subscription_service.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +23,7 @@ class HomeScreenProvider extends ChangeNotifier {
   List<Datum> subscriptionPlanList = [];
   List<CategoryListData> checkCategory = [];
   List<CategoryListData> searchResult = [];
+  CourseDetailsData? courseDetailsData;
 
   bool isSearching = false;
 
@@ -99,7 +102,7 @@ class HomeScreenProvider extends ChangeNotifier {
       searchResult = checkCategory;
     } else {
       searchResult = checkCategory.where((course) {
-        return course.title.toLowerCase().contains(query.toLowerCase());
+        return course.courseTitle.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }
     notifyListeners();
@@ -127,6 +130,33 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void gotoSubs() {
     Navigator.pushNamed(context, '/subscriptionlist');
+  }
+
+  void navigateTo(BuildContext context, int courseId) async {
+    try {
+      final response =
+          await CoursesService.getCourseDetails(courseId: courseId);
+      courseDetailsData = response!.data;
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Error: $e");
+    }
+
+    if (context.mounted) {
+      if (courseDetailsData!.isSubscription == true) {
+        Navigator.pushNamed(
+          context,
+          "/kelasscreen",
+          arguments: courseDetailsData,
+        );
+      } else {
+        Navigator.pushNamed(
+          context,
+          "/daftarkelas",
+          arguments: courseDetailsData,
+        );
+      }
+    }
   }
 
   @override

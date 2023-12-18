@@ -11,7 +11,16 @@ import 'package:harsa_mobile/views/widgets/kelas_widgets/kelas_card_component.da
 import 'package:path/path.dart' as p;
 
 class TugasScreen extends StatefulWidget {
-  const TugasScreen({Key? key}) : super(key: key);
+  final int idTugas;
+  final String title;
+  final String description;
+  final double progress;
+  const TugasScreen(
+      {super.key,
+      required this.idTugas,
+      required this.title,
+      required this.description,
+      required this.progress});
 
   @override
   State<TugasScreen> createState() => _TugasScreenState();
@@ -19,6 +28,13 @@ class TugasScreen extends StatefulWidget {
 
 class _TugasScreenState extends State<TugasScreen> {
   bool isSubmitted = false;
+  late int idTugas;
+
+  @override
+  void initState() {
+    super.initState();
+    idTugas = widget.idTugas;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +67,10 @@ class _TugasScreenState extends State<TugasScreen> {
                   height: 500.0,
                   child: Column(
                     children: [
-                      const KelasCard(
-                        className: "Introducing UI/UX Design",
-                        mentorName: "Explain About UI/UX Fudamental",
-                        progress: 65,
+                      KelasCard(
+                        className: widget.title,
+                        mentorName: widget.description,
+                        progress: widget.progress,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(
