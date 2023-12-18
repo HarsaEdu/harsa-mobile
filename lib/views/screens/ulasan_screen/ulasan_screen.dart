@@ -39,10 +39,12 @@ class UlasanScreenContent extends StatelessWidget {
                         Colors.black,
                         BlendMode.srcIn,
                       ),
-                      width: 24,
-                      height: 24,
+                      width: 32,
+                      height: 32,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   const Text(
                     'Ulasan',
