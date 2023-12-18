@@ -48,8 +48,6 @@ class FeedbackProvider extends ChangeNotifier {
       loadingState = LoadingState.loading;
       courseFeedbackModel = null;
 
-      print(courseId);
-
       final feedbacks =
           await FeedbackServices.getCourseFeedbacks(courseId: courseId);
 

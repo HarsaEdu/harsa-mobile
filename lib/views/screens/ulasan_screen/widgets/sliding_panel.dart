@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
-import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';

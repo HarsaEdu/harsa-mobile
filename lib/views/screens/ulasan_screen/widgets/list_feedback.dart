@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
 import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
-import 'package:harsa_mobile/services/feedback_services.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -51,8 +50,7 @@ class ListFeedback extends StatelessWidget {
                   return TestiCard(
                     imageUrl: feedback!.data[itemIndex].user.imageUrl,
                     name: feedback!.data[itemIndex].user.name,
-                    timeAgo: Provider.of<KelasProvider>(context,
-                            listen: false)
+                    timeAgo: Provider.of<KelasProvider>(context, listen: false)
                         .feedbackSince(feedback!.data[itemIndex].updatedAt),
                     reviewText: feedback!.data[itemIndex].content,
                     rating: feedback!.data[itemIndex].rating,

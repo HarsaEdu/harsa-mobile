@@ -63,8 +63,6 @@ class _UlasanScreenState extends State<UlasanScreen> {
               builder: (context, kelasProvider, _) {
                 final feedback = kelasProvider.courseFeedbackModel;
                 final myFeedback = kelasProvider.myFeedbackModel;
-                print(feedback);
-                print(myFeedback);
                 return kelasProvider.loadingState == LoadingState.loading
                     ? const Padding(
                         padding: EdgeInsets.all(40),
