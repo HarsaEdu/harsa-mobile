@@ -250,8 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Recommendation recommendation =
                                         value.courseRecomendationList[index];
                                     return InkWell(
-                                      onTap: () => pageProvider.gotoCourse(
-                                          course: recommendation),
+                                      onTap: () => pageProvider.navigateTo(context, recommendation.courseId),
                                       child: Container(
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(

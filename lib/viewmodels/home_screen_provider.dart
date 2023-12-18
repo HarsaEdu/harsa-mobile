@@ -116,14 +116,6 @@ class HomeScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void gotoCourse({required Recommendation course}) {
-    Navigator.pushNamed(
-      context,
-      '/kelasscreen',
-      arguments: {'course': course},
-    );
-  }
-
   void gotoRecommend() {
     Navigator.pushNamed(context, '/recommendation');
   }

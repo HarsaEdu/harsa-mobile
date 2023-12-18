@@ -21,11 +21,11 @@ class _KelasScreenState extends State<KelasScreen> {
   @override
   void initState() {
     final provider = Provider.of<KelasProvider>(context, listen: false);
-    provider.getCourseDetails(courseId: widget.data?["course"].courseId);
-    provider.getCourseFeedbacks(courseId: widget.data?["course"].courseId);
-    provider.getMyCourseFeedback(courseId: widget.data?["course"].courseId);
-    provider.getModuleData(courseId: widget.data?["course"].courseId);
-    provider.getTrackingByCourseId(courseId: widget.data?["course"].courseId);
+    provider.getCourseDetails(courseId: widget.data!.course.id);
+    provider.getCourseFeedbacks(courseId: widget.data!.course.id);
+    provider.getMyCourseFeedback(courseId: widget.data!.course.id);
+    provider.getModuleData(courseId: widget.data!.course.id);
+    provider.getTrackingByCourseId(courseId: widget.data!.course.id);
     provider.ratingController = TextEditingController();
     provider.isEditing = false;
     provider.isUpdating = false;
