@@ -24,7 +24,7 @@ class Recommendation {
   String courseImage;
   String instructorName;
   bool isInInterestCategories;
-  int predictedRating;
+  double predictedRating;
 
   Recommendation({
     required this.courseId,
@@ -43,7 +43,7 @@ class Recommendation {
         courseImage: json["course_image"],
         instructorName: json["instructor_name"],
         isInInterestCategories: json["is_in_interest_categories"],
-        predictedRating: json["predicted_rating"],
+        predictedRating: (json["predicted_rating"]).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

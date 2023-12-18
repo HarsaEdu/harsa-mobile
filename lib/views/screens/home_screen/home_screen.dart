@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/views/widgets/category_widgets/category_card.dart';
+import 'package:harsa_mobile/views/widgets/subscription_detail_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -22,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     pageProvider = Provider.of<HomeScreenProvider>(context, listen: false);
+    pageProvider.initData();
+    pageProvider.context = context;
   }
 
   @override
@@ -124,12 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CarouselSlider.builder(
-                                itemCount: 2,
+                                itemCount: 3,
                                 itemBuilder: (context, index, pageIndex) =>
                                     ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    'https://images.pexels.com/photos/4443160/pexels-photo-4443160.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-4443160.jpg&fm=jpg',
+                                  child: Image.asset(
+                                    'assets/images/banner/property${index + 1}.png',
                                     fit: BoxFit.cover,
                                     width: double.infinity,
                                     height: 220,
@@ -138,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 options: CarouselOptions(
                                   autoPlay: true,
                                   autoPlayAnimationDuration:
-                                      const Duration(seconds: 1),
+                                      const Duration(seconds: 2),
                                   autoPlayInterval: const Duration(seconds: 5),
                                   viewportFraction: 1,
                                 ),
@@ -228,6 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .titleMedium,
                                     ),
                                     InkWell(
+                                      onTap: pageProvider.gotoRecommend,
                                       child: SvgPicture.asset(
                                         'assets/icons/outline/chevron_forward.svg',
                                       ),
@@ -245,92 +249,102 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemBuilder: (context, index) {
                                     Recommendation recommendation =
                                         value.courseRecomendationList[index];
-                                    return Container(
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 26),
-                                      width: 286,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.network(
-                                            recommendation.courseImage,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 125,
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 15,
-                                                vertical: 15,
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    recommendation.courseTitle,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                  ),
-                                                  Text(
-                                                    recommendation
-                                                        .instructorName,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                          color: Colors.grey,
-                                                        ),
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                        'assets/icons/filled/rating.svg',
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      Text(
-                                                        recommendation
-                                                            .predictedRating
-                                                            .toStringAsFixed(1)
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge
-                                                            ?.copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                    return InkWell(
+                                      onTap: () => pageProvider.gotoCourse(
+                                          course: recommendation),
+                                      child: Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        margin:
+                                            const EdgeInsets.only(right: 26),
+                                        width: 286,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Image.network(
+                                              recommendation.courseImage,
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 125,
                                             ),
-                                          )
-                                        ],
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                  vertical: 15,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      recommendation
+                                                          .courseTitle,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                    Text(
+                                                      recommendation
+                                                          .instructorName,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                            color: Colors.grey,
+                                                          ),
+                                                    ),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          'assets/icons/filled/rating.svg',
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        Text(
+                                                          recommendation
+                                                              .predictedRating
+                                                              .toStringAsFixed(
+                                                                  1)
+                                                              .toString(),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyLarge
+                                                                  ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -351,6 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .titleMedium,
                                     ),
                                     InkWell(
+                                      onTap: pageProvider.gotoSubs,
                                       child: SvgPicture.asset(
                                         'assets/icons/outline/chevron_forward.svg',
                                       ),
@@ -367,61 +382,69 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemBuilder: (context, index) {
                                     final subsPlan =
                                         value.subscriptionPlanList[index];
-                                    return Container(
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 26),
-                                      width: 290,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.network(
-                                            subsPlan.image,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 120,
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 15,
-                                                vertical: 18,
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    subsPlan.title,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge,
-                                                  ),
-                                                  Text(
-                                                    subsPlan.description,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                  ),
-                                                ],
+                                    return InkWell(
+                                      onTap: () {
+                                        return CustomBottomSheetDialog.show(
+                                            context, subsPlan);
+                                      },
+                                      child: Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        margin:
+                                            const EdgeInsets.only(right: 26),
+                                        width: 290,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Image.network(
+                                              subsPlan.image,
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 120,
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                  vertical: 18,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      subsPlan.title,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge,
+                                                    ),
+                                                    Text(
+                                                      subsPlan.description,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },

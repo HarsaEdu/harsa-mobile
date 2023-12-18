@@ -42,7 +42,9 @@ class UlasanScreenContent extends StatelessWidget {
                       width: 24,
                       height: 24,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   const Text(
                     'Ulasan',

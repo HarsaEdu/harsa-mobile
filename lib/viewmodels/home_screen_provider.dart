@@ -9,6 +9,8 @@ import 'package:harsa_mobile/models/subscription_models/subscription_model.dart'
 import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/course_recommendation_services.dart';
 import 'package:harsa_mobile/services/subscription_service.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenProvider extends ChangeNotifier {
   late final TextEditingController searchController;
@@ -22,12 +24,17 @@ class HomeScreenProvider extends ChangeNotifier {
 
   bool isSearching = false;
 
+  late BuildContext context;
+
   String? searchQuery;
 
   HomeScreenProvider() {
     searchController = TextEditingController();
     searchFocusNode = FocusNode();
     searchFocusNode.addListener(onSearch);
+  }
+
+  void initData() {
     getRecommendation();
     getSubsPlanList();
     getCategories();
@@ -35,14 +42,21 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   void getRecommendation() async {
-    CourseRecommendation? cr =
-        await CourseRecommendationServices().getRecommendation(maxItem: 5);
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    CourseRecommendation? cr;
+    print(sp.getBool(SPKey.isLogged));
+    if (sp.getBool(SPKey.isLogged) == null ||
+        sp.getBool(SPKey.isLogged) == false) {
+      cr = await CourseRecommendationServices().getAllCourse(limit: 5);
+    } else {
+      cr = await CourseRecommendationServices().getRecommendation(maxItem: 5);
+    }
     courseRecomendationList = cr!.recommendations;
     notifyListeners();
   }
 
   void getSubsPlanList() async {
-    final subsplan = await SubsService().getSubscriptions();
+    final subsplan = await SubsService().getSubscriptions(limit: 5);
     subscriptionPlanList = subsplan;
     notifyListeners();
   }
@@ -96,6 +110,22 @@ class HomeScreenProvider extends ChangeNotifier {
       isSearching = false;
     }
     notifyListeners();
+  }
+
+  void gotoCourse({required Recommendation course}) {
+    Navigator.pushNamed(
+      context,
+      '/kelasscreen',
+      arguments: {'course': course},
+    );
+  }
+
+  void gotoRecommend() {
+    Navigator.pushNamed(context, '/recommendation');
+  }
+
+  void gotoSubs() {
+    Navigator.pushNamed(context, '/subscriptionlist');
   }
 
   @override
