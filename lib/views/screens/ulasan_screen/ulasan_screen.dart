@@ -19,7 +19,7 @@ class UlasanScreenContent extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SlidingUpPanel(
         controller: provider.panelController,
-        maxHeight: MediaQuery.of(context).size.height * 0.3,
+        maxHeight: MediaQuery.of(context).size.height * 0.35,
         minHeight: 0,
         isDraggable: false,
         defaultPanelState: PanelState.OPEN,
@@ -94,7 +94,7 @@ class UlasanScreenContent extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: Colors.grey, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +106,7 @@ class UlasanScreenContent extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 8.0),
           RatingBar.builder(
             initialRating: provider.rating,
             minRating: 1,
@@ -140,14 +140,14 @@ class UlasanScreenContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey, width: 0.5),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               hintText: 'Tulis komentar Anda di sini...',
               hintStyle: const TextStyle(fontSize: 12),
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 12.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
