@@ -48,22 +48,19 @@ class CourseRecommendationServices {
     int offset = 0,
     int limit = 10,
   }) async {
-    if (token != null) {
-      try {
-        Response response = await _dio.post(
-          '${Urls.baseUrl}${Urls.platformUrl}/courses?offset=$offset&limit=$limit',
-          options: Options(headers: head),
-        );
-        if (response.statusCode == 200) {
-          return CourseRecommendation.fromJson(response.data['data']);
-        } else {
-          return null;
-        }
-      } on DioException catch (e) {
-        print('=> ${e.message}');
-        rethrow;
+    try {
+      Response response = await _dio.post(
+        '${Urls.baseUrl}${Urls.platformUrl}/courses?offset=$offset&limit=$limit',
+        options: Options(headers: head),
+      );
+      if (response.statusCode == 200) {
+        return CourseRecommendation.fromJson(response.data['data']);
+      } else {
+        return null;
       }
+    } on DioException catch (e) {
+      print('=> ${e.message}');
+      rethrow;
     }
-    return null;
   }
 }
