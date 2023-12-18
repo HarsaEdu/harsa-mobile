@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/signupdata_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +80,9 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
                               ),
                               hintText: "Masukkan nama depan",
                               contentPadding: EdgeInsets.symmetric(
@@ -86,7 +90,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 horizontal: 16,
                               ),
                             ),
-                            cursorColor: Colors.black,
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) =>
                                 state.validateFirstName(value),
                             style: const TextStyle(fontSize: 16),
@@ -113,6 +117,9 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
                               ),
                               hintText: "Masukkan nama belakang",
                               contentPadding: EdgeInsets.symmetric(
@@ -120,7 +127,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 horizontal: 16,
                               ),
                             ),
-                            cursorColor: Colors.black,
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) => state.validateLastName(value),
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -139,9 +146,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                               TextFormField(
                                 controller: state.dateofbirthController,
                                 keyboardType: TextInputType.datetime,
-                                // enabled: false,
                                 readOnly: true,
-                                // focusNode: ,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
@@ -158,7 +163,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                     horizontal: 16,
                                   ),
                                 ),
-                                cursorColor: Colors.black,
+                                cursorColor: ColorsPallete.prussianBlue,
                                 validator: (value) => state.validateDate(value),
                                 style: const TextStyle(fontSize: 16),
                                 onTap: () {
@@ -201,6 +206,9 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
                               ),
                               hintText: "Masukkan nomor telepon",
                               contentPadding: EdgeInsets.symmetric(
@@ -208,7 +216,7 @@ class _SignupDataScreenState extends State<SignupDataScreen> {
                                 horizontal: 16,
                               ),
                             ),
-                            cursorColor: Colors.black,
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) => state.validatePhone(value),
                             style: const TextStyle(fontSize: 16),
                           ),

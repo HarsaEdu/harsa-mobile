@@ -1,61 +1,30 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:harsa_mobile/models/transaction_history.dart';
-
-final List<Map<String, Object>> myData = [
-  {
-    'id': 1,
-    'title': 'UI/UX: Becoming Professional',
-    'price': 'Rp. 530.000,00',
-    'status': 'Berhasil',
-  },
-  {
-    'id': 2,
-    'title': 'Front-End: Becoming Professional',
-    'price': 'Rp. 560.000,00',
-    'status': 'Dibatalkan',
-  },
-  {
-    'id': 3,
-    'title': 'Back-End: Becoming Professional',
-    'price': 'Rp. 210.000,00',
-    'status': 'Menunggu Pembayaran',
-  },
-  {
-    'id': 4,
-    'title': 'Flutter: Becoming Professional',
-    'price': 'Rp. 780.000,00',
-    'status': 'Berhasil',
-  },
-  {
-    'id': 5,
-    'title': 'QE: Becoming Professional',
-    'price': 'Rp. 530.000,00',
-    'status': 'Berhasil',
-  }
-];
-
-List<TransactionHistory> getTransactionHistoryList() {
-  return myData.map((json) => TransactionHistory.fromJson(json)).toList();
-}
+import 'package:harsa_mobile/models/payment_models/payment_model.dart';
+import 'package:harsa_mobile/services/payment_service.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 
 class TransactionHistoryProvider with ChangeNotifier {
   TransactionHistoryProvider() {
     focusNode.addListener(notifyListeners);
+    getAllPayment();
   }
 
-  final List<TransactionHistory> data = getTransactionHistoryList();
+  List<Payment> data = [];
   FocusNode focusNode = FocusNode();
-  List<TransactionHistory> filteredData = getTransactionHistoryList();
+  List<Payment> filteredData = [];
   String searchQuery = '';
+
+  LoadingState loadingState = LoadingState.initial;
 
   Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
-      case 'berhasil':
+      case 'success':
         return const Color(0x7F78EC7D);
-      case 'dibatalkan':
+      case 'failure':
         return const Color(0x7FED7878);
-      case 'menunggu pembayaran':
+      case 'pending':
         return const Color(0x7FEFEA75);
       default:
         return Colors.white;
@@ -64,15 +33,33 @@ class TransactionHistoryProvider with ChangeNotifier {
 
   Color getStatusTextColor(String status) {
     switch (status.toLowerCase()) {
-      case 'berhasil':
+      case 'success':
         return const Color(0xFF159B1A);
-      case 'dibatalkan':
+      case 'failure':
         return const Color(0xFFDB1D1D);
-      case 'menunggu pembayaran':
+      case 'pending':
         return const Color(0xFF918B00);
       default:
         return Colors.white;
     }
+  }
+
+  Future<void> getAllPayment() async {
+    try {
+      loadingState = LoadingState.loading;
+      final List<Payment> transaction =
+          await PaymentService().getAllPayment(0, 10);
+
+      data.addAll(transaction);
+      filteredData.addAll(transaction);
+      loadingState = LoadingState.success;
+      notifyListeners();
+    } on DioException catch (_) {
+      loadingState = LoadingState.failed;
+      notifyListeners();
+      rethrow;
+    }
+    notifyListeners();
   }
 
   void filterByStatus(String status) {
@@ -88,7 +75,7 @@ class TransactionHistoryProvider with ChangeNotifier {
       filteredData = data;
     } else {
       filteredData = data.where((transactionHistory) {
-        return transactionHistory.title
+        return transactionHistory.item.name
             .toLowerCase()
             .contains(query.toLowerCase());
       }).toList();

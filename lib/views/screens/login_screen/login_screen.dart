@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/login_provider.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: screenWidth,
             height: screenHeight / 2,
-            color: const Color(0xFF092C4C),
+            color: ColorsPallete.prussianBlue,
           ),
 
           // continue with
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: Container(
               width: screenWidth * 9 / 10,
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -162,9 +163,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: state.emailController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: ColorsPallete.prussianBlue,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
@@ -176,9 +181,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 errorMaxLines: 3,
                                 errorText: state.loginLoadingState ==
                                         LoadingState.failed
-                                    ? "Email / Username tidak ditemukan"
+                                    ? "*Email / Username tidak ditemukan"
                                     : null,
                               ),
+                              cursorColor: ColorsPallete.prussianBlue,
                               validator: (value) => state.validateEmail(value),
                               style: const TextStyle(fontSize: 16),
                             ),
@@ -195,9 +201,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: state.passwordController,
                               keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: ColorsPallete.prussianBlue,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
@@ -209,10 +219,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 errorMaxLines: 3,
                                 errorText: state.loginLoadingState ==
                                         LoadingState.failed
-                                    ? "Password yang Anda masukkan salah"
+                                    ? "*Password yang Anda masukkan salah"
                                     : null,
                               ),
                               obscureText: true,
+                              cursorColor: ColorsPallete.prussianBlue,
                               validator: (value) =>
                                   state.validatePassword(value),
                               style: const TextStyle(fontSize: 16),
@@ -223,8 +234,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             // forgot password button
                             TextButton(
                               onPressed: () {},
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                minimumSize: Size.zero,
+                              ),
                               child: Text(
-                                "Forgot Password?",
+                                "Lupa Password?",
                                 style: GoogleFonts.poppins(
                                   color: Colors.black,
                                 ),
@@ -238,6 +254,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: <Widget>[
                                 Expanded(
                                   child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
                                     onPressed: state.loginLoadingState ==
                                             LoadingState.loading
                                         ? null
@@ -264,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       // the suffix text
                       const Text(
-                        "Don't have an account? ",
+                        "Tidak punya akun? ",
                         style: TextStyle(fontSize: 12),
                       ),
 
@@ -274,9 +295,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           context,
                           '/signup',
                         ),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          minimumSize: Size.zero,
+                        ),
                         child: const Text(
-                          "Register Now",
-                          style: TextStyle(color: Colors.blue),
+                          "Daftar Sekarang",
+                          style: TextStyle(
+                            color: Color(0xFF409CFF),
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],

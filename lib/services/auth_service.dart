@@ -51,4 +51,22 @@ class AuthService {
 
     return authModel;
   }
+
+  static Future<AuthModel?> refreshToken({
+    required String refreshToken,
+  }) async {
+    AuthModel? authModel;
+
+    try {
+      const String url = "${Urls.baseUrl}${Urls.platformUrl}/auth/access-token";
+      final Map data = {"refresh_token": refreshToken};
+      final Response response = await dio.post(url, data: data);
+
+      authModel = AuthModel.fromJson(response.data);
+    } on DioException catch (_) {
+      return null;
+    }
+
+    return authModel;
+  }
 }

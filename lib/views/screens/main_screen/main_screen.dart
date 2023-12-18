@@ -18,19 +18,16 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     pageProvider = Provider.of<MainScreenProvider>(context, listen: false);
+    pageProvider.checkPreference();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MainScreenProvider>(
-      builder: (context, value, child) => 
-      
-      // PopScope(
-      //   canPop: value.canPop,   
-      //   onPopInvoked: (didPop) => pageProvider.onBack(didPop),
-      //   child: 
-        
-        Scaffold(
+      builder: (context, value, child) => PopScope(
+        canPop: value.canPop,
+        onPopInvoked: (didPop) => pageProvider.onBack(didPop),
+        child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: value.pageList[value.pageIndex],
           backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
@@ -205,7 +202,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-      // ),
+      ),
     );
   }
 }

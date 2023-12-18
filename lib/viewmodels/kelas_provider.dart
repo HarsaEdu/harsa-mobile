@@ -6,10 +6,14 @@ import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/services/feedback_services.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class KelasProvider extends ChangeNotifier {
   final GlobalKey<FormState> ratingFormKey = GlobalKey();
   TextEditingController? ratingController;
+
+  final PanelController _panelController = PanelController();
+  PanelController get panelController => _panelController;
 
   LoadingState loadingState = LoadingState.initial;
 
@@ -100,6 +104,7 @@ class KelasProvider extends ChangeNotifier {
     isEditing = true;
     isUpdating = true;
     notifyListeners();
+    _panelController.open();
   }
 
   void rate(int newRating) {
@@ -144,6 +149,9 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.failed;
       notifyListeners();
       rethrow;
+    } finally {
+      _panelController.close();
+      notifyListeners();
     }
   }
 
@@ -173,6 +181,9 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
       rethrow;
-    }
+    }finally {
+    _panelController.open();
+    notifyListeners();
+  }
   }
 }

@@ -13,11 +13,11 @@ import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_provider.dart';
+import 'package:harsa_mobile/viewmodels/profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
-import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/detail_subscription/detail_subscription.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
@@ -94,7 +94,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
-        ChangeNotifierProvider(create: (_) => UlasanScreenProvider()),
         ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
         ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
@@ -115,6 +114,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PaymentCardProvider()),
         ChangeNotifierProvider(create: (_) => EWalletProvider()),
         ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: MaterialApp(
@@ -137,12 +137,10 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/splash',
-        // home: UlasanScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/splash':
+            case '/':
               return MaterialPageRoute(
                 builder: (context) => const SplashScreen(),
               );
@@ -279,10 +277,6 @@ class MainApp extends StatelessWidget {
                 builder: (context) =>
                     DetailSubscription(subscription: subscription),
               );
-            // case '/payment':
-            //   return MaterialPageRoute(
-            //     builder: (context) =>  PaymentScreen(),
-            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),

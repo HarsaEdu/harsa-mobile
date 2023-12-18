@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:harsa_mobile/models/chatbot_models/get_thread_chats_model.dart';
 import 'package:harsa_mobile/models/chatbot_models/post_chat_model.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/signup_provider.dart';
 import 'package:provider/provider.dart';
@@ -74,6 +75,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
+                              ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
                                 horizontal: 16,
@@ -86,6 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ? "*Username / Email sudah terdaftar"
                                   : null,
                             ),
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) => state.validateUsername(value),
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -107,6 +117,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
+                              ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
                                 horizontal: 16,
@@ -119,6 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ? "*Username / Email sudah terdaftar"
                                   : null,
                             ),
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) => state.validateEmail(value),
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -140,6 +159,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
+                              ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
                                 horizontal: 16,
@@ -149,6 +176,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               errorMaxLines: 3,
                             ),
                             obscureText: true,
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) => state.validatePassword(value),
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -170,6 +198,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Radius.circular(8),
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                borderSide: BorderSide(
+                                  color: ColorsPallete.prussianBlue,
+                                ),
+                              ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0,
                                 horizontal: 16,
@@ -179,6 +215,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               errorMaxLines: 3,
                             ),
                             obscureText: true,
+                            cursorColor: ColorsPallete.prussianBlue,
                             validator: (value) =>
                                 state.validateConfirmPassword(value),
                             style: const TextStyle(fontSize: 16),
