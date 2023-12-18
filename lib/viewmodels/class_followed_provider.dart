@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 
 import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
@@ -12,6 +13,7 @@ class ClassFollowedProvider with ChangeNotifier {
   }
 
   UserCoursesModel? coursesModel;
+  CourseDetailsData? courseDetailsData;
   List<UserCoursesData> data = [];
   FocusNode focusNode = FocusNode();
   List<UserCoursesData> filteredData = [];
@@ -53,6 +55,31 @@ class ClassFollowedProvider with ChangeNotifier {
       }).toList();
     }
     notifyListeners();
+  }
+
+  void tapCourse(BuildContext context, {required int courseId}) async {
+    try {
+      loadingState = LoadingState.loading;
+
+      final response =
+          await CoursesService.getCourseDetails(courseId: courseId);
+      courseDetailsData = response!.data;
+
+      loadingState = LoadingState.success;
+      notifyListeners();
+
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          "/kelasscreen",
+          arguments: courseDetailsData,
+        );
+      }
+    } catch (_) {
+      loadingState = LoadingState.failed;
+      notifyListeners();
+      rethrow;
+    }
   }
 
   @override

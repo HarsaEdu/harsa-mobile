@@ -162,11 +162,13 @@ class ClassFollowedScreen extends StatelessWidget {
                                   UserCoursesData classFollowed =
                                       prov.filteredData[index];
                                   return GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                      context,
-                                      "/kelasscreen",
-                                      arguments: {'course': classFollowed},
-                                    ),
+                                    onTap: () {
+                                      prov.tapCourse(
+                                        context,
+                                        courseId:
+                                            prov.filteredData[index].courseId,
+                                      );
+                                    },
                                     child: Card(
                                       margin: const EdgeInsets.symmetric(
                                         vertical: 8,
