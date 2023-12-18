@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/profile_models/profile_models.dart';
+import 'package:harsa_mobile/models/subscription_models/subs_detail.dart';
 import 'package:harsa_mobile/services/profile_services.dart';
+import 'package:harsa_mobile/services/subscription_service.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:harsa_mobile/views/widgets/confirmation_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,10 +14,14 @@ class ProfileProvider extends ChangeNotifier {
 
   UserProfileData? userProfileData;
 
+  SubsDetail? subsDetail;
+
   bool isSubs = false;
 
   void getProfile() async {
     userProfileData = await ProfileServices.getUserProfile();
+    subsDetail =
+        await SubsService().getSubsDetail(id: userProfileData!.subscriptionId);
     notifyListeners();
   }
 

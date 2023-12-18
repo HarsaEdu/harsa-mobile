@@ -42,6 +42,7 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   void getRecommendation() async {
+    courseRecomendationList.clear();
     SharedPreferences sp = await SharedPreferences.getInstance();
     CourseRecommendation? cr;
     print(sp.getBool(SPKey.isLogged));

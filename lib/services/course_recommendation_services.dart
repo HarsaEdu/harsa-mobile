@@ -49,12 +49,13 @@ class CourseRecommendationServices {
     int limit = 10,
   }) async {
     try {
-      Response response = await _dio.post(
+      Response response = await _dio.get(
         '${Urls.baseUrl}${Urls.platformUrl}/courses?offset=$offset&limit=$limit',
         options: Options(headers: head),
       );
       if (response.statusCode == 200) {
-        return CourseRecommendation.fromJson(response.data['data']);
+        return CourseRecommendation.fromJson(
+            <String, dynamic>{'recommendations': response.data['data']});
       } else {
         return null;
       }
