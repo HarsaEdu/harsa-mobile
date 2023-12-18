@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
 import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
+import 'package:harsa_mobile/services/feedback_services.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/myulasan_card.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/testi_card.dart';
@@ -19,7 +21,7 @@ class ListFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KelasProvider>(
+    return Consumer<FeedbackProvider>(
       builder: (context, provider, _) {
         if (feedback == null) {
           return const Padding(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,7 @@ class MyUlasanCard extends StatelessWidget {
               ),
               const SizedBox(width: 20.0),
               Expanded(
-                child: Consumer<KelasProvider>(
+                child: Consumer<FeedbackProvider>(
                   builder: (context, kelasProvider, _) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

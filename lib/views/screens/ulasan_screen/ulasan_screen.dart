@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
@@ -6,7 +9,7 @@ import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/list_feedback.d
 import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/sliding_panel.dart';
 
 class UlasanScreen extends StatefulWidget {
-  final Map? data;
+  final CourseDetailsData? data;
 
   const UlasanScreen({Key? key, this.data}) : super(key: key);
 
@@ -15,6 +18,14 @@ class UlasanScreen extends StatefulWidget {
 }
 
 class _UlasanScreenState extends State<UlasanScreen> {
+  @override
+  void initState() {
+    final provider = Provider.of<KelasProvider>(context, listen: false);
+    provider.getCourseFeedbacks(courseId: widget.data!.course.id);
+    provider.rating=0;
+    provider.getMyCourseFeedback(courseId: widget.data!.course.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +56,13 @@ class _UlasanScreenState extends State<UlasanScreen> {
             ),
           ),
           Expanded(
-            child: Consumer<KelasProvider>(
+            child: Consumer<FeedbackProvider>(
               builder: (context, kelasProvider, _) {
                 final feedback = kelasProvider.courseFeedbackModel;
                 final myFeedback = kelasProvider.myFeedbackModel;
-                return feedback == null
+                print(feedback);
+                print(myFeedback);
+                return kelasProvider.loadingState == LoadingState.loading
                     ? const Padding(
                         padding: EdgeInsets.all(40),
                         child: Center(

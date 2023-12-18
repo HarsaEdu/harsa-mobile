@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
@@ -10,6 +11,7 @@ import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_provider.dart';
@@ -116,6 +118,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => FeedbackProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -182,7 +185,11 @@ class MainApp extends StatelessWidget {
               );
             case '/ulasan':
               return MaterialPageRoute(
-                builder: (context) => const UlasanScreen(),
+                builder: (context) {
+                  final CourseDetailsData args =
+                      (settings.arguments) as CourseDetailsData;
+                  return UlasanScreen(data: args);
+                },
               );
             case '/aichatbot':
               return MaterialPageRoute(

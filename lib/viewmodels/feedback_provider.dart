@@ -8,7 +8,7 @@ import 'package:harsa_mobile/services/feedback_services.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class KelasProvider extends ChangeNotifier {
+class FeedbackProvider extends ChangeNotifier {
   final GlobalKey<FormState> ratingFormKey = GlobalKey();
   TextEditingController? ratingController;
 
@@ -48,6 +48,8 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.loading;
       courseFeedbackModel = null;
 
+      print(courseId);
+
       final feedbacks =
           await FeedbackServices.getCourseFeedbacks(courseId: courseId);
 
@@ -55,6 +57,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.success;
       courseFeedbackModel = null;
       notifyListeners();
 
@@ -90,6 +93,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.success;
       myFeedbackModel = null;
       isEditing = true;
       notifyListeners();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
@@ -15,7 +16,7 @@ class SlidingPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<KelasProvider>(
+    return Consumer<FeedbackProvider>(
       builder: (context, state, _) {
         return SlidingUpPanel(
           controller: state.panelController,
