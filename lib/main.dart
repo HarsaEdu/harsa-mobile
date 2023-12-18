@@ -210,10 +210,6 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const ProfileBerlanganan(),
               );
-            case '/video':
-              return MaterialPageRoute(
-                builder: (context) => const VideoScreen(),
-              );
             case '/materi':
               return MaterialPageRoute(
                 builder: (context) => const MateriViewScreen(),
@@ -239,13 +235,6 @@ class MainApp extends StatelessWidget {
                 builder: (context) {
                   final int args = (settings.arguments ?? {}) as int;
                   return QuizScreen(id: args);
-                },
-              );
-            case '/tugasscreen':
-              return MaterialPageRoute(
-                builder: (context) {
-                  final int args = (settings.arguments ?? {}) as int;
-                  return TugasScreen(idTugas: args);
                 },
               );
             case '/editemail':

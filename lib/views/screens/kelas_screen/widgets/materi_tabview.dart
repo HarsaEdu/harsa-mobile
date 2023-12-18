@@ -37,7 +37,10 @@ class MateriTabView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const VideoScreen(),
+                    builder: (context) => VideoScreen(
+                        title: module.title,
+                        instructur: courseData!.course.instructor.name,
+                        progress: courseData!.courseTracking.progress),
                   ),
                 );
               },
@@ -49,7 +52,7 @@ class MateriTabView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TugasScreen(idTugas: submission.id),
+                    builder: (context) => TugasScreen(idTugas: submission.id, title: module.title, description: module.description, progress : module.progress),
                   ),
                 );
               },
