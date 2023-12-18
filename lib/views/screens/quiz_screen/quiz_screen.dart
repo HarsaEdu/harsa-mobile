@@ -7,7 +7,8 @@ import '../../widgets/confirmation_dialog.dart';
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key});
+  final int id;
+  const QuizScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       body: FutureBuilder(
-          future: controller.getQuizData(1, 1),
+          future: controller.getQuizData(id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

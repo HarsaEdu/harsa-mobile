@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/materi_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/new_course_details_model.dart';
 import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
 import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
@@ -20,6 +21,7 @@ class KelasProvider extends ChangeNotifier {
   MyFeedbackModel? myFeedbackModel;
   // code by Ahmad Taufiq Gultom
   MateriModel? moduleData;
+  CourseData? courseData;
 
   late bool isEditing;
   late bool isUpdating;
@@ -192,6 +194,19 @@ class KelasProvider extends ChangeNotifier {
       debugPrint('=> ${data.toString()}');
       if (data != null) {
         moduleData = data;
+        notifyListeners();
+      }
+    } on DioException catch (e) {
+      debugPrint('=> ${e.message.toString()}');
+    }
+  }
+  Future<void> getTrackingByCourseId({required int courseId}) async {
+    try {
+      CourseData? data =
+          await CourseModuleService().getAPITrackingByCourseId(courseId);
+      debugPrint('=> ${data.toString()}');
+      if (data != null) {
+        courseData = data;
         notifyListeners();
       }
     } on DioException catch (e) {
