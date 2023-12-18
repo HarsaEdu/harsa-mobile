@@ -3,7 +3,8 @@ import 'package:harsa_mobile/views/screens/kelas_screen/widgets/materi_card_ligh
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
 
 class ListMateriScreen extends StatelessWidget {
-  const ListMateriScreen({super.key});
+  final int moduleId;
+  const ListMateriScreen({super.key, required this.moduleId});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,12 @@ class ListMateriScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               children: [
-                const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.arrow_back_ios),
+                ),
                 const SizedBox(width: 12),
                 Text(
                   'Kelas',

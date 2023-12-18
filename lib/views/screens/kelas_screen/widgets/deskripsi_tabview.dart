@@ -108,23 +108,21 @@ class DeskripsiTabView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  feedback == null
-                      ? const Text("Belum ada ulasan")
-                      : CarouselSlider.builder(
-                          itemCount: feedback!.data.length > 3
-                              ? 3
-                              : feedback!.data.length,
-                          options: CarouselOptions(
-                            // enlargeCenterPage: true,
-                            height: height * 0.16,
-                            autoPlay: true,
-                          ),
-                          itemBuilder: (
-                            BuildContext context,
-                            int itemIndex,
-                            int pageViewIndex,
-                          ) {
-                            return TestimoniCard(
+                  CarouselSlider.builder(
+                    itemCount: 3,
+                    options: CarouselOptions(
+                      // enlargeCenterPage: true,
+                      height: height * 0.18,
+                      autoPlay: true,
+                    ),
+                    itemBuilder: (
+                      BuildContext context,
+                      int itemIndex,
+                      int pageViewIndex,
+                    ) {
+                      return feedback == null
+                          ? const Text("Belum ada ulasan")
+                          : TestimoniCard(
                               imageUrl: feedback!.data[itemIndex].user.imageUrl,
                               name: feedback!.data[itemIndex].user.name,
                               timeAgo: Provider.of<KelasProvider>(context,
@@ -134,8 +132,8 @@ class DeskripsiTabView extends StatelessWidget {
                               reviewText: feedback!.data[itemIndex].content,
                               rating: feedback!.data[itemIndex].rating,
                             );
-                          },
-                        ),
+                    },
+                  ),
                   const SizedBox(height: 16),
                   Consumer<KelasProvider>(
                     builder: (context, state, _) {

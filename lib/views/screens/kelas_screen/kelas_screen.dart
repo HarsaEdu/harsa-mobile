@@ -23,6 +23,7 @@ class _KelasScreenState extends State<KelasScreen> {
     final provider = Provider.of<KelasProvider>(context, listen: false);
     provider.getCourseFeedbacks(courseId: widget.data!.course.id);
     provider.getMyCourseFeedback(courseId: widget.data!.course.id);
+    provider.getModuleData(courseId: widget.data!.course.id);
     provider.ratingController = TextEditingController();
     provider.isEditing = false;
     provider.isUpdating = false;
@@ -126,7 +127,9 @@ class _KelasScreenState extends State<KelasScreen> {
                                 )
                               : const SizedBox();
                     }),
-                    const MateriTabView(),
+                    Consumer<KelasProvider>(builder: (context, state, _) {
+                      return MateriTabView(moduleData: state.moduleData);
+                    }),
                   ],
                 ),
               ),
