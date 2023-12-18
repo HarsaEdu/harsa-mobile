@@ -250,7 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Recommendation recommendation =
                                         value.courseRecomendationList[index];
                                     return InkWell(
-                                      onTap: () => pageProvider.navigateTo(context, recommendation.courseId),
+                                      onTap: () => pageProvider.navigateTo(
+                                          context, recommendation.courseId),
                                       child: Container(
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
@@ -429,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .bodyLarge,
                                                     ),
                                                     Text(
-                                                      subsPlan.description,
+                                                      subsPlan.price.toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge
