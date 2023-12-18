@@ -192,11 +192,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       color: ColorsPallete.lightBlueSky,
                                     ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                    child: ListView(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.center,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.center,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       children: [
                                         Image.network(
                                           value.categoryList[index].icon,
@@ -250,7 +252,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Recommendation recommendation =
                                         value.courseRecomendationList[index];
                                     return InkWell(
-                                      onTap: () => pageProvider.navigateTo(context, recommendation.courseId),
+                                      onTap: () => pageProvider.navigateTo(
+                                          context, recommendation.courseId),
                                       child: Container(
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
@@ -261,11 +264,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         margin:
                                             const EdgeInsets.only(right: 26),
                                         width: 286,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: ListView(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          // crossAxisAlignment:
+                                          //     CrossAxisAlignment.start,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
                                           children: [
                                             Image.network(
                                               recommendation.courseImage,
@@ -413,12 +418,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   horizontal: 15,
                                                   vertical: 18,
                                                 ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                child: ListView(
+                                                  // mainAxisAlignment:
+                                                  //     MainAxisAlignment
+                                                  //         .spaceBetween,
+                                                  // crossAxisAlignment:
+                                                  //     CrossAxisAlignment.start,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
                                                   children: [
                                                     Text(
                                                       subsPlan.title,

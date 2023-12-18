@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:harsa_mobile/models/category_models/category_content.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
+import 'package:harsa_mobile/views/screens/login_reminder_screen/login_reminder_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryScreenProvider extends ChangeNotifier {
   bool _isArrowUp = false;
@@ -68,30 +72,51 @@ class CategoryScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  CourseDetailsNoLoginData? noLoginData;
+
   void navigateTo(BuildContext context, int courseId) async {
-    try {
-      final response =
-          await CoursesService.getCourseDetails(courseId: courseId);
-      courseDetailsData = response!.data;
-      notifyListeners();
-    } catch (e) {
-      throw Exception("Error: $e");
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(SPKey.accessToken);
+
+    if (token == null || token == '') {
+      try {
+        print(courseId);
+        final responseNoLogin =
+            await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
+        noLoginData = responseNoLogin!.data;
+        notifyListeners();
+      } catch (e) {
+        throw Exception("Error: $e");
+      }
+
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginReminderScreen(),
+          ),
+        );
+      }
+
+      return;
     }
 
-    if (context.mounted) {
-      if (courseDetailsData!.isSubscription != true) {
-        Navigator.pushNamed(
-          context,
-          "/kelasscreen",
-          arguments: courseDetailsData,
-        );
-      } else {
+    try {
+      final responseLogin =
+          await CoursesService.getCourseDetails(courseId: courseId);
+      courseDetailsData = responseLogin?.data;
+      notifyListeners();
+
+      if (context.mounted) {
         Navigator.pushNamed(
           context,
           "/daftarkelas",
           arguments: courseDetailsData,
         );
       }
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Error: $e");
     }
   }
 }
