@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/services/interest_services.dart';
 import 'package:harsa_mobile/viewmodels/intereset_provider.dart';
@@ -8,7 +10,7 @@ class InterestCategoryScreen extends StatefulWidget {
   const InterestCategoryScreen({Key? key}) : super(key: key);
 
   @override
-  _InterestCategoryScreenState createState() => _InterestCategoryScreenState();
+  State<InterestCategoryScreen> createState() => _InterestCategoryScreenState();
 }
 
 class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
@@ -36,15 +38,15 @@ class _InterestCategoryScreenState extends State<InterestCategoryScreen> {
   void confirmSelection() async {
     List<int> categoryIds =
         selectedCategories.map((category) => category.id).toList();
-    print('Category IDs: $categoryIds');
+    debugPrint('Category IDs: $categoryIds');
 
     var userInterestService = UserInterestService();
     var result = await userInterestService.createInterest(categoryIds);
 
     if (result != null) {
-      print('Categories successfully submitted!');
+      debugPrint('Categories successfully submitted!');
     } else {
-      print('Failed to submit categories!');
+      debugPrint('Failed to submit categories!');
     }
   }
 

@@ -194,10 +194,9 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                                     children: <Widget>[
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(
+                                          state.checkSubs(
                                             context,
-                                            "/kelasscreen",
-                                            arguments: {'course': course},
+                                            course.courseId,
                                           );
                                         },
                                         child: KelasCard(

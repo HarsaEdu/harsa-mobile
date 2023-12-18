@@ -128,7 +128,7 @@ class CategoryScreen extends StatelessWidget {
 
   Widget _buildCategoryTabBar(CategoryScreenProvider provider) {
     final uniqueCategories = provider.categoryList
-        .map((category) => category.category.name)
+        .map((category) => category.courseTitle)
         .toSet()
         .toList();
 
@@ -187,8 +187,14 @@ class CategoryScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
       itemCount: provider.categoryList.length,
       itemBuilder: (context, itemIndex) {
-        return CategoryCard(
-          category: provider.categoryList[itemIndex],
+        return GestureDetector(
+          onTap: () {
+            provider.navigateTo(
+                context, provider.categoryList[itemIndex].courseId);
+          },
+          child: CategoryCard(
+            category: provider.categoryList[itemIndex],
+          ),
         );
       },
     );
@@ -196,7 +202,7 @@ class CategoryScreen extends StatelessWidget {
 
   Widget _buildToggleCategoryView(CategoryScreenProvider provider) {
     final uniqueCategories = provider.categoryList
-        .map((category) => category.category.name)
+        .map((category) => category.courseTitle)
         .toSet()
         .toList();
 
@@ -216,7 +222,7 @@ class CategoryScreen extends StatelessWidget {
             itemCount: uniqueCategories.length,
             itemBuilder: (context, index) {
               final category = provider.categoryList.firstWhere(
-                (element) => element.category.name == uniqueCategories[index],
+                (element) => element.courseTitle == uniqueCategories[index],
               );
               return Card(
                 elevation: 0,
@@ -243,7 +249,7 @@ class CategoryScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.0),
                           image: DecorationImage(
-                            image: NetworkImage(category.imageUrl),
+                            image: NetworkImage(category.courseImage),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -252,7 +258,7 @@ class CategoryScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 15.0),
                       Text(
-                        category.category.name,
+                        category.courseTitle,
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,

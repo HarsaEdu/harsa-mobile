@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/payment_card.dart';
+import 'package:harsa_mobile/models/payment_models/payment_card.dart';
 
 class PaymentCardProvider with ChangeNotifier {
   PaymentCard? _selectedPaymentCard;

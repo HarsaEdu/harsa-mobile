@@ -16,7 +16,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-
     pageProvider = Provider.of<MainScreenProvider>(context, listen: false);
     pageProvider.checkPreference();
   }
@@ -47,8 +46,10 @@ class _MainScreenState extends State<MainScreen> {
               elevation: 0,
               child: SvgPicture.asset(
                 'assets/icons/filled/wand_and_stars.svg',
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
                 fit: BoxFit.cover,
               ),
             ),

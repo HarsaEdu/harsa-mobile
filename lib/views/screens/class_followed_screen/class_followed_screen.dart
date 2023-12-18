@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
-import 'package:harsa_mobile/utils/constants/colors.dart';
-import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
+import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class ClassFollowedScreen extends StatelessWidget {
   const ClassFollowedScreen({Key? key}) : super(key: key);
@@ -162,11 +162,13 @@ class ClassFollowedScreen extends StatelessWidget {
                                   UserCoursesData classFollowed =
                                       prov.filteredData[index];
                                   return GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                      context,
-                                      "/kelasscreen",
-                                      arguments: {'course': classFollowed},
-                                    ),
+                                    onTap: () {
+                                      prov.tapCourse(
+                                        context,
+                                        courseId:
+                                            prov.filteredData[index].courseId,
+                                      );
+                                    },
                                     child: Card(
                                       margin: const EdgeInsets.symmetric(
                                         vertical: 8,
@@ -231,7 +233,6 @@ class ClassFollowedScreen extends StatelessWidget {
                           : Expanded(
                               child: Center(
                                 child: ListView(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const SizedBox(height: 200),
                                     SvgPicture.asset(

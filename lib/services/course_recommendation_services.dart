@@ -25,7 +25,6 @@ class CourseRecommendationServices {
   Future<CourseRecommendation?> getRecommendation({int maxItem = 20}) async {
     await setToken();
     if (token != null) {
-      print(token);
       try {
         _dio.options.headers['Authorization'] = "Bearer $token";
         Response response = await _dio.post(
@@ -43,5 +42,26 @@ class CourseRecommendationServices {
       }
     }
     return null;
+  }
+
+  Future<CourseRecommendation?> getAllCourse({
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    try {
+      Response response = await _dio.get(
+        '${Urls.baseUrl}${Urls.platformUrl}/courses?offset=$offset&limit=$limit',
+        options: Options(headers: head),
+      );
+      if (response.statusCode == 200) {
+        return CourseRecommendation.fromJson(
+            <String, dynamic>{'recommendations': response.data['data']});
+      } else {
+        return null;
+      }
+    } on DioException catch (e) {
+      print('=> ${e.message}');
+      rethrow;
+    }
   }
 }
