@@ -38,7 +38,7 @@ class CategoryCard extends StatelessWidget {
                 width: 1.0,
               ),
               image: DecorationImage(
-                image: NetworkImage(category.imageUrl),
+                image: NetworkImage(category.courseImage),
                 fit: BoxFit.cover,
               ),
             ),
@@ -54,7 +54,7 @@ class CategoryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    category.title,
+                    category.courseTitle,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class CategoryCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    category.user.name,
+                    category.instructorName,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
@@ -82,7 +82,7 @@ class CategoryCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        category.rating.toStringAsFixed(1),
+                        category.courseRating.toStringAsFixed(1),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

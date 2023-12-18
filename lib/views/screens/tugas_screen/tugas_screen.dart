@@ -2,12 +2,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harsa_mobile/services/tugas_service.dart';
 import 'package:harsa_mobile/viewmodels/tugas_provider.dart';
 import 'package:provider/provider.dart';
-
 import 'package:harsa_mobile/views/screens/tugas_screen/detail_screen.dart';
 import 'package:harsa_mobile/views/widgets/confirmation_dialog.dart';
 import 'package:harsa_mobile/views/widgets/kelas_widgets/kelas_card_component.dart';
+import 'package:path/path.dart' as p;
 
 class TugasScreen extends StatefulWidget {
   final int idTugas;
@@ -37,7 +38,7 @@ class _TugasScreenState extends State<TugasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var fileProvider = context.watch<TugasProvider>();
+    final fileProvider = context.watch<TugasProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +160,8 @@ class _TugasScreenState extends State<TugasScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailHalaman(
                                   tugasText: "Tugas Anda",
-                                  fileName: fileProvider.selectedFileName ?? "",
+                                  fileName: p
+                                      .basename(fileProvider.selectedFilePath!),
                                 ),
                               ),
                             );
@@ -189,7 +191,9 @@ class _TugasScreenState extends State<TugasScreen> {
                                   Text(
                                     isSubmitted
                                         ? "Lampiran"
-                                        : fileProvider.selectedFileName!,
+                                        : p.basename(
+                                            fileProvider.selectedFilePath!),
+                                    overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.poppins(
                                       color: Colors.black,
                                       fontSize: 10,
@@ -225,14 +229,17 @@ class _TugasScreenState extends State<TugasScreen> {
                                 title: 'Kamu Sudah yakin ingin mengumpulkan',
                                 content:
                                     'Tugas mu dapat di perbaikin setelah di kirim',
-                                onConfirm: () {
-                                  Navigator.pop(context);
-                                  fileProvider.selectFile(
-                                      fileProvider.selectedFileName ??
-                                          "dummy.pdf");
-                                  setState(() {
-                                    isSubmitted = true;
-                                  });
+                                onConfirm: () async {
+                                  if (fileProvider.selectedFilePath != null) {
+                                    await TugasService().uploadPDF(
+                                        fileProvider.selectedFilePath!);
+                                    setState(() {
+                                      isSubmitted = true;
+                                    });
+                                  }
+                                  if (mounted) {
+                                    Navigator.pop(context);
+                                  }
                                 },
                                 onCancel: () {
                                   fileProvider.clearFile();
@@ -293,21 +300,17 @@ class _TugasScreenState extends State<TugasScreen> {
                                       );
 
                                       if (result != null) {
-                                        // ignore: avoid_print
-                                        print(
-                                          'File path: ${result.files.single.path}',
-                                        );
-                                        fileProvider.selectFile(
-                                            result.files.single.name);
-                                        // ignore: use_build_context_synchronously
-                                        Navigator.pop(context);
+                                        String? filePath =
+                                            result.files.single.path;
+                                        fileProvider.selectFile(filePath!);
+                                        if (mounted) {
+                                          Navigator.pop(context);
+                                        }
                                       } else {
-                                        // ignore: avoid_print
-                                        print('Pemilihan file dibatalkan');
+                                        debugPrint('Pemilihan file dibatalkan');
                                       }
                                     } catch (e) {
-                                      // ignore: avoid_print
-                                      print('Error: $e');
+                                      debugPrint('Error: $e');
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

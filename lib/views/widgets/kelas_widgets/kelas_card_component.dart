@@ -9,6 +9,7 @@ class KelasCard extends StatelessWidget {
     this.progress,
     this.dueDate,
     this.button,
+    this.onPressed,
   });
 
   final String? classImage;
@@ -17,6 +18,7 @@ class KelasCard extends StatelessWidget {
   final double? progress;
   final String? dueDate;
   final String? button;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -121,18 +123,18 @@ class KelasCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: onPressed,
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
+                          foregroundColor: Colors.white,
                         ),
                         child: Text(
                           button!,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF222222),
                           ),
                         ),
                       ),

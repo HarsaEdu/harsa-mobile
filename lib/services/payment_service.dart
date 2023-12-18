@@ -47,27 +47,30 @@ class PaymentService {
     return null;
   }
 
-  Future<Payment?> getAllPayment(int offset, int limit) async {
+  Future<List<Payment>> getAllPayment(int offset, int limit) async {
     await setToken();
     if (token != null) {
       try {
-        final Response<dynamic> response = await Dio().get(
+        _dio.options.headers['Authorization'] = 'Bearer $token';
+        final Response<dynamic> response = await _dio.get(
             '${Urls.baseUrl}${Urls.platformUrl}/payments?offset=$offset&limit=$limit');
         if (response.statusCode == 200) {
-          return Payment.fromJson(response.data['data']);
+          List<dynamic> paymentList = response.data['data'];
+          return paymentList.map((data) => Payment.fromJson(data)).toList();
         }
-        return null;
+        throw Exception('Failed to fetch payment data');
       } on DioException catch (e) {
-        throw Exception(e.toString());
+        throw Exception(e.message);
       }
     }
-    return null;
+    throw Exception('Token is null');
   }
 
   Future<Payment?> getPaymentById(String id) async {
     await setToken();
     if (token != null) {
       try {
+        _dio.options.headers['Authorization'] = 'Bearer $token';
         final Response<dynamic> response =
             await Dio().get('${Urls.baseUrl}${Urls.platformUrl}/payments/$id');
         if (response.statusCode == 200) {

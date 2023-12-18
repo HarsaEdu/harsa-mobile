@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/kelas_widgets/kelas_card_component.dart';
@@ -7,7 +9,7 @@ import 'widgets/deskripsi_tabview.dart';
 import 'widgets/materi_tabview.dart';
 
 class KelasScreen extends StatefulWidget {
-  final Map? data;
+  final CourseDetailsData? data;
 
   const KelasScreen({super.key, this.data});
 
@@ -68,25 +70,22 @@ class _KelasScreenState extends State<KelasScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              Consumer<KelasProvider>(builder: (context, state, _) {
-                final course = state.courseDetailsModel;
-                return course == null
-                    ? const Padding(
-                        padding: EdgeInsets.all(40),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: ColorsPallete.sandyBrown,
-                          ),
+              widget.data == null
+                  ? const Padding(
+                      padding: EdgeInsets.all(40),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: ColorsPallete.sandyBrown,
                         ),
-                      )
-                    : KelasCard(
-                        classImage: course.data.course.imageUrl,
-                        className: course.data.course.title,
-                        mentorName: course.data.course.intructur.name,
-                        progress: course.data.courseTracking.progress,
-                        // dueDate: course.data.,
-                      );
-              }),
+                      ),
+                    )
+                  : KelasCard(
+                      classImage: widget.data!.course.imageUrl,
+                      className: widget.data!.course.title,
+                      mentorName: widget.data!.course.intructur.name,
+                      progress: widget.data!.courseTracking.progress,
+                      // dueDate: course.data.,
+                    ),
               TabBar(
                 tabs: [
                   Tab(
@@ -111,10 +110,9 @@ class _KelasScreenState extends State<KelasScreen> {
                 child: TabBarView(
                   children: <Widget>[
                     Consumer<KelasProvider>(builder: (context, state, _) {
-                      final course = state.courseDetailsModel;
                       final feedback = state.courseFeedbackModel;
                       final myFeedback = state.myFeedbackModel;
-                      return course == null || feedback == null
+                      return state.loadingState == LoadingState.loading
                           ? const Padding(
                               padding: EdgeInsets.all(40),
                               child: Center(
@@ -123,11 +121,13 @@ class _KelasScreenState extends State<KelasScreen> {
                                 ),
                               ),
                             )
-                          : DeskripsiTabView(
-                              course: course.data,
-                              feedback: feedback,
-                              myFeedback: myFeedback,
-                            );
+                          : widget.data != null
+                              ? DeskripsiTabView(
+                                  course: widget.data,
+                                  feedback: feedback,
+                                  myFeedback: myFeedback,
+                                )
+                              : const SizedBox();
                     }),
                     Consumer<KelasProvider>(builder: (context, state, _) {
                       return MateriTabView(

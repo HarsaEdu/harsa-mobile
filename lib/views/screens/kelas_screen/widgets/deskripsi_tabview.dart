@@ -91,18 +91,20 @@ class DeskripsiTabView extends StatelessWidget {
                             .bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/ulasan");
-                        },
-                        child: Text(
-                          'Lainnya',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      feedback == null
+                          ? const SizedBox()
+                          : TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/ulasan");
+                              },
+                              child: Text(
+                                'Lainnya',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -110,7 +112,7 @@ class DeskripsiTabView extends StatelessWidget {
                     itemCount: 3,
                     options: CarouselOptions(
                       // enlargeCenterPage: true,
-                      height: height * 0.16,
+                      height: height * 0.18,
                       autoPlay: true,
                     ),
                     itemBuilder: (
@@ -119,14 +121,7 @@ class DeskripsiTabView extends StatelessWidget {
                       int pageViewIndex,
                     ) {
                       return feedback == null
-                          ? const Padding(
-                              padding: EdgeInsets.all(40),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorsPallete.sandyBrown,
-                                ),
-                              ),
-                            )
+                          ? const Text("Belum ada ulasan")
                           : TestimoniCard(
                               imageUrl: feedback!.data[itemIndex].user.imageUrl,
                               name: feedback!.data[itemIndex].user.name,

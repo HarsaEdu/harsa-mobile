@@ -39,6 +39,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       courseDetailsModel = null;
       notifyListeners();
 
@@ -58,6 +59,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       courseFeedbackModel = null;
       notifyListeners();
 
@@ -93,6 +95,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       myFeedbackModel = null;
       isEditing = true;
       notifyListeners();

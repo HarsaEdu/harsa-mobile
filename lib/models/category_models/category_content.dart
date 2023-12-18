@@ -13,10 +13,10 @@ class CategoryCardModel {
 }
 
 class CheckCategory {
-  final int code;
-  final String message;
-  final List<CategoryListData> data;
-  final Pagination pagination;
+  int code;
+  String message;
+  List<CategoryListData> data;
+  Pagination pagination;
 
   CheckCategory({
     required this.code,
@@ -42,70 +42,46 @@ class CheckCategory {
 }
 
 class CategoryListData {
-  final int id;
-  final String title;
-  final String description;
-  final String imageUrl;
-  final double rating;
-  final Category user;
-  final Category category;
+  int courseId;
+  String courseTitle;
+  String courseDescription;
+  String courseImage;
+  double courseRating;
+  String instructorName;
 
   CategoryListData({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-    required this.rating,
-    required this.user,
-    required this.category,
+    required this.courseId,
+    required this.courseTitle,
+    required this.courseDescription,
+    required this.courseImage,
+    required this.courseRating,
+    required this.instructorName,
   });
 
   factory CategoryListData.fromJson(Map<String, dynamic> json) =>
       CategoryListData(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        imageUrl: json["image_url"],
-        rating: json["rating"]?.toDouble(),
-        user: Category.fromJson(json["user"]),
-        category: Category.fromJson(json["category"]),
+        courseId: json["course_id"],
+        courseTitle: json["course_title"],
+        courseDescription: json["course_description"],
+        courseImage: json["course_image"],
+        courseRating: json["course_rating"]?.toDouble(),
+        instructorName: json["instructor_name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "description": description,
-        "image_url": imageUrl,
-        "rating": rating,
-        "user": user.toJson(),
-        "category": category.toJson(),
-      };
-}
-
-class Category {
-  final int id;
-  final String name;
-
-  Category({
-    required this.id,
-    required this.name,
-  });
-
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
+        "course_id": courseId,
+        "course_title": courseTitle,
+        "course_description": courseDescription,
+        "course_image": courseImage,
+        "course_rating": courseRating,
+        "instructor_name": instructorName,
       };
 }
 
 class Pagination {
-  final int offset;
-  final int limit;
-  final int total;
+  int offset;
+  int limit;
+  int total;
 
   Pagination({
     required this.offset,
