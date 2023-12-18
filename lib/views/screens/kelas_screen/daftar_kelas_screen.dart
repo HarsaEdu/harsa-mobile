@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/daftar_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,7 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
   @override
   void initState() {
     final provider = Provider.of<DaftarKelasProvider>(context, listen: false);
+    provider.getEnrolledCourses(context, data: widget.data!);
     provider.getCourseFeedbacks(courseId: widget.data!.course.id);
 
     super.initState();
@@ -62,14 +65,33 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 16),
-                      KelasCard(
-                        classImage: widget.data!.course.imageUrl,
-                        className: widget.data!.course.title,
-                        mentorName: widget.data!.course.intructur.name,
-                        button: "Berlangganan Sekarang",
-                        onPressed: () =>
-                            Navigator.pushNamed(context, "/subscriptionlist"),
-                      ),
+                      Consumer<DaftarKelasProvider>(
+                          builder: (context, state, _) {
+                        return state.loadingState == LoadingState.loading
+                            ? const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: ColorsPallete.sandyBrown),
+                                ),
+                              )
+                            : KelasCard(
+                                classImage: widget.data!.course.imageUrl,
+                                className: widget.data!.course.title,
+                                mentorName: widget.data!.course.intructur.name,
+                                button: widget.data!.isSubscription
+                                    ? "Daftar"
+                                    : "Berlangganan Sekarang",
+                                onPressed: () {
+                                  Provider.of<DaftarKelasProvider>(context,
+                                          listen: false)
+                                      .checkSubs(
+                                    context,
+                                    courseId: widget.data!.course.id,
+                                    isSubbed: widget.data!.isSubscription,
+                                  );
+                                });
+                      }),
                       const SizedBox(height: 16),
                       Text(
                         'Deskripsi Kelas',
