@@ -95,7 +95,8 @@ class DeskripsiTabView extends StatelessWidget {
                           ? const SizedBox()
                           : TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, "/ulasan");
+                                Navigator.pushNamed(context, "/ulasan",
+                                    arguments: course);
                               },
                               child: Text(
                                 'Lainnya',

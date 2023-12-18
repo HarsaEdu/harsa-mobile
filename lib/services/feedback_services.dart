@@ -122,9 +122,7 @@ class FeedbackServices {
       final Response response = await dio.delete(url);
 
       return PostModel.fromJson(response.data);
-    } on DioException catch (e) {
-      debugPrint("ERROR $e");
-      debugPrint("ERROR ${e.response!.statusCode}");
+    } on DioException catch (_) {
       rethrow;
     }
   }
