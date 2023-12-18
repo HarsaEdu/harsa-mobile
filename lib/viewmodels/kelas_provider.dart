@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/materi_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/new_course_details_model.dart';
 import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart';
 import 'package:harsa_mobile/models/feedback_models/my_feedback_model.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/services/feedback_services.dart';
+import 'package:harsa_mobile/services/materi_service.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -20,6 +23,9 @@ class KelasProvider extends ChangeNotifier {
   CourseDetailsModel? courseDetailsModel;
   CourseFeedbackModel? courseFeedbackModel;
   MyFeedbackModel? myFeedbackModel;
+  // code by Ahmad Taufiq Gultom
+  MateriModel? moduleData;
+  CourseData? courseData;
 
   late bool isEditing;
   late bool isUpdating;
@@ -33,9 +39,11 @@ class KelasProvider extends ChangeNotifier {
       final course = await CoursesService.getCourseDetails(courseId: courseId);
 
       courseDetailsModel = course;
+      debugPrint('=> ${courseDetailsModel!.data.sections}');
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       courseDetailsModel = null;
       notifyListeners();
 
@@ -55,6 +63,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       courseFeedbackModel = null;
       notifyListeners();
 
@@ -90,6 +99,7 @@ class KelasProvider extends ChangeNotifier {
       loadingState = LoadingState.success;
       notifyListeners();
     } on DioException catch (_) {
+      loadingState = LoadingState.failed;
       myFeedbackModel = null;
       isEditing = true;
       notifyListeners();
@@ -183,6 +193,35 @@ class KelasProvider extends ChangeNotifier {
     } finally {
       _panelController.open();
       notifyListeners();
+    }
+  }
+
+  //  code by Ahmad Taufiq Gultom
+  Future<void> getModuleData({required int courseId}) async {
+    try {
+      MateriModel? data =
+          await CourseModuleService().getCourseModuleTracking(courseId);
+      debugPrint('=> ${data.toString()}');
+      if (data != null) {
+        moduleData = data;
+        notifyListeners();
+      }
+    } on DioException catch (e) {
+      debugPrint('=> ${e.message.toString()}');
+    }
+  }
+
+  Future<void> getTrackingByCourseId({required int courseId}) async {
+    try {
+      CourseData? data =
+          await CourseModuleService().getAPITrackingByCourseId(courseId);
+      debugPrint('=> ${data.toString()}');
+      if (data != null) {
+        courseData = data;
+        notifyListeners();
+      }
+    } on DioException catch (e) {
+      debugPrint('=> ${e.message.toString()}');
     }
   }
 }

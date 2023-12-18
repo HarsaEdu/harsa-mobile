@@ -6,7 +6,10 @@ import '../../widgets/kelas_widgets/kelas_card_component.dart';
 import 'widgets/video_button.dart';
 
 class VideoScreen extends StatelessWidget {
-  const VideoScreen({super.key});
+  final String title;
+  final String instructur;
+  final double progress;
+  const VideoScreen({super.key, required this.title, required this.instructur, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,11 @@ class VideoScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
               children: [
-                const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(Icons.arrow_back_ios)),
                 const SizedBox(width: 12),
                 Text(
                   'Video',
@@ -56,15 +63,15 @@ class VideoScreen extends StatelessWidget {
                             ),
                             Column(
                               children: [
-                                const KelasCard(
-                                  className: "UI/UX : Becoming Professional",
-                                  mentorName: "Bagus Adhi Laksana",
-                                  progress: 65,
+                                 KelasCard(
+                                  className: title,
+                                  mentorName: instructur,
+                                  progress: progress,
                                 ),
                                 const SizedBox(height: 20),
                                 ChangeNotifierProvider(
                                   create: (_) =>
-                                      VideoScreenProvider('nPt8bK2gbaU'),
+                                      VideoScreenProvider('EiKK04Ht8QI'),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
@@ -99,5 +106,3 @@ class VideoScreen extends StatelessWidget {
     );
   }
 }
-
-

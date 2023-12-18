@@ -29,7 +29,9 @@ class RecommendationScreen extends StatelessWidget {
                     width: 24,
                     height: 24,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
                 const Text(
                   'Rekomendasi Kelas',
@@ -50,7 +52,7 @@ class RecommendationScreen extends StatelessWidget {
                       horizontal: 5.0, vertical: 15.0),
                   itemCount: provider.categories.length,
                   itemBuilder: (context, index) {
-                    // return CategoryCard(category: provider.categories[index]);
+                    // return CategoryCard(category: provider.categories);
                   },
                 );
               },
