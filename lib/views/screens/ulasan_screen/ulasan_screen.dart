@@ -4,7 +4,6 @@ import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:harsa_mobile/utils/constants/colors.dart';
-import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/list_feedback.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/widgets/sliding_panel.dart';
 
@@ -20,10 +19,14 @@ class UlasanScreen extends StatefulWidget {
 class _UlasanScreenState extends State<UlasanScreen> {
   @override
   void initState() {
-    final provider = Provider.of<KelasProvider>(context, listen: false);
+    final provider = Provider.of<FeedbackProvider>(context, listen: false);
     provider.getCourseFeedbacks(courseId: widget.data!.course.id);
-    provider.rating=0;
     provider.getMyCourseFeedback(courseId: widget.data!.course.id);
+    provider.ratingController = TextEditingController();
+    provider.isEditing = false;
+    provider.isUpdating = false;
+    provider.rating = 0;
+    provider.rating = 0;
     super.initState();
   }
 
