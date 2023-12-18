@@ -456,7 +456,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? Column(
                                     children: [
                                       for (final category in value.searchResult)
-                                        CategoryCard(category: category)
+                                        GestureDetector(
+                                          onTap: () {
+                                            value.navigateTo(
+                                                context, category.courseId);
+                                          },
+                                          child:
+                                              CategoryCard(category: category),
+                                        ),
                                     ],
                                   )
                                 : const SizedBox(),
