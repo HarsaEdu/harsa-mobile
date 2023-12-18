@@ -80,7 +80,6 @@ class CategoryScreenProvider extends ChangeNotifier {
 
     if (token == null || token == '') {
       try {
-        print(courseId);
         final responseNoLogin =
             await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
         noLoginData = responseNoLogin!.data;

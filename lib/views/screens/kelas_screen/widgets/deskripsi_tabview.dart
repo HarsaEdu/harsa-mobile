@@ -109,8 +109,11 @@ class DeskripsiTabView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   CarouselSlider.builder(
-                    itemCount:
-                        feedback!.data.length > 3 ? 3 : feedback!.data.length,
+                    itemCount: feedback == null
+                        ? 0
+                        : feedback!.data.length > 3
+                            ? 3
+                            : feedback!.data.length,
                     options: CarouselOptions(
                       // enlargeCenterPage: true,
                       height: height * 0.18,

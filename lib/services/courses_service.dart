@@ -37,7 +37,6 @@ class CoursesService {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(SPKey.accessToken);
 
-    print(token);
     if (token == null) return null;
     dio.options.headers["Authorization"] = "Bearer $token";
 
@@ -89,8 +88,7 @@ class CoursesService {
       final Response response = await dio.post(url);
 
       return PostModel.fromJson(response.data);
-    } on DioException catch (e) {
-      print(e);
+    } on DioException catch (_) {
       rethrow;
     }
   }
