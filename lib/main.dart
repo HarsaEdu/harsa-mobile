@@ -30,12 +30,10 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/interest_screen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
-import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
@@ -44,13 +42,11 @@ import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
-import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -214,14 +210,6 @@ class MainApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
               );
-            case '/profileberlanganan':
-              return MaterialPageRoute(
-                builder: (context) => const ProfileBerlanganan(),
-              );
-            case '/video':
-              return MaterialPageRoute(
-                builder: (context) => const VideoScreen(),
-              );
             case '/materi':
               return MaterialPageRoute(
                 builder: (context) => const MateriViewScreen(),
@@ -229,13 +217,6 @@ class MainApp extends StatelessWidget {
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
-              );
-            case '/listmateri':
-              return MaterialPageRoute(
-                builder: (context) {
-                  final int args = (settings.arguments ?? {}) as int;
-                  return ListMateriScreen(moduleId: args);
-                },
               );
             case '/category':
               return MaterialPageRoute(
@@ -251,13 +232,9 @@ class MainApp extends StatelessWidget {
               );
             case '/quizscreen':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
-              );
-            case '/tugasscreen':
-              return MaterialPageRoute(
                 builder: (context) {
                   final int args = (settings.arguments ?? {}) as int;
-                  return TugasScreen(idTugas: args);
+                  return QuizScreen(id: args);
                 },
               );
             case '/editemail':

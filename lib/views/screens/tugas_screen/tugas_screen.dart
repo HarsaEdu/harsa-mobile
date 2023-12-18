@@ -12,7 +12,15 @@ import 'package:path/path.dart' as p;
 
 class TugasScreen extends StatefulWidget {
   final int idTugas;
-  const TugasScreen({super.key, required this.idTugas});
+  final String title;
+  final String description;
+  final double progress;
+  const TugasScreen(
+      {super.key,
+      required this.idTugas,
+      required this.title,
+      required this.description,
+      required this.progress});
 
   @override
   State<TugasScreen> createState() => _TugasScreenState();
@@ -59,10 +67,10 @@ class _TugasScreenState extends State<TugasScreen> {
                   height: 500.0,
                   child: Column(
                     children: [
-                      const KelasCard(
-                        className: "Introducing UI/UX Design",
-                        mentorName: "Explain About UI/UX Fudamental",
-                        progress: 65,
+                      KelasCard(
+                        className: widget.title,
+                        mentorName: widget.description,
+                        progress: widget.progress,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(

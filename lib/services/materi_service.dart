@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/materi_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/new_course_details_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants/shared_preferences_key.dart';
 import '../utils/constants/urls.dart';
@@ -15,15 +16,15 @@ class CourseModuleService {
     token = sp.getString(SPKey.accessToken);
   }
 
-  Future<MateriModel?> getCourseModuleTracking(int modulId) async {
+  Future<MateriModel?> getCourseModuleTracking(int courseId) async {
     await setToken();
-    debugPrint('=> courseId : ${modulId.toString()}');
+    debugPrint('=> courseId : ${courseId.toString()}');
     if (token != null) {
       debugPrint('=> token saya : ${token.toString()}');
       try {
         _dio.options.headers['Authorization'] = 'Bearer $token';
         final Response response = await _dio.get(
-          '${Urls.baseUrl}/mobile/users/course/module/$modulId/tracking',
+          '${Urls.baseUrl}/mobile/users/course/module/$courseId/tracking',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
@@ -38,7 +39,36 @@ class CourseModuleService {
         return null;
       } on DioException catch (e) {
         debugPrint('=> error : ${e.message.toString()}');
-        // rethrow;
+        rethrow;
+      }
+    }
+    return null;
+  }
+
+    Future<CourseData?> getAPITrackingByCourseId(int courseId) async {
+    await setToken();
+    debugPrint('=> courseId : ${courseId.toString()}');
+    if (token != null) {
+      debugPrint('=> token saya : ${token.toString()}');
+      try {
+        _dio.options.headers['Authorization'] = 'Bearer $token';
+        final Response response = await _dio.get(
+          '${Urls.baseUrl}/mobile/users/course/$courseId',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          ),
+        );
+        if (response.statusCode == 200) {
+          debugPrint('=> response.data : ${response.data['data']}');
+          return CourseData.fromJson(response.data['data']);
+        }
+        return null;
+      } on DioException catch (e) {
+        debugPrint('=> error : ${e.message.toString()}');
+        rethrow;
       }
     }
     return null;

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harsa_mobile/viewmodels/profile_provider.dart';
 import 'package:harsa_mobile/views/widgets/card_progres.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -88,14 +89,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Padding(
               padding: const EdgeInsets.only(left: 60, right: 60, top: 10),
-              child: value.isSubs
-                  ? const CustomCardWidget(
-                      packageName: 'packageName',
-                      subText: 'subText',
-                      logoAssetPath: 'logoAssetPath',
-                      daysRemain: 'daysRemain',
-                      progress: 0.5,
-                      date: 'date')
+              child: value.userProfileData != null &&
+                      value.userProfileData!.subscriptionId != 0 &&
+                      value.subsDetail != null
+                  ? SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      child: CustomCardWidget(
+                        width: MediaQuery.sizeOf(context).width,
+                        packageName: 'Masa Aktif Membership',
+                        daysRemain:
+                            '${(DateTime.now().difference(value.userProfileData!.startDate).inDays + 1)}/${value.subsDetail!.duration} Hari',
+                        progress: (DateTime.now()
+                                    .difference(
+                                        value.userProfileData!.startDate)
+                                    .inDays +
+                                1) /
+                            value.subsDetail!.duration,
+                        date:
+                            '${value.userProfileData!.startDate.day} ${DateFormat("MMMM").format(value.userProfileData!.startDate)} ${value.userProfileData!.startDate.year} - ${value.userProfileData!.endDate.day} ${DateFormat("MMMM").format(value.userProfileData!.endDate)} ${value.userProfileData!.endDate.year}',
+                      ),
+                    )
                   : ElevatedButton(
                       onPressed: pageProvider.langganan,
                       style: ElevatedButton.styleFrom(
