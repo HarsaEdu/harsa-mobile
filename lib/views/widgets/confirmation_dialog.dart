@@ -23,7 +23,7 @@ class ConfirmationDialog {
               border: Border.all(color: ColorsPallete.grey),
             ),
             child: Wrap(
-              alignment: WrapAlignment.end,
+              alignment: WrapAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(12),
@@ -32,8 +32,7 @@ class ConfirmationDialog {
                     children: [
                       Text(
                         title,
-                        textAlign: TextAlign
-                            .center, // Tambahkan properti textAlign di sini
+                        textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -42,8 +41,7 @@ class ConfirmationDialog {
                       const SizedBox(height: 6),
                       Text(
                         content,
-                        textAlign: TextAlign
-                            .center, // Tambahkan properti textAlign di sini
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 6),
                       const Icon(Icons.help_outline,
@@ -92,7 +90,7 @@ class ConfirmationDialog {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            'Simpan',
+                            'OK',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
