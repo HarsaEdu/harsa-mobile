@@ -122,7 +122,7 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
                       ),
                       margin: const EdgeInsets.only(bottom: 15),
                       width: screenWidth,
-                      height: 200,
+                      height: 205,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -139,8 +139,6 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
                                 vertical: 18,
                               ),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
