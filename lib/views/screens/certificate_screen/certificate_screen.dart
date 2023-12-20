@@ -44,25 +44,46 @@ class CertificateScreen extends StatelessWidget {
                 certificateProvider.searchCertificate(value);
               },
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                fillColor: Colors.white,
                 labelText:
                     certificateProvider.focusNode.hasFocus ? '' : 'Search...',
                 filled: true,
-                suffixIcon: const Icon(
-                  Icons.search,
-                  size: 32,
-                  color: Colors.grey,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/outline/magnifyingglass.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                        height: 20,
+                        width: 20,
+                      ),
+                    ),
+                  ],
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
+                  vertical: 15.0,
                   horizontal: 20.0,
                 ),
               ),
             ),
+            const SizedBox(height: 12),
             Consumer<CertificateProvider>(
               builder: (context, prov, _) {
                 bool isShow =
@@ -74,6 +95,7 @@ class CertificateScreen extends StatelessWidget {
                   child: hasData
                       ? Expanded(
                           child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                             scrollDirection: Axis.vertical,
                             itemCount: prov.filteredData.length,
                             itemBuilder: (context, index) {

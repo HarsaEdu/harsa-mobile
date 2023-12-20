@@ -81,14 +81,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )),
             ),
             const Padding(
-              padding: EdgeInsets.all(3.0),
+              padding: EdgeInsets.all(5.0),
               child: Divider(
+                endIndent: 30, 
+                indent: 30,
                 thickness: 1.5,
               ),
             ),
 
             Padding(
-              padding: const EdgeInsets.only(left: 60, right: 60, top: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: value.userProfileData != null &&
                       value.userProfileData!.subscriptionId != 0 &&
                       value.subsDetail != null

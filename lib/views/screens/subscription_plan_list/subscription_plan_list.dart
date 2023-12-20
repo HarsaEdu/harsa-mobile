@@ -49,16 +49,15 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
           Container(
-            color: Colors.white,
+            color: ColorsPallete.whiteGrey,
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: Consumer<SubscriptionPlanListProvider>(
               builder: (context, value, child) => Row(
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 40,
+                      height: 50,
                       child: SearchBar(
                         controller: value.searchController,
                         elevation: const MaterialStatePropertyAll(0),
@@ -85,6 +84,8 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
                             ),
                           ),
                         ],
+                        backgroundColor:
+                            const MaterialStatePropertyAll(Colors.white),
                         hintText: 'Search...',
                       ),
                     ),
@@ -102,12 +103,12 @@ class _SubscriptionPlanListState extends State<SubscriptionPlanList> {
           Expanded(
             child: Consumer<SubscriptionPlanListProvider>(
               builder: (context, value, child) => ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 10.0),
                 itemCount: value.subscriptions.length,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
                 itemBuilder: (context, index) {
                   Datum subscription = value.subscriptions[index];
-
-                  return InkWell(
+                  return GestureDetector(
                     onTap: () {
                       CustomBottomSheetDialog.show(context, subscription);
                     },

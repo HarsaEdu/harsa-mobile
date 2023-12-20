@@ -46,7 +46,15 @@ class ClassFollowedScreen extends StatelessWidget {
                 classFollowedProvider.searchClassFollowed(value);
               },
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                fillColor: Colors.white,
                 labelText:
                     classFollowedProvider.focusNode.hasFocus ? '' : 'Search...',
                 filled: true,
@@ -57,10 +65,20 @@ class ClassFollowedScreen extends StatelessWidget {
                       offset: const Offset(45, -10),
                       color: Colors.white,
                       surfaceTintColor: Colors.white,
-                      icon: const Icon(
-                        Icons.filter_alt_outlined,
-                        size: 32,
-                        color: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: SvgPicture.asset(
+                          'assets/icons/outline/filter.svg',
+                          colorFilter: const ColorFilter.mode(
+                            Colors.black,
+                            BlendMode.srcIn,
+                          ),
+                          height: 20,
+                          width: 20,
+                        ),
                       ),
                       onSelected: (value) {
                         if (value != 'Filter') {
@@ -71,7 +89,7 @@ class ClassFollowedScreen extends StatelessWidget {
                           <PopupMenuEntry<String>>[
                         const PopupMenuItem<String>(
                           enabled: false,
-                          height: 40,
+                          height: 25,
                           child: Text(
                             'Filter',
                             style: TextStyle(
@@ -82,7 +100,7 @@ class ClassFollowedScreen extends StatelessWidget {
                         ),
                         const PopupMenuItem<String>(
                           value: 'completed',
-                          height: 40,
+                          height: 25,
                           child: Text(
                             'Selesai',
                             style: TextStyle(
@@ -94,7 +112,7 @@ class ClassFollowedScreen extends StatelessWidget {
                         ),
                         const PopupMenuItem<String>(
                           value: 'in progress',
-                          height: 40,
+                          height: 25,
                           child: Text(
                             'Ongoing',
                             style: TextStyle(
@@ -106,7 +124,7 @@ class ClassFollowedScreen extends StatelessWidget {
                         ),
                         const PopupMenuItem<String>(
                           value: '',
-                          height: 40,
+                          height: 25,
                           child: Text(
                             'Baru',
                             style: TextStyle(
@@ -118,10 +136,18 @@ class ClassFollowedScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Icon(
-                      Icons.search,
-                      size: 32,
-                      color: Colors.grey,
+                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/outline/magnifyingglass.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                        height: 20,
+                        width: 20,
+                      ),
                     ),
                     const SizedBox(width: 8),
                   ],
@@ -131,11 +157,12 @@ class ClassFollowedScreen extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
+                  vertical: 15.0,
                   horizontal: 20.0,
                 ),
               ),
             ),
+            const SizedBox(height: 12),
             Consumer<ClassFollowedProvider>(
               builder: (context, prov, _) {
                 bool isShow =
@@ -156,6 +183,8 @@ class ClassFollowedScreen extends StatelessWidget {
                       : hasData
                           ? Expanded(
                               child: ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
                                 scrollDirection: Axis.vertical,
                                 itemCount: prov.filteredData.length,
                                 itemBuilder: (context, index) {
