@@ -1,53 +1,33 @@
-class WelcomeCategory {
-    final int code;
-    final String message;
-    final List<CategoryData> data;
-    final Pagination pagination;
+class Categories {
+  Categories({
+    required this.categories,
+  });
 
-    WelcomeCategory({
-        required this.code,
-        required this.message,
-        required this.data,
-        required this.pagination,
-    });
+  factory Categories.fromJson(Map<String, dynamic> json) => Categories(
+        categories: List<Category>.from(
+            json["categories"].map((x) => Category.fromJson(x))),
+      );
 
-    factory WelcomeCategory.fromJson(Map<String, dynamic> json) => WelcomeCategory(
-        code: json["code"],
-        message: json["message"],
-        data: List<CategoryData>.from(json["data"].map((x) => CategoryData.fromJson(x))),
-        pagination: Pagination.fromJson(json["pagination"]),
-    );
+  List<Category> categories;
 
-    Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "pagination": pagination.toJson(),
-    };
+  Map<String, dynamic> toJson() => {
+        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+      };
 }
 
-class CategoryData {
-    final int id;
-    final String name;
-    final String description;
-    final String image;
-    final String icon;
-    final DateTime createdAt;
-    final DateTime updatedAt;
-    final dynamic deleteAt;
+class Category {
+  Category({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.image,
+    required this.icon,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deleteAt,
+  });
 
-    CategoryData({
-        required this.id,
-        required this.name,
-        required this.description,
-        required this.image,
-        required this.icon,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deleteAt,
-    });
-
-    factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         name: json["name"],
         description: json["description"],
@@ -56,9 +36,18 @@ class CategoryData {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         deleteAt: json["delete_at"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  DateTime createdAt;
+  dynamic deleteAt;
+  String description;
+  String icon;
+  int id;
+  String image;
+  String name;
+  DateTime updatedAt;
+
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "description": description,
@@ -67,29 +56,5 @@ class CategoryData {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "delete_at": deleteAt,
-    };
-}
-
-class Pagination {
-    final int offset;
-    final int limit;
-    final int total;
-
-    Pagination({
-        required this.offset,
-        required this.limit,
-        required this.total,
-    });
-
-    factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-        offset: json["offset"],
-        limit: json["limit"],
-        total: json["total"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "offset": offset,
-        "limit": limit,
-        "total": total,
-    };
+      };
 }

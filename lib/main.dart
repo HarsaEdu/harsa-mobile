@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
@@ -14,6 +15,7 @@ import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
 import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
+import 'package:harsa_mobile/viewmodels/non_login_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_provider.dart';
 import 'package:harsa_mobile/viewmodels/profile_provider.dart';
@@ -30,6 +32,7 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/interest_screen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
+import 'package:harsa_mobile/views/screens/kelas_screen/non_login_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
@@ -117,6 +120,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
         ChangeNotifierProvider(create: (_) => FeedbackProvider()),
+        ChangeNotifierProvider(create: (_) => NonLoginClassProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -200,6 +204,14 @@ class MainApp extends StatelessWidget {
                   final CourseDetailsData args =
                       (settings.arguments) as CourseDetailsData;
                   return KelasScreen(data: args);
+                },
+              );
+            case '/nonloginkelas':
+              return MaterialPageRoute(
+                builder: (context) {
+                  final CourseDetailsNoLoginData args =
+                      (settings.arguments) as CourseDetailsNoLoginData;
+                  return NonLoginClassScreen(data: args);
                 },
               );
             case '/daftarkelas':

@@ -83,18 +83,13 @@ class CategoryScreenProvider extends ChangeNotifier {
         final responseNoLogin =
             await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
         noLoginData = responseNoLogin!.data;
+        if (context.mounted) {
+          Navigator.pushNamed(context, '/nonloginkelas',
+              arguments: noLoginData);
+        }
         notifyListeners();
       } catch (e) {
         throw Exception("Error: $e");
-      }
-
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginReminderScreen(),
-          ),
-        );
       }
 
       return;

@@ -8,11 +8,14 @@ class CategoryService {
   static final Dio dio = Dio();
   String token = '';
 
-  Future<WelcomeCategory> getCategories() async {
+  Future<Categories> getCategories({
+    int offset = 0,
+    int limit = 8,
+  }) async {
     try {
       dio.options.headers['Authorization'] = "Bearer $token";
       final Response response = await dio.get(
-        '${Urls.baseUrl}/mobile/categories?offset=0&limit=8',
+        '${Urls.baseUrl}/mobile/categories?offset=$offset&limit=$limit',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -21,7 +24,7 @@ class CategoryService {
         ),
       );
       if (response.statusCode == 200) {
-        return WelcomeCategory.fromJson(response.data);
+        return Categories.fromJson({'categories': response.data['data']});
       } else {
         throw Exception("Failed to load categories");
       }
@@ -30,7 +33,10 @@ class CategoryService {
     }
   }
 
-  Future<CheckCategory> getListCategories() async {
+  Future<CheckCategory> getListCategories({
+    int offest = 0,
+    int limit = 10,
+  }) async {
     try {
       dio.options.headers['Authorization'] = "Bearer $token";
       final Response response = await dio.get(

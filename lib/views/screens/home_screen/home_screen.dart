@@ -252,8 +252,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Recommendation recommendation =
                                         value.courseRecomendationList[index];
                                     return InkWell(
-                                      onTap: () => pageProvider.navigateTo(
-                                          context, recommendation.courseId),
+                                      onTap: () => pageProvider.getCourseData(
+                                        courseId: recommendation.courseId,
+                                      ),
                                       child: Container(
                                         clipBehavior: Clip.hardEdge,
                                         decoration: BoxDecoration(
@@ -278,73 +279,67 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: double.infinity,
                                               height: 125,
                                             ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                  vertical: 15,
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      recommendation
-                                                          .courseTitle,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge
-                                                          ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      recommendation
-                                                          .instructorName,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge
-                                                          ?.copyWith(
-                                                            color: Colors.grey,
-                                                          ),
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/icons/filled/rating.svg',
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                                vertical: 15,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    recommendation.courseTitle,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
-                                                        const SizedBox(
-                                                            width: 5),
-                                                        Text(
-                                                          recommendation
-                                                              .predictedRating
-                                                              .toStringAsFixed(
-                                                                  1)
-                                                              .toString(),
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge
-                                                                  ?.copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                                  ),
+                                                  Text(
+                                                    recommendation
+                                                        .instructorName,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.copyWith(
+                                                          color: Colors.grey,
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        'assets/icons/filled/rating.svg',
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      Text(
+                                                        recommendation
+                                                            .predictedRating
+                                                            .toStringAsFixed(1)
+                                                            .toString(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge
+                                                            ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             )
                                           ],
@@ -487,8 +482,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       for (final category in value.searchResult)
                                         GestureDetector(
                                           onTap: () {
-                                            value.navigateTo(
-                                                context, category.courseId);
+                                            value.getCourseData(
+                                              courseId: category.courseId,
+                                            );
                                           },
                                           child:
                                               CategoryCard(category: category),

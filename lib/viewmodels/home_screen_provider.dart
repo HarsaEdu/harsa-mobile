@@ -5,6 +5,7 @@ import 'package:harsa_mobile/models/category_models/category_content.dart';
 
 import 'package:harsa_mobile/models/category_models/category_home_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
@@ -17,13 +18,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeScreenProvider extends ChangeNotifier {
   late final TextEditingController searchController;
   late final FocusNode searchFocusNode;
+  bool isLogin = false;
 
-  List<CategoryData> categoryList = [];
+  List<Category> categoryList = [];
   List<Recommendation> courseRecomendationList = [];
   List<Datum> subscriptionPlanList = [];
   List<CategoryListData> checkCategory = [];
   List<CategoryListData> searchResult = [];
-  CourseDetailsData? courseDetailsData;
 
   bool isSearching = false;
 
@@ -51,8 +52,10 @@ class HomeScreenProvider extends ChangeNotifier {
     print(sp.getBool(SPKey.isLogged));
     if (sp.getBool(SPKey.isLogged) == null ||
         sp.getBool(SPKey.isLogged) == false) {
+      isLogin = false;
       cr = await CourseRecommendationServices().getAllCourse(limit: 5);
     } else {
+      isLogin = true;
       cr = await CourseRecommendationServices().getRecommendation(maxItem: 5);
     }
     courseRecomendationList = cr!.recommendations;
@@ -67,7 +70,7 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void getCategories() async {
     final categoryData = await CategoryService().getCategories();
-    categoryList = categoryData.data;
+    categoryList = categoryData.categories;
     notifyListeners();
   }
 
@@ -124,31 +127,40 @@ class HomeScreenProvider extends ChangeNotifier {
     Navigator.pushNamed(context, '/subscriptionlist');
   }
 
-  void navigateTo(BuildContext context, int courseId) async {
-    try {
-      final response =
+  void getCourseData({required int courseId}) async {
+    if (isLogin) {
+      final CourseDetailsModel? response =
           await CoursesService.getCourseDetails(courseId: courseId);
-      courseDetailsData = response!.data;
-      notifyListeners();
-    } catch (e) {
-      throw Exception("Error: $e");
+      navigateTo(response!.data);
+    } else {
+      final CourseDetailsNoLoginModel? response =
+          await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
+      nonLoginNavigateTo(response!.data);
     }
+  }
 
-    if (context.mounted) {
-      if (courseDetailsData!.isSubscription == true) {
-        Navigator.pushNamed(
-          context,
-          "/kelasscreen",
-          arguments: courseDetailsData,
-        );
-      } else {
-        Navigator.pushNamed(
-          context,
-          "/daftarkelas",
-          arguments: courseDetailsData,
-        );
-      }
+  void navigateTo(CourseDetailsData courseDetail) {
+    if (courseDetail.isSubscription == true) {
+      Navigator.pushNamed(
+        context,
+        "/kelasscreen",
+        arguments: courseDetail,
+      );
+    } else {
+      Navigator.pushNamed(
+        context,
+        "/daftarkelas",
+        arguments: courseDetail,
+      );
     }
+  }
+
+  void nonLoginNavigateTo(CourseDetailsNoLoginData data) {
+    Navigator.pushNamed(
+      context,
+      "/nonloginkelas",
+      arguments: data,
+    );
   }
 
   @override

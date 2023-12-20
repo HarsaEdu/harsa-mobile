@@ -21,6 +21,7 @@ class _KelasScreenState extends State<KelasScreen> {
   @override
   void initState() {
     final provider = Provider.of<KelasProvider>(context, listen: false);
+    
     provider.getCourseDetails(courseId: widget.data!.course.id);
     provider.getCourseFeedbacks(courseId: widget.data!.course.id);
     provider.getMyCourseFeedback(courseId: widget.data!.course.id);
