@@ -98,4 +98,57 @@ class ProfileService {
     }
     return null;
   }
+
+  Future<PostModel?> updateProfile({
+    required String firstName,
+    required String lastName,
+    required int dateBirth,
+    required String bio,
+    required String gender,
+    required int phoneNumber,
+    required String city,
+    required String job,
+    required String address,
+    required String imagePath,
+  }) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(SPKey.accessToken);
+
+    if (token == null) {
+      return null;
+    }
+
+    const String url =
+        "${Urls.baseUrl}${Urls.platformUrl}/users/profile/myprofile";
+
+    try {
+      // Create the data payload
+      final Map<String, dynamic> data = {
+        "first_name": firstName,
+        "last_name": lastName,
+        "date_birth": dateBirth,
+        "bio": bio,
+        "gender": gender,
+        "phone_number": phoneNumber,
+        "city": city,
+        "job": job,
+        "address": address,
+        "image":
+            await MultipartFile.fromFile(imagePath, filename: "profile_image"),
+      };
+
+      dio.options.headers["Authorization"] = "Bearer $token";
+
+      final Response response = await dio.put(url, data: data);
+
+      if (response.statusCode == 200) {
+        return PostModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Error in updateProfile: $e");
+      rethrow;
+    }
+  }
 }
