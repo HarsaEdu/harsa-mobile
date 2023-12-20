@@ -235,7 +235,10 @@ class MainApp extends StatelessWidget {
               );
             case '/category':
               return MaterialPageRoute(
-                builder: (context) => const CategoryScreen(),
+                builder: (context) {
+                  final int args = (settings.arguments ?? {}) as int;
+                  return CategoryScreen(id: args);
+                },
               );
             case '/sertifikat':
               return MaterialPageRoute(

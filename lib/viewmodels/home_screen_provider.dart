@@ -42,7 +42,6 @@ class HomeScreenProvider extends ChangeNotifier {
     getRecommendation();
     getSubsPlanList();
     getCategories();
-    getListCategories();
   }
 
   void getRecommendation() async {
@@ -71,12 +70,6 @@ class HomeScreenProvider extends ChangeNotifier {
   void getCategories() async {
     final categoryData = await CategoryService().getCategories();
     categoryList = categoryData.categories;
-    notifyListeners();
-  }
-
-  void getListCategories() async {
-    final categoryData = await CategoryService().getListCategories();
-    checkCategory = categoryData.data;
     notifyListeners();
   }
 

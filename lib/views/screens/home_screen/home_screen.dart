@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/category_models/category_home_model.dart';
 import 'package:harsa_mobile/views/widgets/category_widgets/category_card.dart';
 import 'package:harsa_mobile/views/widgets/subscription_detail_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -173,52 +174,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: value.categoryList.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 15,
-                                  crossAxisCount: 4,
-                                  crossAxisSpacing: 20,
-                                ),
-                                itemBuilder: (context, index) =>
-                                    GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, '/category');
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: ColorsPallete.lightBlueSky,
-                                    ),
-                                    child: ListView(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.center,
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.center,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Image.network(
-                                          value.categoryList[index].icon,
-                                          height: 45,
-                                          width: 45,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: value.categoryList.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 15,
+                                          crossAxisCount: 4,
+                                          crossAxisSpacing: 20,
+                                          mainAxisExtent: 90),
+                                  itemBuilder: (context, index) {
+                                    Category category =
+                                        value.categoryList[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, '/category',
+                                            arguments: index);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: ColorsPallete.lightBlueSky,
                                         ),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          value.categoryList[index].name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium,
-                                          textAlign: TextAlign.center,
+                                        child: SizedBox(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Image.network(
+                                                category.icon,
+                                                height: 45,
+                                                width: 45,
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                category.name,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                      ),
+                                    );
+                                  }),
                               const SizedBox(height: 15),
                               Padding(
                                 padding:

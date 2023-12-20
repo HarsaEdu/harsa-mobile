@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harsa_mobile/models/category_models/category_content.dart';
 import 'package:provider/provider.dart';
 
 import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/views/widgets/category_widgets/category_card.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({super.key, this.id});
+
+  final int? id;
+
+  @override
+  State<CategoryScreen> createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
+  late CategoryScreenProvider pageProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    pageProvider = Provider.of<CategoryScreenProvider>(context, listen: false);
+    pageProvider.fetchCategories();
+    pageProvider.getCategoryCount();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CategoryScreenProvider>(context, listen: false)
-        .fetchCategories();
-
     return Scaffold(
       backgroundColor: ColorsPallete.whiteGrey,
       body: Consumer<CategoryScreenProvider>(
@@ -127,10 +142,8 @@ class CategoryScreen extends StatelessWidget {
   }
 
   Widget _buildCategoryTabBar(CategoryScreenProvider provider) {
-    final uniqueCategories = provider.categoryList
-        .map((category) => category.courseTitle)
-        .toSet()
-        .toList();
+    final uniqueCategories =
+        provider.categoryList.map((category) => category.name).toList();
 
     return Container(
       color: Colors.white,
@@ -183,28 +196,32 @@ class CategoryScreen extends StatelessWidget {
   }
 
   Widget _buildCategoryListView(CategoryScreenProvider provider, int index) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-      itemCount: provider.categoryList.length,
-      itemBuilder: (context, itemIndex) {
-        return GestureDetector(
-          onTap: () {
-            provider.navigateTo(
-                context, provider.categoryList[itemIndex].courseId);
-          },
-          child: CategoryCard(
-            category: provider.categoryList[itemIndex],
-          ),
-        );
-      },
-    );
+    return Consumer<CategoryScreenProvider>(builder: (context, value, child) {
+      List<CategoryListData> categoryCourseList = pageProvider
+          .getCategoryCourseList(categoryId: value.categoryList[index].id);
+      return ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+        itemCount: categoryCourseList.length,
+        itemBuilder: (context, itemIndex) {
+          return GestureDetector(
+            onTap: () {
+              provider.navigateTo(
+                context,
+                categoryCourseList[itemIndex].courseId,
+              );
+            },
+            child: CategoryCard(
+              category: categoryCourseList[itemIndex],
+            ),
+          );
+        },
+      );
+    });
   }
 
   Widget _buildToggleCategoryView(CategoryScreenProvider provider) {
-    final uniqueCategories = provider.categoryList
-        .map((category) => category.courseTitle)
-        .toSet()
-        .toList();
+    final uniqueCategories =
+        provider.categoryList.map((category) => category.name).toSet().toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -222,7 +239,7 @@ class CategoryScreen extends StatelessWidget {
             itemCount: uniqueCategories.length,
             itemBuilder: (context, index) {
               final category = provider.categoryList.firstWhere(
-                (element) => element.courseTitle == uniqueCategories[index],
+                (element) => element.name == uniqueCategories[index],
               );
               return Card(
                 elevation: 0,
@@ -249,7 +266,7 @@ class CategoryScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.0),
                           image: DecorationImage(
-                            image: NetworkImage(category.courseImage),
+                            image: NetworkImage(category.image),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -258,7 +275,7 @@ class CategoryScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 15.0),
                       Text(
-                        category.courseTitle,
+                        category.name,
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,

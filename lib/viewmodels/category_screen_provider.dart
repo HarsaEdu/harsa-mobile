@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:harsa_mobile/models/category_models/category_content.dart';
+import 'package:harsa_mobile/models/category_models/category_home_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
@@ -17,9 +18,11 @@ class CategoryScreenProvider extends ChangeNotifier {
   bool get isCategoryList => _isCategoryList;
   int get lastTabIndex => _lastTabIndex;
 
-  List<CategoryListData> filteredCategoryList = [];
-  List<CategoryListData> categoryList = [];
+  List<Category> categoryList = [];
+  List<CategoryListData> courseData = [];
+
   CourseDetailsData? courseDetailsData;
+  CourseDetailsNoLoginData? noLoginData;
 
   void toggleArrowDirection() {
     _isArrowUp = !_isArrowUp;
@@ -45,8 +48,9 @@ class CategoryScreenProvider extends ChangeNotifier {
 
   void fetchCategories() async {
     try {
-      final response = await CategoryService().getListCategories();
-      categoryList = response.data;
+      final Categories response =
+          await CategoryService().getCategories(limit: 99);
+      categoryList = response.categories;
       notifyListeners();
     } catch (e) {
       throw Exception("Error: $e");
@@ -63,15 +67,17 @@ class CategoryScreenProvider extends ChangeNotifier {
     }
   }
 
-  void filterCategory(String selectedCategory) {
-    filteredCategoryList = categoryList
-        .where((category) => category.courseTitle == selectedCategory)
-        .toList();
-
-    notifyListeners();
+  List<CategoryListData> getCategoryCourseList({required int categoryId}) {
+    filterCategory(categoryId: categoryId);
+    return courseData;
   }
 
-  CourseDetailsNoLoginData? noLoginData;
+  void filterCategory({required int categoryId}) async {
+    final CheckCategory response =
+        await CategoryService().getListCategories(id: categoryId);
+    courseData = response.data;
+    notifyListeners();
+  }
 
   void navigateTo(BuildContext context, int courseId) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
