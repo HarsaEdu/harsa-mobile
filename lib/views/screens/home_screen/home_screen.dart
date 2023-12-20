@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     : const SizedBox(),
                 Container(
-                  color: Colors.white,
+                  color: ColorsPallete.whiteGrey,
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Row(
@@ -200,6 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       children: [
+                                        const SizedBox(height: 10),
                                         Image.network(
                                           value.categoryList[index].icon,
                                           height: 45,
@@ -381,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemBuilder: (context, index) {
                                     final subsPlan =
                                         value.subscriptionPlanList[index];
-                                    return InkWell(
+                                    return GestureDetector(
                                       onTap: () {
                                         return CustomBottomSheetDialog.show(
                                             context, subsPlan);

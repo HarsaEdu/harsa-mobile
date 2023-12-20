@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
 import 'package:harsa_mobile/views/screens/main_screen/main_screen.dart';
 
-import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
+// import 'package:harsa_mobile/views/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashProvider extends ChangeNotifier {
@@ -15,7 +15,7 @@ class SplashProvider extends ChangeNotifier {
     Future.delayed(const Duration(seconds: 2), () async {
       if (await checkPreference()) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+          MaterialPageRoute(builder: (_) => const MainScreen()),
         );
       } else {
         Navigator.of(context).pushReplacement(

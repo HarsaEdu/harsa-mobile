@@ -87,6 +87,7 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   void onCancelSearch() {
+    searchController.clear();
     searchFocusNode.unfocus();
     isSearching = false;
     print(isSearching);
@@ -113,6 +114,7 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void onBack(BuildContext context) {
     if (isSearching) {
+      searchController.clear();
       searchFocusNode.unfocus();
       isSearching = false;
     }
@@ -126,6 +128,8 @@ class HomeScreenProvider extends ChangeNotifier {
   void gotoSubs() {
     Navigator.pushNamed(context, '/subscriptionlist');
   }
+
+  CourseDetailsNoLoginData? noLoginData;
 
   void getCourseData({required int courseId}) async {
     if (isLogin) {

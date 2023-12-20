@@ -26,6 +26,7 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: ColorsPallete.whiteGrey,
       body: Column(
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).padding.top + 16),
@@ -46,121 +47,126 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: Consumer<MenuKelasProvider>(
-                        builder: (context, provider, child) {
-                          return SearchBar(
-                            controller: provider.searchController,
-                            elevation: const MaterialStatePropertyAll(0),
-                            side: const MaterialStatePropertyAll(
-                              BorderSide(color: Colors.grey, width: 1),
-                            ),
-                            padding: const MaterialStatePropertyAll(
-                              EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 0,
+                      child: SizedBox(
+                        height: 50,
+                        child: Consumer<MenuKelasProvider>(
+                          builder: (context, provider, child) {
+                            return SearchBar(
+                              controller: provider.searchController,
+                              elevation: const MaterialStatePropertyAll(0),
+                              side: const MaterialStatePropertyAll(
+                                BorderSide(color: Colors.grey, width: 1),
                               ),
-                            ),
-                            trailing: <Widget>[
-                              PopupMenuButton<String>(
-                                constraints: const BoxConstraints.tightFor(
-                                    width: 100, height: 110),
-                                offset: const Offset(45, -10),
-                                color: Colors.white,
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                              padding: const MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 0,
                                 ),
-                                onSelected: (value) {
-                                  // Handle filter selection
-                                  provider.setFilter(value);
-                                },
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
-                                  const PopupMenuItem<String>(
-                                    enabled: false,
-                                    height: 25,
-                                    child: Text(
-                                      'Filter',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14,
+                              ),
+                              trailing: <Widget>[
+                                PopupMenuButton<String>(
+                                  constraints: const BoxConstraints.tightFor(
+                                      width: 100, height: 110),
+                                  offset: const Offset(45, -10),
+                                  color: Colors.white,
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  onSelected: (value) {
+                                    // Handle filter selection
+                                    provider.setFilter(value);
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                    const PopupMenuItem<String>(
+                                      enabled: false,
+                                      height: 25,
+                                      child: Text(
+                                        'Filter',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'completed',
-                                    height: 25,
-                                    child: Text(
-                                      'Selesai',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                    const PopupMenuItem<String>(
+                                      value: 'completed',
+                                      height: 25,
+                                      child: Text(
+                                        'Selesai',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'progress',
-                                    height: 25,
-                                    child: Text(
-                                      'Ongoing',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                    const PopupMenuItem<String>(
+                                      value: 'progress',
+                                      height: 25,
+                                      child: Text(
+                                        'Ongoing',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: '',
-                                    height: 25,
-                                    child: Text(
-                                      'Baru',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                    const PopupMenuItem<String>(
+                                      value: '',
+                                      height: 25,
+                                      child: Text(
+                                        'Baru',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
+                                  ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/outline/filter.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                        Colors.black,
+                                        BlendMode.srcIn,
+                                      ),
+                                      height: 20,
+                                      width: 20,
+                                    ),
                                   ),
-                                ],
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 0),
+                                ),
+                                const SizedBox(width: 10),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   child: SvgPicture.asset(
-                                    'assets/icons/outline/filter.svg',
+                                    'assets/icons/outline/magnifyingglass.svg',
                                     colorFilter: const ColorFilter.mode(
-                                      Colors.black,
+                                      Colors.grey,
                                       BlendMode.srcIn,
                                     ),
                                     height: 20,
                                     width: 20,
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                child: SvgPicture.asset(
-                                  'assets/icons/outline/magnifyingglass.svg',
-                                  colorFilter: const ColorFilter.mode(
-                                    Colors.grey,
-                                    BlendMode.srcIn,
-                                  ),
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),
-                            ],
-                            hintText: 'Search...',
-                            onChanged: (value) {
-                              Provider.of<MenuKelasProvider>(context,
-                                      listen: false)
-                                  .searchKelas(value);
-                            },
-                          );
-                        },
+                              ],
+                              backgroundColor:
+                                  const MaterialStatePropertyAll(Colors.white),
+                              hintText: 'Search...',
+                              onChanged: (value) {
+                                Provider.of<MenuKelasProvider>(context,
+                                        listen: false)
+                                    .searchKelas(value);
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -234,7 +240,8 @@ class _MenuKelasScreenState extends State<MenuKelasScreen> {
                             ),
                             const SizedBox(height: 30),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, '/category'),
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
