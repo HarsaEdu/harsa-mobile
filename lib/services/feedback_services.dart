@@ -122,7 +122,9 @@ class FeedbackServices {
 
       return PostModel.fromJson(response.data);
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("ERROR $e");
+      // ignore: avoid_print
       print("ERROR ${e.response!.statusCode}");
       rethrow;
     }

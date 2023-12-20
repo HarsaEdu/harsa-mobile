@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -18,6 +21,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
 
     pageProvider = Provider.of<EditProfileProvider>(context, listen: false);
+    pageProvider.loadingState = LoadingState.initial;
+
+    Future.delayed(Duration.zero, () {
+      pageProvider.getProfile();
+    });
   }
 
   @override
@@ -37,7 +45,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(Icons.chevron_left_outlined),
                   ),
                   Text(
@@ -75,8 +85,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   alignment: Alignment.center,
                                   children: [
                                     CircleAvatar(
-                                      radius: screenWidth * 0.15,
-                                    ),
+                                        radius: screenWidth * 0.15,
+                                        backgroundImage: value
+                                                    .userProfileData !=
+                                                null
+                                            ? NetworkImage(
+                                                value.userProfileData!.imageUrl)
+                                            : null,
+                                        foregroundImage: value.imagepath != null
+                                            ? FileImage(File(value.imagepath!))
+                                            : null),
                                     SvgPicture.asset(
                                       'assets/icons/outline/square_and_pencil.svg',
                                       colorFilter: const ColorFilter.mode(
@@ -106,29 +124,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        width: screenWidth * 0.5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, top: 10, bottom: 5),
-                                          child: Text(
-                                            'Ambil Foto',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
+                                      GestureDetector(
+                                        onTap: () {
+                                          pageProvider.cameraImagePicker();
+                                        },
+                                        child: SizedBox(
+                                          width: screenWidth * 0.5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, top: 10, bottom: 5),
+                                            child: Text(
+                                              'Ambil Foto',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: screenWidth * 0.5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, top: 5, bottom: 10),
-                                          child: Text(
-                                            'Pilih Foto',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
+                                      GestureDetector(
+                                        onTap: () {
+                                          pageProvider.galleryImagePicker();
+                                        },
+                                        child: SizedBox(
+                                          width: screenWidth * 0.5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, top: 5, bottom: 10),
+                                            child: Text(
+                                              'Pilih Foto',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -278,7 +306,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         controller: value.birthDateController,
-                        onTap: pageProvider.datePicker,
+                        onTap: () => pageProvider.datePicker(context),
                         readOnly: true,
                         decoration: const InputDecoration(
                           isDense: true,
@@ -480,6 +508,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       const SizedBox(
                         height: 70,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: value.loadingState ==
+                                      LoadingState.loading
+                                  ? null
+                                  : () =>
+                                      pageProvider.submitEditProfile(context),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: const Text(
+                                "Ubah",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),

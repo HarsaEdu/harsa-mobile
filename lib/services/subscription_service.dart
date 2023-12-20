@@ -7,7 +7,8 @@ class SubsService {
 
   Future<List<Datum>> getSubscriptions() async {
     try {
-      final response = await dio.get('${Urls.baseUrl}/mobile/subs-plan');
+      final response =
+          await dio.get('${Urls.baseUrl}/mobile/subs-plan?offset=0&limit=10');
       if (response.statusCode == 200) {
         final welcome = Welcome.fromJson(response.data);
         return welcome.data;

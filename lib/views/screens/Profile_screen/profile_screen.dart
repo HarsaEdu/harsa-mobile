@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Text(
                             "Langganan Sekarang",
                             style: GoogleFonts.poppins(
-                              fontSize: 18.0,
+                              fontSize: 17.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
