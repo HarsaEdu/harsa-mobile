@@ -11,7 +11,9 @@ import 'widgets/statistic_card.dart';
 import 'widgets/testimoni_card.dart';
 
 class DaftarKelasScreen extends StatefulWidget {
-  final CourseDetailsData? data;
+  // CourseDetailsData for logged in users
+  // CourseDetailsNoLoginData for not-logged users
+  final dynamic data;
 
   const DaftarKelasScreen({super.key, this.data});
 
@@ -23,14 +25,18 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
   @override
   void initState() {
     final provider = Provider.of<DaftarKelasProvider>(context, listen: false);
-    provider.getEnrolledCourses(context, data: widget.data!);
-    provider.getCourseFeedbacks(courseId: widget.data!.course.id);
+    if (widget.data is CourseDetailsData) {
+      provider.getEnrolledCourses(context, data: widget.data!);
+      provider.getCourseFeedbacks(courseId: widget.data!.course.id);
+    }
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = widget.data!;
+
     return Scaffold(
       body: Column(
         children: [
@@ -75,22 +81,35 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
                                       color: ColorsPallete.sandyBrown),
                                 ),
                               )
-                            : KelasCard(
-                                classImage: widget.data!.course.imageUrl,
-                                className: widget.data!.course.title,
-                                mentorName: widget.data!.course.intructur.name,
-                                button: widget.data!.isSubscription
-                                    ? "Daftar"
-                                    : "Berlangganan Sekarang",
-                                onPressed: () {
-                                  Provider.of<DaftarKelasProvider>(context,
-                                          listen: false)
-                                      .checkSubs(
-                                    context,
-                                    courseId: widget.data!.course.id,
-                                    isSubbed: widget.data!.isSubscription,
-                                  );
-                                });
+                            : data is CourseDetailsData
+                                ? KelasCard(
+                                    classImage: data.course.imageUrl,
+                                    className: data.course.title,
+                                    mentorName: data.course.intructur.name,
+                                    button: "Berlangganan Sekarang",
+                                    onPressed: () {
+                                      Provider.of<DaftarKelasProvider>(context,
+                                              listen: false)
+                                          .checkSubs(
+                                        context,
+                                        courseId: data.course.id,
+                                        isSubbed: data.isSubscription,
+                                      );
+                                    })
+                                : KelasCard(
+                                    classImage: data.imageUrl,
+                                    className: data.title,
+                                    mentorName: data.intructur.name,
+                                    button: "Daftar",
+                                    onPressed: () {
+                                      Provider.of<DaftarKelasProvider>(context,
+                                              listen: false)
+                                          .checkSubs(
+                                        context,
+                                        courseId: data.id,
+                                        isSubbed: false,
+                                      );
+                                    });
                       }),
                       const SizedBox(height: 16),
                       Text(
@@ -102,16 +121,25 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        widget.data!.course.description,
+                        data is CourseDetailsData
+                            ? data.course.description
+                            : data.description,
                       ),
                       const SizedBox(height: 20),
                       ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              widget.data!.course.intructur.imageUrl),
+                            data is CourseDetailsData
+                                ? data.course.intructur.imageUrl
+                                : data.intructur.imageUrl,
+                          ),
                         ),
-                        title: Text(widget.data!.course.intructur.name),
-                        subtitle: Text(widget.data!.course.intructur.job),
+                        title: Text(data is CourseDetailsData
+                            ? data.course.intructur.name
+                            : data.intructur.name),
+                        subtitle: Text(data is CourseDetailsData
+                            ? data.course.intructur.job
+                            : data.intructur.job),
                         contentPadding: EdgeInsets.zero,
                       ),
                       const SizedBox(height: 12),
@@ -119,14 +147,17 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
                         children: [
                           StatisticCard(
                             title: 'Siswa',
-                            subtitle: widget.data!.course.enrolled.toString(),
+                            subtitle: data is CourseDetailsData
+                                ? data.course.enrolled.toString()
+                                : data.enrolled.toString(),
                             width: MediaQuery.of(context).size.width,
                           ),
                           const SizedBox(width: 12),
                           StatisticCard(
                             title: 'Materi',
-                            subtitle:
-                                widget.data!.course.totalModules.toString(),
+                            subtitle: data is CourseDetailsData
+                                ? data.course.totalModules.toString()
+                                : data.totalModules.toString(),
                             width: MediaQuery.of(context).size.width,
                           ),
                         ],

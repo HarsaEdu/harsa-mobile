@@ -6,6 +6,8 @@ import 'package:harsa_mobile/models/feedback_models/course_feedback_models.dart'
 import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/services/feedback_services.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DaftarKelasProvider with ChangeNotifier {
   LoadingState loadingState = LoadingState.initial;
@@ -15,8 +17,10 @@ class DaftarKelasProvider with ChangeNotifier {
 
   late bool isEnrolled;
 
-  void getEnrolledCourses(BuildContext context,
-      {required CourseDetailsData data}) async {
+  void getEnrolledCourses(
+    BuildContext context, {
+    required CourseDetailsData data,
+  }) async {
     isEnrolled = false;
 
     try {
@@ -100,6 +104,16 @@ class DaftarKelasProvider with ChangeNotifier {
     required int courseId,
     required bool isSubbed,
   }) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(SPKey.accessToken);
+
+    if (token == null || token == "") {
+      if (context.mounted) {
+        Navigator.pushNamed(context, '/login');
+        return;
+      }
+    }
+
     if (!isSubbed) {
       if (context.mounted) {
         Navigator.pushNamed(context, '/subscriptionlist');
@@ -113,6 +127,10 @@ class DaftarKelasProvider with ChangeNotifier {
         notifyListeners();
 
         await CoursesService.enrollCourse(courseId: courseId);
+
+        final courseDetails =
+            await CoursesService.getCourseDetails(courseId: courseId);
+        courseDetailsModel = courseDetails;
 
         isEnrolled = true;
         loadingState = LoadingState.success;

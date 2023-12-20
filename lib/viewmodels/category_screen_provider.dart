@@ -6,7 +6,6 @@ import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_
 import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
-import 'package:harsa_mobile/views/screens/login_reminder_screen/login_reminder_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryScreenProvider extends ChangeNotifier {
@@ -89,11 +88,10 @@ class CategoryScreenProvider extends ChangeNotifier {
       }
 
       if (context.mounted) {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => const LoginReminderScreen(),
-          ),
+          "/daftarkelas",
+          arguments: noLoginData,
         );
       }
 
@@ -104,7 +102,23 @@ class CategoryScreenProvider extends ChangeNotifier {
       final responseLogin =
           await CoursesService.getCourseDetails(courseId: courseId);
       courseDetailsData = responseLogin?.data;
-      notifyListeners();
+
+      final courses = await CoursesService.getUserCourses(filter: '');
+
+      if (courseDetailsData!.isSubscription == true) {
+        for (final enrolled in courses!.data) {
+          if (courseId == enrolled.courseId) {
+            if (context.mounted) {
+              Navigator.pushNamed(
+                context,
+                "/kelasscreen",
+                arguments: courseDetailsData,
+              );
+            }
+            return;
+          }
+        }
+      }
 
       if (context.mounted) {
         Navigator.pushNamed(
@@ -113,6 +127,7 @@ class CategoryScreenProvider extends ChangeNotifier {
           arguments: courseDetailsData,
         );
       }
+
       notifyListeners();
     } catch (e) {
       throw Exception("Error: $e");
