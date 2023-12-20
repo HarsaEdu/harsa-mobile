@@ -36,7 +36,12 @@ class _KelasScreenState extends State<KelasScreen> {
   @override
   void dispose() {
     final provider = Provider.of<KelasProvider>(context, listen: false);
-    provider.ratingController!.dispose();
+    provider.ratingController!.clear();
+    provider.courseDetailsModel = null;
+    provider.courseFeedbackModel = null;
+    provider.myFeedbackModel = null;
+    provider.moduleData = null;
+    provider.courseData = null;
     super.dispose();
   }
 

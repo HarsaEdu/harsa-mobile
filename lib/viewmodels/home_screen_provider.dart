@@ -5,6 +5,7 @@ import 'package:harsa_mobile/models/category_models/category_content.dart';
 
 import 'package:harsa_mobile/models/category_models/category_home_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
@@ -84,6 +85,7 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   void onCancelSearch() {
+    searchController.clear();
     searchFocusNode.unfocus();
     isSearching = false;
     print(isSearching);
@@ -110,6 +112,7 @@ class HomeScreenProvider extends ChangeNotifier {
 
   void onBack(BuildContext context) {
     if (isSearching) {
+      searchController.clear();
       searchFocusNode.unfocus();
       isSearching = false;
     }
@@ -124,30 +127,67 @@ class HomeScreenProvider extends ChangeNotifier {
     Navigator.pushNamed(context, '/subscriptionlist');
   }
 
-  void navigateTo(BuildContext context, int courseId) async {
-    try {
-      final response =
-          await CoursesService.getCourseDetails(courseId: courseId);
-      courseDetailsData = response!.data;
-      notifyListeners();
-    } catch (e) {
-      throw Exception("Error: $e");
-    }
+  CourseDetailsNoLoginData? noLoginData;
 
-    if (context.mounted) {
-      if (courseDetailsData!.isSubscription == true) {
+  void navigateTo(BuildContext context, int courseId) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(SPKey.accessToken);
+
+    if (token == null || token == '') {
+      try {
+        final responseNoLogin =
+            await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
+        noLoginData = responseNoLogin!.data;
+        notifyListeners();
+      } catch (e) {
+        throw Exception("Error: $e");
+      }
+
+      if (context.mounted) {
+        print("DAFTAR");
         Navigator.pushNamed(
           context,
-          "/kelasscreen",
-          arguments: courseDetailsData,
+          "/daftarkelas",
+          arguments: noLoginData,
         );
-      } else {
+      }
+
+      return;
+    }
+
+    try {
+      final responseLogin =
+          await CoursesService.getCourseDetails(courseId: courseId);
+      courseDetailsData = responseLogin?.data;
+
+      final courses = await CoursesService.getUserCourses(filter: '');
+
+      if (courseDetailsData!.isSubscription == true) {
+        for (final enrolled in courses!.data) {
+          if (courseId == enrolled.courseId) {
+            if (context.mounted) {
+              Navigator.pushNamed(
+                context,
+                "/kelasscreen",
+                arguments: courseDetailsData,
+              );
+            }
+            return;
+          }
+        }
+      }
+
+      if (context.mounted) {
         Navigator.pushNamed(
           context,
           "/daftarkelas",
           arguments: courseDetailsData,
         );
       }
+
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Error: $e");
     }
   }
 

@@ -205,8 +205,7 @@ class MainApp extends StatelessWidget {
             case '/daftarkelas':
               return MaterialPageRoute(
                 builder: (context) {
-                  final CourseDetailsData args =
-                      (settings.arguments) as CourseDetailsData;
+                  final dynamic args = (settings.arguments) as dynamic;
                   return DaftarKelasScreen(data: args);
                 },
               );
