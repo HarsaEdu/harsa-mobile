@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/inbox_provider.dart';
 
@@ -11,6 +13,7 @@ class NotificationScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+         backgroundColor: ColorsPallete.whiteGrey,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -32,24 +35,53 @@ class NotificationScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
-                        fillColor: Colors.grey[200],
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        fillColor: Colors.white,
+                        labelText: 'Search...',
                         filled: true,
-                        suffixIcon: const Icon(Icons.search),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: SvgPicture.asset(
+                                'assets/icons/outline/magnifyingglass.svg',
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.grey,
+                                  BlendMode.srcIn,
+                                ),
+                                height: 20,
+                                width: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
+                          vertical: 15.0,
+                          horizontal: 20.0,
+                        ),
                       ),
-                      onChanged: (value) {},
                     ),
                   ),
                   const SizedBox(width: 12),
                   const CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.grey,
+                    radius: 20,
                   ),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),

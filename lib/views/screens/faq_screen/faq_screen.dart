@@ -37,13 +37,33 @@ class FaqScreen extends StatelessWidget {
             TextField(
               focusNode: controller.focusNode,
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                fillColor: Colors.white,
                 labelText: controller.focusNode.hasFocus ? '' : 'Search...',
                 filled: true,
-                suffixIcon: const Icon(
-                  Icons.search,
-                  size: 32,
-                  color: Colors.grey,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/outline/magnifyingglass.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                        height: 20,
+                        width: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
