@@ -23,7 +23,7 @@ class QuizServices {
   }
 
   Future<Quiz?> getQuizById(
-      {required int id, required int moduleId}) async {
+      {required int id}) async {
     await setToken();
     if (token != null) {
       debugPrint('=> ${token.toString()}');

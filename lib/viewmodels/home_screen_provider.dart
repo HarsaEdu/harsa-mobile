@@ -1,38 +1,67 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/category_models/category_content.dart';
 
 import 'package:harsa_mobile/models/category_models/category_home_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_no_login_model.dart';
 import 'package:harsa_mobile/models/course_recommendation/course_recommend.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/services/category_service.dart';
 import 'package:harsa_mobile/services/course_recommendation_services.dart';
+import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/services/subscription_service.dart';
+import 'package:harsa_mobile/utils/constants/shared_preferences_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenProvider extends ChangeNotifier {
-  final TextEditingController searchController = TextEditingController();
+  late final TextEditingController searchController;
+  late final FocusNode searchFocusNode;
 
   List<CategoryData> categoryList = [];
-
   List<Recommendation> courseRecomendationList = [];
-
   List<Datum> subscriptionPlanList = [];
+  List<CategoryListData> checkCategory = [];
+  List<CategoryListData> searchResult = [];
+  CourseDetailsData? courseDetailsData;
+
+  bool isSearching = false;
+
+  late BuildContext context;
+
+  String? searchQuery;
 
   HomeScreenProvider() {
+    searchController = TextEditingController();
+    searchFocusNode = FocusNode();
+    searchFocusNode.addListener(onSearch);
+  }
+
+  void initData() {
     getRecommendation();
     getSubsPlanList();
     getCategories();
+    getListCategories();
   }
 
   void getRecommendation() async {
-    CourseRecommendation? cr =
-        await CourseRecommendationServices().getRecommendation(maxItem: 5);
+    courseRecomendationList.clear();
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    CourseRecommendation? cr;
+    print(sp.getBool(SPKey.isLogged));
+    if (sp.getBool(SPKey.isLogged) == null ||
+        sp.getBool(SPKey.isLogged) == false) {
+      cr = await CourseRecommendationServices().getAllCourse(limit: 5);
+    } else {
+      cr = await CourseRecommendationServices().getRecommendation(maxItem: 5);
+    }
     courseRecomendationList = cr!.recommendations;
     notifyListeners();
   }
 
   void getSubsPlanList() async {
-    final subsplan = await SubsService().getSubscriptions();
+    final subsplan = await SubsService().getSubscriptions(limit: 5);
     subscriptionPlanList = subsplan;
     notifyListeners();
   }
@@ -41,5 +70,131 @@ class HomeScreenProvider extends ChangeNotifier {
     final categoryData = await CategoryService().getCategories();
     categoryList = categoryData.data;
     notifyListeners();
+  }
+
+  void getListCategories() async {
+    final categoryData = await CategoryService().getListCategories();
+    checkCategory = categoryData.data;
+    notifyListeners();
+  }
+
+  void onSearch() {
+    isSearching = true;
+    print(isSearching);
+    notifyListeners();
+  }
+
+  void onCancelSearch() {
+    searchController.clear();
+    searchFocusNode.unfocus();
+    isSearching = false;
+    print(isSearching);
+    notifyListeners();
+  }
+
+  void tapSuggestion({required String value}) {
+    searchController.text = value;
+    searchCourse(value);
+    notifyListeners();
+  }
+
+  void searchCourse(String? query) {
+    searchQuery = query;
+    if (query == null || query.isEmpty) {
+      searchResult = checkCategory;
+    } else {
+      searchResult = checkCategory.where((course) {
+        return course.courseTitle.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+    notifyListeners();
+  }
+
+  void onBack(BuildContext context) {
+    if (isSearching) {
+      searchController.clear();
+      searchFocusNode.unfocus();
+      isSearching = false;
+    }
+    notifyListeners();
+  }
+
+  void gotoRecommend() {
+    Navigator.pushNamed(context, '/recommendation');
+  }
+
+  void gotoSubs() {
+    Navigator.pushNamed(context, '/subscriptionlist');
+  }
+
+  CourseDetailsNoLoginData? noLoginData;
+
+  void navigateTo(BuildContext context, int courseId) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(SPKey.accessToken);
+
+    if (token == null || token == '') {
+      try {
+        final responseNoLogin =
+            await CoursesService.getCourseDetailsNoLogin(courseId: courseId);
+        noLoginData = responseNoLogin!.data;
+        notifyListeners();
+      } catch (e) {
+        throw Exception("Error: $e");
+      }
+
+      if (context.mounted) {
+        print("DAFTAR");
+        Navigator.pushNamed(
+          context,
+          "/daftarkelas",
+          arguments: noLoginData,
+        );
+      }
+
+      return;
+    }
+
+    try {
+      final responseLogin =
+          await CoursesService.getCourseDetails(courseId: courseId);
+      courseDetailsData = responseLogin?.data;
+
+      final courses = await CoursesService.getUserCourses(filter: '');
+
+      if (courseDetailsData!.isSubscription == true) {
+        for (final enrolled in courses!.data) {
+          if (courseId == enrolled.courseId) {
+            if (context.mounted) {
+              Navigator.pushNamed(
+                context,
+                "/kelasscreen",
+                arguments: courseDetailsData,
+              );
+            }
+            return;
+          }
+        }
+      }
+
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          "/daftarkelas",
+          arguments: courseDetailsData,
+        );
+      }
+
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Error: $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    searchFocusNode.dispose();
+    super.dispose();
   }
 }

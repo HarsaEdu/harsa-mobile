@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/subscription_models/subscription_model.dart';
 import 'package:harsa_mobile/viewmodels/aichatbot_provider.dart';
 import 'package:harsa_mobile/viewmodels/bank_provider.dart';
 import 'package:harsa_mobile/viewmodels/category_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/certificate_provider.dart';
 import 'package:harsa_mobile/viewmodels/class_followed_provider.dart';
+import 'package:harsa_mobile/viewmodels/daftar_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/detail_kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/e_wallet_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_email_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_profile_provider.dart';
 import 'package:harsa_mobile/viewmodels/edit_sandi_provider.dart';
+import 'package:harsa_mobile/viewmodels/feedback_provider.dart';
 import 'package:harsa_mobile/viewmodels/login_reminder_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_card_provider.dart';
 import 'package:harsa_mobile/viewmodels/payment_provider.dart';
@@ -18,7 +21,6 @@ import 'package:harsa_mobile/viewmodels/quiz_provider.dart';
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
 import 'package:harsa_mobile/viewmodels/recommendation_screen_provider.dart';
 import 'package:harsa_mobile/viewmodels/subscription_plan_list_provider.dart';
-import 'package:harsa_mobile/viewmodels/ulasan_screen_provider.dart';
 import 'package:harsa_mobile/views/screens/detail_subscription/detail_subscription.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_email_screen.dart';
 import 'package:harsa_mobile/views/screens/edit_screen/edit_sandi_screen.dart';
@@ -28,12 +30,10 @@ import 'package:harsa_mobile/views/screens/class_followed_screen/class_followed_
 import 'package:harsa_mobile/views/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:harsa_mobile/views/screens/interest_screen/interest_category_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/detail_kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/kelas_screen/list_materi_screen.dart';
 import 'package:harsa_mobile/views/screens/payment_screen/all_payment_screen.dart';
 import 'package:harsa_mobile/views/screens/subscription_plan_list/subscription_plan_list.dart';
 import 'package:harsa_mobile/views/screens/transaction_history_screen/transaction_history_screen.dart';
 import 'package:harsa_mobile/views/screens/recommendation_screen/recommendation_screen.dart';
-import 'package:harsa_mobile/views/screens/tugas_screen/tugas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/menu_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/quiz_screen/quiz_screen.dart';
 import 'package:harsa_mobile/views/screens/ulasan_screen/ulasan_screen.dart';
@@ -42,13 +42,11 @@ import 'package:harsa_mobile/viewmodels/kelas_provider.dart';
 import 'package:harsa_mobile/viewmodels/materiview_provider.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/daftar_kelas_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/kelas_screen.dart';
-import 'package:harsa_mobile/views/screens/profile_screen/profile_berlanganan_screen.dart';
 import 'package:harsa_mobile/views/screens/profile_screen/profile_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/berlangganan_screen.dart';
 import 'package:harsa_mobile/views/screens/category_screen/category_screen.dart';
 import 'package:harsa_mobile/views/screens/certificate_screen/certificate_screen.dart';
 import 'package:harsa_mobile/views/screens/kelas_screen/materiview_screen.dart';
-import 'package:harsa_mobile/views/screens/kelas_screen/video_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,10 +93,10 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FaqScreenProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => DetailKelasProvider()),
-        ChangeNotifierProvider(create: (_) => UlasanScreenProvider()),
         ChangeNotifierProvider(create: (_) => AIChatbotProvider()),
         ChangeNotifierProvider(create: (_) => MateriViewProvider()),
         ChangeNotifierProvider(create: (_) => KelasProvider()),
+        ChangeNotifierProvider(create: (_) => DaftarKelasProvider()),
         ChangeNotifierProvider(create: (_) => CategoryScreenProvider()),
         ChangeNotifierProvider(create: (_) => CertificateProvider()),
         ChangeNotifierProvider(create: (_) => ClassFollowedProvider()),
@@ -118,6 +116,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginReminderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => FeedbackProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -139,6 +138,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
+        // home: const KelasScreen(),
         // Screen Route Name
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -184,7 +184,11 @@ class MainApp extends StatelessWidget {
               );
             case '/ulasan':
               return MaterialPageRoute(
-                builder: (context) => const UlasanScreenContent(),
+                builder: (context) {
+                  final CourseDetailsData args =
+                      (settings.arguments) as CourseDetailsData;
+                  return UlasanScreen(data: args);
+                },
               );
             case '/aichatbot':
               return MaterialPageRoute(
@@ -193,25 +197,21 @@ class MainApp extends StatelessWidget {
             case '/kelasscreen':
               return MaterialPageRoute(
                 builder: (context) {
-                  final Map? args = (settings.arguments ?? {}) as Map?;
+                  final CourseDetailsData args =
+                      (settings.arguments) as CourseDetailsData;
                   return KelasScreen(data: args);
                 },
               );
             case '/daftarkelas':
               return MaterialPageRoute(
-                builder: (context) => const DaftarKelasScreen(),
+                builder: (context) {
+                  final dynamic args = (settings.arguments) as dynamic;
+                  return DaftarKelasScreen(data: args);
+                },
               );
             case '/profile':
               return MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
-              );
-            case '/profileberlanganan':
-              return MaterialPageRoute(
-                builder: (context) => const ProfileBerlanganan(),
-              );
-            case '/video':
-              return MaterialPageRoute(
-                builder: (context) => const VideoScreen(),
               );
             case '/materi':
               return MaterialPageRoute(
@@ -220,10 +220,6 @@ class MainApp extends StatelessWidget {
             case '/berlangganan':
               return MaterialPageRoute(
                 builder: (context) => const BerlanggananScreen(),
-              );
-            case '/listmateri':
-              return MaterialPageRoute(
-                builder: (context) => const ListMateriScreen(),
               );
             case '/category':
               return MaterialPageRoute(
@@ -239,11 +235,10 @@ class MainApp extends StatelessWidget {
               );
             case '/quizscreen':
               return MaterialPageRoute(
-                builder: (context) => const QuizScreen(),
-              );
-            case '/tugasscreen':
-              return MaterialPageRoute(
-                builder: (context) => const TugasScreen(),
+                builder: (context) {
+                  final int args = (settings.arguments ?? {}) as int;
+                  return QuizScreen(id: args);
+                },
               );
             case '/editemail':
               return MaterialPageRoute(
@@ -279,10 +274,6 @@ class MainApp extends StatelessWidget {
                 builder: (context) =>
                     DetailSubscription(subscription: subscription),
               );
-            // case '/payment':
-            //   return MaterialPageRoute(
-            //     builder: (context) =>  PaymentScreen(),
-            //   );
             case '/allpayment':
               return MaterialPageRoute(
                 builder: (context) => const AllPaymentScreen(),

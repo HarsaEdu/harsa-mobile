@@ -18,22 +18,22 @@ class LoginProvider with ChangeNotifier {
 
   String? validateEmail(String? value) {
     if (value == null || value == "") return "*Email harus diisi";
-    if (!RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    ).hasMatch(value)) {
-      return "*Pastikan alamat email anda benar";
-    }
+    // if (!RegExp(
+    //   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    // ).hasMatch(value)) {
+    //   return "*Pastikan alamat email anda benar";
+    // }
 
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value == "") return "*Password harus diisi";
-    if (!RegExp(
-      r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
-    ).hasMatch(value)) {
-      return "*Password harus 8 karakter, terdiri dari alphabet, numerc dan karakter";
-    }
+    // if (!RegExp(
+    //   r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
+    // ).hasMatch(value)) {
+    //   return "*Password harus 8 karakter, terdiri dari alphabet, numerc dan karakter";
+    // }
 
     return null;
   }

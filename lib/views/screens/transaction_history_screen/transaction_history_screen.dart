@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:harsa_mobile/viewmodels/transaction_history_provider.dart';
-import 'package:harsa_mobile/models/transaction_history.dart';
+import 'package:harsa_mobile/models/payment_models/payment_model.dart';
+import 'package:harsa_mobile/utils/constants/loading_state.dart';
+import 'package:harsa_mobile/utils/constants/colors.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
   const TransactionHistoryScreen({Key? key}) : super(key: key);
@@ -44,7 +46,15 @@ class TransactionHistoryScreen extends StatelessWidget {
                 transactionHistoryProvider.searchTransactionHistory(value);
               },
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                fillColor: Colors.white,
                 labelText: transactionHistoryProvider.focusNode.hasFocus
                     ? ''
                     : 'Search...',
@@ -56,10 +66,20 @@ class TransactionHistoryScreen extends StatelessWidget {
                       offset: const Offset(45, -10),
                       color: Colors.white,
                       surfaceTintColor: Colors.white,
-                      icon: const Icon(
-                        Icons.filter_alt_outlined,
-                        size: 32,
-                        color: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: SvgPicture.asset(
+                          'assets/icons/outline/filter.svg',
+                          colorFilter: const ColorFilter.mode(
+                            Colors.black,
+                            BlendMode.srcIn,
+                          ),
+                          height: 20,
+                          width: 20,
+                        ),
                       ),
                       onSelected: (value) {
                         if (value != 'Filter') {
@@ -70,7 +90,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                           <PopupMenuEntry<String>>[
                         const PopupMenuItem<String>(
                           enabled: false,
-                          height: 40,
+                          height: 25,
                           child: Text(
                             'Filter',
                             style: TextStyle(
@@ -80,8 +100,8 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Berhasil',
-                          height: 40,
+                          value: 'success',
+                          height: 25,
                           child: Text(
                             'Berhasil',
                             style: TextStyle(
@@ -92,8 +112,8 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Menunggu Pembayaran',
-                          height: 40,
+                          value: 'pending',
+                          height: 25,
                           child: Text(
                             'Pending',
                             style: TextStyle(
@@ -104,8 +124,8 @@ class TransactionHistoryScreen extends StatelessWidget {
                           ),
                         ),
                         const PopupMenuItem<String>(
-                          value: 'Dibatalkan',
-                          height: 40,
+                          value: 'failure',
+                          height: 25,
                           child: Text(
                             'Dibatalkan',
                             style: TextStyle(
@@ -117,10 +137,18 @@ class TransactionHistoryScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Icon(
-                      Icons.search,
-                      size: 32,
-                      color: Colors.grey,
+                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/outline/magnifyingglass.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                        height: 20,
+                        width: 20,
+                      ),
                     ),
                     const SizedBox(width: 8),
                   ],
@@ -135,6 +163,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
             Consumer<TransactionHistoryProvider>(
               builder: (context, prov, _) {
                 bool isShow =
@@ -143,188 +172,226 @@ class TransactionHistoryScreen extends StatelessWidget {
 
                 return Visibility(
                   visible: isShow,
-                  child: hasData
-                      ? Expanded(
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: prov.filteredData.length,
-                            itemBuilder: (context, index) {
-                              TransactionHistory transactionHistory =
-                                  prov.filteredData[index];
+                  child: prov.loadingState == LoadingState.loading
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsPallete.sandyBrown,
+                            ),
+                          ),
+                        )
+                      : hasData
+                          ? Expanded(
+                              child: ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                scrollDirection: Axis.vertical,
+                                itemCount: prov.filteredData.length,
+                                itemBuilder: (context, index) {
+                                  Payment transactionHistory =
+                                      prov.filteredData[index];
+                                  Color containerColor =
+                                      transactionHistoryProvider.getStatusColor(
+                                          transactionHistory.status);
+                                  Color textColor = transactionHistoryProvider
+                                      .getStatusTextColor(
+                                          transactionHistory.status);
 
-                              Color containerColor = transactionHistoryProvider
-                                  .getStatusColor(transactionHistory.status);
-                              Color textColor =
-                                  transactionHistoryProvider.getStatusTextColor(
-                                      transactionHistory.status);
-
-                              return Card(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 11,
-                                    vertical: 12,
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        width: 1,
-                                        color: Colors.black.withOpacity(0.2),
+                                  return Card(
+                                    margin: const EdgeInsets.only(bottom: 20),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 11,
+                                        vertical: 12,
                                       ),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/icons/outline/wallet.pass.svg',
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            width: 1,
+                                            color:
+                                                Colors.black.withOpacity(0.2),
                                           ),
-                                          const SizedBox(width: 5),
-                                          const Column(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/icons/outline/wallet.pass.svg',
+                                              ),
+                                              const SizedBox(width: 5),
+                                              const Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Paket langganan',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '16 Nov 2023',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF667084),
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const Spacer(),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(6),
+                                                decoration: ShapeDecoration(
+                                                  color: containerColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      transactionHistory
+                                                                  .status ==
+                                                              'success'
+                                                          ? 'Berhasil'
+                                                          : transactionHistory
+                                                                      .status ==
+                                                                  'pending'
+                                                              ? 'Menunggu Pembayaran'
+                                                              : 'Dibatalkan',
+                                                      style: TextStyle(
+                                                        color: textColor,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Container(
+                                            decoration: ShapeDecoration(
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  width: 1,
+                                                  color: Colors.black
+                                                      .withOpacity(0.2),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 13),
+                                          Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Paket langganan',
-                                                style: TextStyle(
+                                                transactionHistory.item.name,
+                                                style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              Text(
-                                                '16 Nov 2023',
+                                              const SizedBox(height: 6),
+                                              const Text(
+                                                'total harga',
                                                 style: TextStyle(
                                                   color: Color(0xFF667084),
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
+                                              Text(
+                                                transactionHistory.grossAmount,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                          const Spacer(),
-                                          Container(
-                                            padding: const EdgeInsets.all(6),
-                                            decoration: ShapeDecoration(
-                                              color: containerColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  transactionHistory.status,
-                                                  style: TextStyle(
-                                                    color: textColor,
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+                                          const SizedBox(height: 19),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                  context, '/subscriptionlist');
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: ShapeDecoration(
+                                                color: const Color(0xFFF2994A),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Container(
-                                        decoration: ShapeDecoration(
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              width: 1,
-                                              color:
-                                                  Colors.black.withOpacity(0.2),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 13),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            transactionHistory.title,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-                                          const Text(
-                                            'total harga',
-                                            style: TextStyle(
-                                              color: Color(0xFF667084),
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          Text(
-                                            transactionHistory.price,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 19),
-                                      Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0xFFF2994A),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Beli Lagi',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Beli Lagi',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: Center(
+                                child: ListView(
+                                  children: [
+                                    const SizedBox(height: 200),
+                                    SvgPicture.asset(
+                                      'assets/images/creditcard.svg',
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      'Transaksi tidak ditemukan',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
-                        )
-                      : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 200),
-                              SvgPicture.asset(
-                                'assets/images/creditcard.svg',
                               ),
-                              const SizedBox(height: 20),
-                              Text(
-                                'Transaksi tidak ditemukan',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
                 );
               },
             ),

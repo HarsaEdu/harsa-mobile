@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/bank.dart';
+import '../models/payment_models/bank.dart';
 
 class BankProvider with ChangeNotifier {
   final List<Bank> _bankData = [

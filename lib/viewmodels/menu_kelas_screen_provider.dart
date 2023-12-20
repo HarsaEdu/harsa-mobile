@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harsa_mobile/models/classes_models.dart/course_details_model.dart';
 import 'package:harsa_mobile/models/classes_models.dart/user_courses_model.dart';
 import 'package:harsa_mobile/services/courses_service.dart';
 import 'package:harsa_mobile/utils/constants/loading_state.dart';
@@ -15,6 +16,7 @@ class MenuKelasProvider with ChangeNotifier {
   UserCoursesModel? userCoursesModel;
   List<UserCoursesData>? originalCourses;
   List<UserCoursesData>? searchCourses;
+  CourseDetailsModel? courseDetailsModel;
 
   void searchKelas(String value) {
     originalCourses = userCoursesModel!.data;
@@ -53,5 +55,35 @@ class MenuKelasProvider with ChangeNotifier {
     _filter = value;
     getUserCourses(filter: value);
     notifyListeners();
+  }
+
+  void checkSubs(BuildContext context, int courseId) async {
+    try {
+      loadingState = LoadingState.loading;
+
+      final courses = await CoursesService.getCourseDetails(courseId: courseId);
+
+      courseDetailsModel = courses;
+      loadingState = LoadingState.success;
+      notifyListeners();
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          '/kelasscreen',
+          arguments: courseDetailsModel!.data,
+        );
+      }
+    } on DioException catch (_) {
+      loadingState = LoadingState.failed;
+      notifyListeners();
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          '/daftarkelas',
+          arguments: courseDetailsModel!.data,
+        );
+      }
+      rethrow;
+    }
   }
 }

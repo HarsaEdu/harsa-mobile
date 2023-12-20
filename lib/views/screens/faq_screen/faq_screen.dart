@@ -6,8 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../viewmodels/faq_screen_provider.dart';
 
 class FaqScreen extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
-  const FaqScreen({Key? key});
+  const FaqScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,9 @@ class FaqScreen extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).padding.top + 16),
             Row(
               children: [
-                const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(Icons.arrow_back_ios)),
                 const SizedBox(width: 12),
                 Text(
                   'FAQ',
@@ -36,13 +37,33 @@ class FaqScreen extends StatelessWidget {
             TextField(
               focusNode: controller.focusNode,
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                fillColor: Colors.white,
                 labelText: controller.focusNode.hasFocus ? '' : 'Search...',
                 filled: true,
-                suffixIcon: const Icon(
-                  Icons.search,
-                  size: 32,
-                  color: Colors.grey,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/outline/magnifyingglass.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                        height: 20,
+                        width: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
