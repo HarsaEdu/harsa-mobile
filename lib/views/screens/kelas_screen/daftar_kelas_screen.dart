@@ -86,7 +86,9 @@ class _DaftarKelasScreenState extends State<DaftarKelasScreen> {
                                     classImage: data.course.imageUrl,
                                     className: data.course.title,
                                     mentorName: data.course.intructur.name,
-                                    button: "Berlangganan Sekarang",
+                                    button: data.isSubscription
+                                        ? "Ikuti Kelas"
+                                        : "Berlangganan Sekarang",
                                     onPressed: () {
                                       Provider.of<DaftarKelasProvider>(context,
                                               listen: false)
